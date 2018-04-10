@@ -4,7 +4,7 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
-use app\model\User;
+use app\model\User as UserModel;
 use think\Validate;
 
 class User extends Controller
@@ -39,7 +39,8 @@ class User extends Controller
     {
         $validate = new Validate([
             'name'     => 'require',
-            'password' => 'require'
+            'password' => 'require',
+            'email'    => 'require'
         ]);
         $userInfo = $request->request();
         if(!$validate->check($userInfo)){

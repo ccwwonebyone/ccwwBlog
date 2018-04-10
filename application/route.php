@@ -17,5 +17,6 @@ return [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
         ':name' => ['index/hello', ['method' => 'post']],
     ],
-    Route::resource('product','index/Product');
+    Route::resource('product','index/Product'),
+    Route::resource('user','index/User'),
 ];
