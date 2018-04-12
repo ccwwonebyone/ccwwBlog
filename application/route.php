@@ -11,8 +11,8 @@
 use think\Route;
 
 Route::resource('product','index/Product');
-Route::resource('user','index/User');
-
+Route::resource('user','index/UserController');
+Route::post('login','UserController/login');
 /*return [
     '__pattern__' => [
         'name' => '\w+',

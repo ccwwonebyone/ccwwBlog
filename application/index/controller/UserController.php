@@ -4,10 +4,10 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
-use app\model\User as UserModel;
+use app\index\model\User;
 use think\Validate;
 
-class User extends Controller
+class UserController extends Controller
 {
     /**
      * 显示资源列表
@@ -17,6 +17,7 @@ class User extends Controller
     public function index()
     {
         //
+        echo '1';
     }
 
     /**
@@ -38,16 +39,24 @@ class User extends Controller
     public function save(Request $request)
     {
         $validate = new Validate([
-            'name'     => 'require',
+            'username' => 'require',
             'password' => 'require',
             'email'    => 'require'
         ]);
-        $userInfo = $request->request();
+        $userInfo = $request->post();
         if(!$validate->check($userInfo)){
-
+            return ['message'=>'验证不通过','code'=>422];
         }
         $userdb = new User;
-        $userdb->save($userInfo);
+        // dump(['message'=>$userInfo,'code'=>200]);
+        $res = $userdb->save(array_merge($userInfo,[
+            'create_time'=>date('Y-m-d H:i:s')
+        ]));
+        if($res){
+            return ['message'=>'注册成功','code'=>200];
+        }else{
+            return ['message'=>'注册失败','code'=>422];
+        }
     }
 
     /**
@@ -93,5 +102,34 @@ class User extends Controller
     public function delete($id)
     {
         //
+    }
+
+    /**
+     * 登录用户
+     *
+     * @param  \think\Request  $request
+     * @return \think\Response
+     */
+    public function login(Request $request)
+    {
+        $validate = new Validate([
+            'username'     => 'require',
+            'password' => 'require'
+        ]);
+        $userInfo = $request->post();
+        if(!$validate->check($userInfo)){
+
+        }
+        $userdb = new User;
+        $res = $userdb->where($userInfo)->find();
+        if($res){
+            $userdb->where($userInfo)->update([
+                'last_login_time'=>date('Y-m-d H:i:s')
+            ]);
+            echo '1';
+        }else{
+            echo '0';
+        }
+        
     }
 }
