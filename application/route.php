@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 use think\Route;
 
-Route::resource('product','index/Product');
-Route::resource('user','index/UserController');
+Route::resource('product','Product');
+Route::resource('user','UserController');
 Route::post('login','UserController/login');
 /*return [
     '__pattern__' => [
