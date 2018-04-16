@@ -43,6 +43,7 @@ class DataBaseService{
         $this->connection = array_merge($this->connection,$connection);
         $this->db = Db::connect($this->connection);
         $this->DBConfig = new DBConfig;
+        $this->table = new Table;
     }
 
     public function getTables()
@@ -69,9 +70,8 @@ class DataBaseService{
         $dbID = $dbID == 0 ? $this->dbID : $dbID;
         if($dbID == 0) throw new Exception('数据库ID不合法',301);
         foreach ($this->tables as &$tab) {
-            $tab['db_id'] = $dbID;
-            $this->column->data($tab)->save();
-            $tab['db_id'] = $this->column->id;
+            $this->table->data($tab)->save();
+            $tab['table_id'] = $this->table->id;
         }
     }
 
@@ -95,10 +95,22 @@ class DataBaseService{
     /**
      * 保存字段信息
      * @param  array   $columns 字段信息
-     * @return [type]           [description]
+     * @return boolean
      */
     public function saveColums($columns=[])
     {
-        
+        return $this->column->saveAll(array_merge($this->columns,$columns));
+    }
+
+    /**
+     * 初始化基本数据库
+     * @return boolean 
+     */
+    public function initDb()
+    {
+        $this->saveDbConfig();
+        $this->saveTables();
+        $this->saveColums();
+        return true;
     }
 }
