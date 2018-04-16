@@ -25,7 +25,7 @@ class DataBaseService{
         // 数据库连接端口
         'hostport'    => '3306',
         // 数据库连接参数
-        'params'      => [],
+        'params'      => [\PDO::ATTR_CASE => \PDO::CASE_LOWER],
         // 数据库编码默认采用utf8
         'charset'     => 'utf8',
         // 数据库表前缀
@@ -34,9 +34,11 @@ class DataBaseService{
     //think\Db
     protected $db;
     //数据表
-    protected $tables = [];
+    protected $tables  = [];
     //数据库ID
-    protected $dbID = 0;
+    protected $dbID    = 0;
+    //字段
+    protected $columns = [];
 
     function __construct($connection)
     {
@@ -44,11 +46,12 @@ class DataBaseService{
         $this->db = Db::connect($this->connection);
         $this->DBConfig = new DBConfig;
         $this->table = new Table;
+        $this->column = new Column;
     }
 
     public function getTables()
     {
-        $this->tables = $this->db->select('show table status');
+        $this->tables = $this->db->query('show table status');
         return $this->tables;
     }
 
@@ -66,10 +69,10 @@ class DataBaseService{
      */
     public function saveTables($tables=[],$dbID=0)
     {
-        $this->tables = array_merage($this->tables,$tables);
+        $this->tables = array_merge($this->tables,$tables);
         $dbID = $dbID == 0 ? $this->dbID : $dbID;
         if($dbID == 0) throw new Exception('数据库ID不合法',301);
-        foreach ($this->tables as &$tab) {
+        foreach ($this->tables as $tab) {
             $this->table->data($tab)->save();
             $tab['table_id'] = $this->table->id;
         }
@@ -84,10 +87,10 @@ class DataBaseService{
     {
         if(is_array($table)){
             foreach ($table as $tab) {
-                $this->columns[$tab['Name']] = $this->db->select('show full columns from '.$tab['Name']);
+                $this->columns[$tab['name']] = $this->db->query('show full columns from '.$tab['name']);
             }
         }else{
-            $this->columns[$table['Name']] = $this->db->select('show full columns from '.$table['Name']);
+            $this->columns[$table['name']] = $this->db->query('show full columns from '.$table['name']);
         }
         return $this->columns;
     }
@@ -109,7 +112,9 @@ class DataBaseService{
     public function initDb()
     {
         $this->saveDbConfig();
+        $this->getTables();
         $this->saveTables();
+        $this->getColums($this->columns);
         $this->saveColums();
         return true;
     }

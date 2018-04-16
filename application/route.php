@@ -12,6 +12,7 @@ use think\Route;
 
 Route::resource('product','Product');
 Route::resource('user','UserController');
+Route::resource('database','DataBaseController');
 Route::post('login','UserController/login');
 /*return [
     '__pattern__' => [

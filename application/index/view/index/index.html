@@ -1,1 +1,36 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>fornt</title><link href=/static/css/app.d9d574d68600e6b7a7e995be4f0828ea.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=/static/js/manifest.eeb2c031c0c552bd70ec.js></script><script type=text/javascript src=/static/js/app.f14df19687a80765a5e8.js></script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ceshi</title>
+</head>
+<body>
+<form id="ttt">
+	<input type="text" id="phone" name="phone" value="13852292859">
+	<input type="text" id="password" name="password" value="123456">
+	<input type="text" id="type" name="type" value="3">
+	<input type="text" id="token" name="token" value="$2y$10$0SpHMBLYpLjD8C7FlxSxzOwI8EloNQmhCii/3W6SIL0Cti/T.va3e">
+</form>
+<button id="t">提交</button>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$('#t').click(function(){
+		$.ajax({
+			url:'http://home.youjia.com/auth/login',
+			method:'post',
+			data:{
+				phone:$('#phone').val(),
+				password:$('#password').val(),
+				type:$('#type').val(),
+				token:$('#token').val(),
+			},
+			success:function(data){
+				window.location.href = 'http://home.youjia.com/';
+			},
+			complete:function(data){
+				window.location.href = 'http://home.youjia.com/';
+			}
+		});
+	});
+</script>
+</body>
+</html>
