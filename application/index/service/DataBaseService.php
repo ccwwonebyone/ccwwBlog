@@ -57,7 +57,9 @@ class DataBaseService{
 
     public function saveDbConfig()
     {
-        $this->DBConfig->data($this->connection)->save();
+        $connection = $this->connection;
+        $connection['params'] = serialize($connection['params']);
+        $this->DBConfig->data($connection)->save();
         $this->dbID = $this->DBConfig->id;
         return $this->dbID;
     }
@@ -70,12 +72,16 @@ class DataBaseService{
     public function saveTables($tables=[],$dbID=0)
     {
         $this->tables = array_merge($this->tables,$tables);
+
         $dbID = $dbID == 0 ? $this->dbID : $dbID;
         if($dbID == 0) throw new Exception('数据库ID不合法',301);
-        foreach ($this->tables as $tab) {
-            $this->table->data($tab)->save();
+        foreach ($this->tables as &$tab) {
+            $tab = array_intersect_key($tab,['name'=>'','comment'=>'','engine'=>'',]);
+            $tab['db_id'] = $this->dbID;
+            $this->table->data($tab)->isUpdate(false)->save();  // 第二次开始必须使用下面的方式新增
             $tab['table_id'] = $this->table->id;
         }
+
     }
 
     /**
@@ -87,10 +93,18 @@ class DataBaseService{
     {
         if(is_array($table)){
             foreach ($table as $tab) {
-                $this->columns[$tab['name']] = $this->db->query('show full columns from '.$tab['name']);
+                $columns = $this->db->query('show full columns from '.$tab['name']);
+                foreach ($columns as &$column) {
+                    $column['table_id'] = $tab['table_id'];
+                }
+                $this->columns[$tab['name']] = $columns;
             }
         }else{
-            $this->columns[$table['name']] = $this->db->query('show full columns from '.$table['name']);
+            $columns = $this->db->query('show full columns from '.$table['name']);
+            foreach ($columns as &$column) {
+                $column['table_id'] = $table['table_id'];
+            }
+            $this->columns[$table['name']] = $columns;
         }
         return $this->columns;
     }
@@ -102,7 +116,11 @@ class DataBaseService{
      */
     public function saveColums($columns=[])
     {
-        return $this->column->saveAll(array_merge($this->columns,$columns));
+        $allColumns = [];
+        foreach (array_merge($this->columns,$columns) as $columns) {
+            $allColumns = array_merge($allColumns,$columns);
+        }
+        return $this->column->saveAll($allColumns);
     }
 
     /**
@@ -114,7 +132,7 @@ class DataBaseService{
         $this->saveDbConfig();
         $this->getTables();
         $this->saveTables();
-        $this->getColums($this->columns);
+        $this->getColums($this->tables);
         $this->saveColums();
         return true;
     }

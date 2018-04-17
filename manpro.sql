@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost
 Source Server Version : 50553
 Source Host           : localhost:3306
-Source Database       : t_project
+Source Database       : manpro
 
 Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2018-04-16 18:23:22
+Date: 2018-04-17 16:05:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,13 +61,13 @@ DROP TABLE IF EXISTS `mp_column`;
 CREATE TABLE `mp_column` (
   `id` int(6) NOT NULL AUTO_INCREMENT COMMENT '栏位id',
   `table_id` int(11) NOT NULL COMMENT '表ID',
-  `Field` char(255) NOT NULL COMMENT '字段名',
-  `Comment` char(255) DEFAULT NULL COMMENT '注释',
-  `Type` char(255) DEFAULT NULL COMMENT '类型',
-  `Key` char(255) DEFAULT NULL COMMENT '主键',
+  `field` char(255) NOT NULL COMMENT '字段名',
+  `comment` char(255) DEFAULT NULL COMMENT '注释',
+  `type` char(255) DEFAULT NULL COMMENT '类型',
+  `key` char(255) DEFAULT NULL COMMENT '主键',
   `introduce` text COMMENT '介绍字段',
-  `Null` char(255) DEFAULT NULL COMMENT '能否为空',
-  `Default` char(255) DEFAULT NULL COMMENT '默认值',
+  `null` char(255) DEFAULT NULL COMMENT '能否为空',
+  `default` char(255) DEFAULT NULL COMMENT '默认值',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -163,4 +163,3 @@ CREATE TABLE `mp_user` (
 -- ----------------------------
 -- Records of mp_user
 -- ----------------------------
-SET FOREIGN_KEY_CHECKS=1;
