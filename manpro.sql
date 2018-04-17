@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2018-04-17 16:05:43
+Date: 2018-04-17 18:56:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -68,8 +68,9 @@ CREATE TABLE `mp_column` (
   `introduce` text COMMENT '介绍字段',
   `null` char(255) DEFAULT NULL COMMENT '能否为空',
   `default` char(255) DEFAULT NULL COMMENT '默认值',
+  `collation` varchar(255) DEFAULT NULL COMMENT '排序规则',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='字段表';
 
 -- ----------------------------
 -- Records of mp_column
@@ -96,16 +97,11 @@ CREATE TABLE `mp_db` (
   `introduce` text COMMENT '介绍',
   `user_id` int(6) DEFAULT NULL COMMENT '用户id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mp_db
 -- ----------------------------
-INSERT INTO `mp_db` VALUES ('2', 'mysql', '', 't_project', '127.0.0.1', 'root', 'root', '', 'utf8', '3306', null, 'mysql', null, null, null);
-INSERT INTO `mp_db` VALUES ('3', 'mysql', '', 't_project', '127.0.0.1', 'root', 'root', '', 'utf8', '3306', null, 'mysql', null, null, null);
-INSERT INTO `mp_db` VALUES ('4', 'mysql', '', 't_project', '127.0.0.1', 'root', 'root', '', 'utf8', '3306', null, 'mysql', null, null, null);
-INSERT INTO `mp_db` VALUES ('5', 'mysql', '', 't_project', '127.0.0.1', 'root', 'root', '', 'utf8', '3306', null, 'mysql', null, null, null);
-INSERT INTO `mp_db` VALUES ('6', 'mysql', '', 't_project', '127.0.0.1', 'root', 'root', '', 'utf8', '3306', null, 'mysql', null, null, null);
 
 -- ----------------------------
 -- Table structure for mp_respond
@@ -132,6 +128,7 @@ DROP TABLE IF EXISTS `mp_table`;
 CREATE TABLE `mp_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '表名',
+  `engine` varchar(30) DEFAULT NULL COMMENT '数据表引擎',
   `comment` varchar(255) DEFAULT NULL COMMENT '表的注释',
   `introduce` text COMMENT '表介绍',
   `db_id` int(11) NOT NULL COMMENT '数据库ID',
