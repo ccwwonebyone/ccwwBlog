@@ -39,6 +39,9 @@ class DataBaseController extends Controller
         $conn = ['database'=>$request->post('database')];
         $dataBaseService = new DataBaseService($conn);
         $res = $dataBaseService->initDb();
+        if($res){
+            return json(['code'=>200,'message'=>'保存成功']);
+        }
     }
 
     /**

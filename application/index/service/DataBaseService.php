@@ -91,18 +91,15 @@ class DataBaseService{
      */
     public function getColums($table)
     {
-        if(is_array($table)){
+        if(!isset($table['name'])){          //判断是否为数据表的数组
             foreach ($table as $tab) {
-                $columns = $this->db->query('show full columns from '.$tab['name']);
-                foreach ($columns as &$column) {
-                    $column['table_id'] = $tab['table_id'];
-                }
-                $this->columns[$tab['name']] = $columns;
+                $this->getColums($tab);   
             }
         }else{
             $columns = $this->db->query('show full columns from '.$table['name']);
             foreach ($columns as &$column) {
                 $column['table_id'] = $table['table_id'];
+                unset($column['privileges']);
             }
             $this->columns[$table['name']] = $columns;
         }
