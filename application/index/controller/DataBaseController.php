@@ -2,11 +2,11 @@
 
 namespace app\index\controller;
 
-use think\Controller;
+use BaseController;
 use think\Request;
 use app\index\service\DataBaseService;
 
-class DataBaseController extends Controller
+class DataBaseController extends BaseController
 {
     /**
      * 显示资源列表
@@ -36,11 +36,13 @@ class DataBaseController extends Controller
      */
     public function save(Request $request)
     {
-        $conn = ['database'=>$request->post('database')];
+        $conn = $request->post();
         $dataBaseService = new DataBaseService($conn);
         $res = $dataBaseService->initDb();
         if($res){
-            return json(['code'=>200,'message'=>'保存成功']);
+            $this->asJson();
+        }else{
+            $this->asJson([],'出问题了','501');
         }
     }
 
@@ -75,7 +77,7 @@ class DataBaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->put();
     }
 
     /**
@@ -86,6 +88,28 @@ class DataBaseController extends Controller
      */
     public function delete($id)
     {
-        //
+        $dataBaseService = new DataBaseService();
+        $res = $dataBaseService->delDB($id);
+        if($res){
+            $this->asJson();
+        }else{
+            $this->asJson([],'出问题了','501');
+        }
+    }
+    /**
+     * 更新整个数据库，只能新增或删除
+     *
+     * @param int $id 数据库ID
+     * @return void
+     */
+    public function updateDB($id)
+    {
+        $dataBaseService = new DataBaseService();
+        $res = $dataBaseService->updateDb($id);
+        if($res){
+            $this->asJson();
+        }else{
+            $this->asJson([],'出问题了','501');
+        }
     }
 }

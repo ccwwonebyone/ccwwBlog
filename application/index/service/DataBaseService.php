@@ -42,6 +42,10 @@ class DataBaseService{
 
     function __construct($connection)
     {
+        if(isset($connection['id'])){
+            $dbID = $connection['id'];
+            unset($connection['id']);
+        }
         $this->connection = array_merge($this->connection,$connection);
         $this->db = Db::connect($this->connection);
         $this->DBConfig = new DBConfig;
@@ -67,21 +71,17 @@ class DataBaseService{
      * 保存数据表
      * @param  array   $tables 数据表信息
      * @param  integer $dbID   保存数据库时的ID
-     * @return boolean\Exception    是否保存成功
+     * @return array   原数据并给数据添加数据表ID
      */
     public function saveTables($tables=[],$dbID=0)
     {
-        $this->tables = array_merge($this->tables,$tables);
-
-        $dbID = $dbID == 0 ? $this->dbID : $dbID;
-        if($dbID == 0) throw new Exception('数据库ID不合法',301);
-        foreach ($this->tables as &$tab) {
+        foreach ($tables as &$tab) {
             $tab = array_intersect_key($tab,['name'=>'','comment'=>'','engine'=>'',]);
-            $tab['db_id'] = $this->dbID;
+            $tab['db_id'] = $dbID;
             $this->table->data($tab)->isUpdate(false)->save();  // 第二次开始必须使用下面的方式新增
             $tab['table_id'] = $this->table->id;
         }
-
+        return $tables;
     }
 
     /**
@@ -114,7 +114,7 @@ class DataBaseService{
     public function saveColums($columns=[])
     {
         $allColumns = [];
-        foreach (array_merge($this->columns,$columns) as $columns) {
+        foreach ($columns as $columns) {
             $allColumns = array_merge($allColumns,$columns);
         }
         return $this->column->saveAll($allColumns);
@@ -128,9 +128,65 @@ class DataBaseService{
     {
         $this->saveDbConfig();
         $this->getTables();
-        $this->saveTables();
+        $this->saveTables($this->tables,$this->dbID);
         $this->getColums($this->tables);
-        $this->saveColums();
+        $this->saveColums($this->columns);
+        return true;
+    }
+
+    /**
+     * 更新字段表
+     * @param  array $columns   字段信息
+     * @param  int $table_id 数据表ID
+     * @return boolean           
+     */
+    public function updateTable($columns,$table_id)
+    {
+        //由于不知道是否更改字段名，只能做全删除后重新插入
+        $this->column->where('table_id',$table_id)->delete();   
+        return $this->saveColums($columns);
+    }
+
+    /**
+     * 更新数据表，若存在的数据表有变化请使用 updateTable
+     * @param  int $db_id  数据库字段
+     * @return boolean         
+     */
+    public function updateDb($db_id)
+    {
+        $oldTables = $this->table->field('id','name')->where('db_id',$db_id)->select();
+        $fullTables = $this->getTables();
+        $tables = array_column('name', $fullTables);
+        $delTables = array_diff($oldTables,$tables);    //删除的数据表
+        $addTables = array_diff($tables,$oldTables);    //新增的数据表
+        $oldTablesNameToId = array_flip($oldTables);
+        foreach ($delTables as $table) {
+            $this->table_id->where(['db_id'=>$db_id,'name'=>$table])->delete();
+            $this->column->where(['table_id'=>$oldTablesNameToId[$table]])->delete();
+        }
+        $saveTables = [];
+        foreach ($addTables as $table) {
+            $saveTables[] = $fullTables[$table];
+        }
+        $newSaveTables = $this->saveTables($saveTables, $db_id);
+        $columns = $this->getColums($newSaveTables);
+        return $this->saveColums($columns);
+    }
+    /**
+     * 删除数据库相关信息
+     *
+     * @param int $db_id 数据库ID
+     * @return boolean
+     */
+    public function delDB($db_id)
+    {
+        $this->DBConfig->where('id',$db_id)->delete();
+        $tableIDs = $this->table->where('db_id',$db_id)->column('id');
+        $this->table->where('db_id',$db_id)->delete();
+        foreach($tableIDs as $table_id)
+        {
+            $this->column->where('table_id',$table_id)->delete();
+        }
         return true;
     }
 }

@@ -7,9 +7,9 @@ class BaseService{
 
     public function loadClass($class)
     {
-        if(!in_array($class, array_keys($this->classes))
+        if(!in_array($class, array_keys($this->classes)))
         {
-            $this->classes[$class] = new $class;    
+            $this->classes[$class] = new $class;
         }
         return $this->classes[$class];
     }
