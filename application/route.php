@@ -15,6 +15,11 @@ Route::resource('user','UserController');
 Route::resource('database','DataBaseController');
 Route::post('login','UserController/login');
 Route::get('test','DataBaseController');
+
+Route::group('api',function(){
+    Route::post('sendRequest','ApiController/sendRequest');
+});
+
 /*return [
     '__pattern__' => [
         'name' => '\w+',

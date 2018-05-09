@@ -3,12 +3,13 @@ namespace app\index\service;
 
 class RequestClientService{
 
-    public function __construct($url,$headers)
+    public function __construct($url,$headers=[])
     {
         $this->ch = curl_init();
         curl_setopt($this->ch, CURLOPT_URL, $url);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $header);//定义header
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);//定义header
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, 1); 
     }
 
     public function post()
