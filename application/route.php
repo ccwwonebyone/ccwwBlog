@@ -16,6 +16,7 @@ Route::resource('database','DataBaseController');
 Route::post('login','UserController/login');
 Route::get('test','DataBaseController');
 
+Route::resource('api','ApiController');     //API资源路由
 Route::group('api',function(){
     Route::post('sendRequest','ApiController/sendRequest');
 });

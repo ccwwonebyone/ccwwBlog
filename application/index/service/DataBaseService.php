@@ -40,7 +40,7 @@ class DataBaseService{
     //字段
     protected $columns = [];
 
-    function __construct($connection)
+    public function __construct($connection)
     {
         if(isset($connection['id'])){
             $dbID = $connection['id'];

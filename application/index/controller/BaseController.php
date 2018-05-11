@@ -14,7 +14,7 @@ class BaseController extends Controller
      * @param integer $code 状态码
      * @return void
      */
-    protected function asJson($data=[],$message='修改成功',$code=200)
+    protected function asJson($data=[],$message='提交成功',$code=200)
     {
         return json([
             'message'=>$message,
