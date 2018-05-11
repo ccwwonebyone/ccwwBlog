@@ -7,14 +7,15 @@ class RequestClientService{
     {
         $this->ch = curl_init();
         curl_setopt($this->ch, CURLOPT_URL, $url);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);//定义header
-        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, 1); 
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);   //定义header
+        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);      //不直接输出
+        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, 1);      //直接跳转重定向
     }
 
-    public function post()
+    public function post($post_data = [])
     {
         curl_setopt($this->ch, CURLOPT_POST, 1);
+        if($post_data) curl_setopt($this->ch, CURLOPT_POSTFIELDS, $post_data);      //一定要在前面之后执行否则没有效果哦
         return $this;
     }
 
@@ -24,16 +25,16 @@ class RequestClientService{
         return $this;
     }
 
-    public function put()
+    public function put($post_data)
     {
-        $this->post();
+        $this->post($post_data);
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "put");
         return $this;
     }
 
-    public function patch()
+    public function patch($post_data)
     {
-        $this->post();
+        $this->post($post_data);
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "patch");
         return $this;
     }
@@ -42,12 +43,6 @@ class RequestClientService{
     {
         $this->post();
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "delete");
-        return $this;
-    }
-
-    public function sendData($post_data)
-    {
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $post_data);
         return $this;
     }
 

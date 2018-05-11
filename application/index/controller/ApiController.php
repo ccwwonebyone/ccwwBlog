@@ -6,13 +6,36 @@ use app\index\service\RequestClientService;
 use app\index\model\Api;
 class ApiController extends BaseController
 {
+	protected $method = [
+		'get'   =>'get',
+		'put'   =>'put',
+		'delete'=>'delete',
+		'patch' =>'patch',
+		'post'  =>'post',
+	];
+	//验证规则
+	protected $rules = [
+		'url'   	=>'require|url',
+		'method|请求方法'	=>'alpha',
+		'params|参数'	=>'array',
+		'headers|请求头'	=>'array',
+		'project_id|项目ID'=>'number',
+	];
+
 	public function sendRequest(Request $request)
 	{
-		$requestClientService = new RequestClientService($request->post('url'));
-		print_r($requestClientService->get()->rcExec());
-		exit;
-		// return $this->asJson($request->post());
+		$data = $request->param(false);
+		$validate = $this->validate($data,$this->rules);
+		if(!$validate) return $this->asJson($validate,'非法请求',422);
 
+		$headers = $data['headers'] ?? [];
+		$params  = $data['params'] ?? [];
+		if(!$this->method[$data['method']]) return $this->asJson([],'非法请求',422);
+		$requestClientService  = new RequestClientService($data['url'],$headers);
+		$requestClient = call_user_func_array([$requestClientService,$this->method[$data['method']]],[$params]);
+		// dump($params);
+		$res = $requestClient->rcExec();
+		return json(json_decode($res,true));
 	}
 
 	public function index(Request $request)
@@ -25,30 +48,18 @@ class ApiController extends BaseController
 
 	public function save(Request $request)
 	{
-		$data     = $request->param();
-		$validate = $this->validate($data,[
-			'url'   	=>'url',
-			'method|请求方法'	=>'alpha',
-			'params|参数'	=>'array',
-			'headers|请求头'	=>'array',
-			'project_id|项目ID'=>'number',
-		]);
-		if(!$validate) return $this->asJson($validate,422);
-		Api::save($data);
+		$data     = $request->param(false);
+		$validate = $this->validate($data,$this->rules);
+		if(!$validate) return $this->asJson($validate,'非法请求',422);
+		Api::insert($data);
 		return $this->asJson();
 	}
 
 	public function update(Request $request,$id)
 	{
 		$data     = $request->param();
-		$validate = $this->validate($data,[
-			'url'   	=>'url',
-			'method|请求方法'	=>'alpha',
-			'params|参数'	=>'array',
-			'headers|请求头'	=>'array',
-			'project_id|项目ID'=>'number',
-		]);
-		if(!$validate) return $this->asJson($validate,422);
+		$validate = $this->validate($data,$this->rules);
+		if(!$validate) return $this->asJson($validate,'非法请求',422);
 		Api::where('id',$id)->update($data);
 		return $this->asJson();
 	}
@@ -61,6 +72,12 @@ class ApiController extends BaseController
 
 	public function read($id)
 	{
-		return $this->asJson(Api::where('id',$id)->find());
+		$result = Api::where('id',$id)->find();
+		if($result){
+			return $this->asJson($result);
+		}else{
+			return $this->asJson([],'查询失败',422);
+		}
+		
 	}
 }
