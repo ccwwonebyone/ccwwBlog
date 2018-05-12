@@ -15,39 +15,44 @@ class RequestClientService{
     public function post($post_data = [])
     {
         curl_setopt($this->ch, CURLOPT_POST, 1);
-        if($post_data) curl_setopt($this->ch, CURLOPT_POSTFIELDS, $post_data);      //一定要在前面之后执行否则没有效果哦
-        return $this;
+        return $this->rcExec($post_data);
     }
 
     public function get()
     {
         curl_setopt($this->ch, CURLOPT_POST, 0);
-        return $this;
+        return $this->rcExec();
     }
 
-    public function put($post_data)
+    public function put($post_data = [])
     {
-        $this->post($post_data);
-        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "put");
-        return $this;
+        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        return $this->rcExec($post_data);
     }
 
-    public function patch($post_data)
+    public function patch($post_data = [])
     {
-        $this->post($post_data);
-        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "patch");
-        return $this;
+        curl_setopt($this->ch, CURLOPT_POST, 1);
+        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        return $this->rcExec($post_data);
     }
 
     public function delete()
     {
-        $this->post();
-        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "delete");
-        return $this;
+        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        return $this->rcExec();
     }
 
-    public function rcExec()
+    public function rcExec($post_data = [])
     {
+        if($post_data){
+            $query = [];
+            foreach ($post_data as $field => $value) {
+                $query[] = $field.'='. $value;
+            }
+            $query_str = implode('&', $query);
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $query_str);      //一定要在前面之后执行否则没有效果哦
+        }
         return curl_exec($this->ch);
     }
 

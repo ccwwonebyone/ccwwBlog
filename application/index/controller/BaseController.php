@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use think\Request;
 use think\Controller;
 
 class BaseController extends Controller
@@ -21,5 +22,15 @@ class BaseController extends Controller
             'code'=>$code,
             'data'=>$data
         ]);
+    }
+    /**
+     * @param  Request $request 过滤 REDIRECT_URL
+     * @return []
+     */
+    public function input(Request $request)
+    {
+        $data = $request->param();
+        unset($data[$request->server('REDIRECT_URL')]);
+        return $data;
     }
 }

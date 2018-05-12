@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\Request;
 use app\index\service\RequestClientService;
 use app\index\model\Api;
+
 class ApiController extends BaseController
 {
 	protected $method = [
@@ -24,7 +25,7 @@ class ApiController extends BaseController
 
 	public function sendRequest(Request $request)
 	{
-		$data = $request->param(false);
+		$data = $this->input($request);
 		$validate = $this->validate($data,$this->rules);
 		if(!$validate) return $this->asJson($validate,'非法请求',422);
 
@@ -32,23 +33,24 @@ class ApiController extends BaseController
 		$params  = $data['params'] ?? [];
 		if(!$this->method[$data['method']]) return $this->asJson([],'非法请求',422);
 		$requestClientService  = new RequestClientService($data['url'],$headers);
-		$requestClient = call_user_func_array([$requestClientService,$this->method[$data['method']]],[$params]);
-		// dump($params);
-		$res = $requestClient->rcExec();
-		return json(json_decode($res,true));
+		$res = call_user_func_array([$requestClientService,$this->method[$data['method']]],[$params]);
+		$json = json_decode($res,true);
+		return $json ? json($json) : $res;
 	}
 
 	public function index(Request $request)
 	{
-		extract($request->param());
+		extract($this->input($request));
 		$where = [];
+		$url   = isset($url) ? $url : '';
+		$limit = isset($limit) ? $limit : 10;
 		if($url) $where['url'] = ['like','%'.$url.'%'];
 		return $this->asJson(Api::where($where)->paginate($limit)->toArray());
 	}
 
 	public function save(Request $request)
 	{
-		$data     = $request->param(false);
+		$data     = $this->input($request);
 		$validate = $this->validate($data,$this->rules);
 		if(!$validate) return $this->asJson($validate,'非法请求',422);
 		Api::insert($data);
@@ -57,7 +59,7 @@ class ApiController extends BaseController
 
 	public function update(Request $request,$id)
 	{
-		$data     = $request->param();
+		$data     = $this->input($request);
 		$validate = $this->validate($data,$this->rules);
 		if(!$validate) return $this->asJson($validate,'非法请求',422);
 		Api::where('id',$id)->update($data);
