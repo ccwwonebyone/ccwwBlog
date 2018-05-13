@@ -32,7 +32,6 @@ class RequestClientService{
 
     public function patch($post_data = [])
     {
-        curl_setopt($this->ch, CURLOPT_POST, 1);
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
         return $this->rcExec($post_data);
     }
@@ -51,7 +50,7 @@ class RequestClientService{
                 $query[] = $field.'='. $value;
             }
             $query_str = implode('&', $query);
-            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $query_str);      //一定要在前面之后执行否则没有效果哦
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $query_str);
         }
         return curl_exec($this->ch);
     }
