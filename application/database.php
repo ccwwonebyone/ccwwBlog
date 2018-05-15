@@ -8,10 +8,9 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
 return [
     // 数据库类型
-    'type'            => 'mysql',
+    'type'            => getenv(ENV_PREFIX.'db_connection') ?: 'mysql',
     // 服务器地址
     'hostname'        => '127.0.0.1',
     // 数据库名
@@ -19,7 +18,7 @@ return [
     // 用户名
     'username'        => 'root',
     // 密码
-    'password'        => '123456',
+    'password'        => getenv(ENV_PREFIX.'db_password') ?: 'root',
     // 端口
     'hostport'        => '3306',
     // 连接dsn
