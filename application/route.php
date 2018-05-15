@@ -22,8 +22,6 @@ Route::group('api',function(){
     Route::resource('/','ApiController');
 });
 
-
-
 /*return [
     '__pattern__' => [
         'name' => '\w+',
