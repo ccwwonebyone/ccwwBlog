@@ -16,11 +16,11 @@ class ApiController extends BaseController
     ];
     //验证规则
     protected $rules = [
-        'url'       =>'require|url',
-        'method|请求方法'   =>'alpha',
+        'url' =>'require|url',
+        'method|请求方法' =>'alpha',
         'params|参数' =>'array',
-        'headers|请求头'   =>'array',
-        'project_id|项目ID'=>'number',
+        'headers|请求头' =>'array',
+        'project_id|项目ID' =>'number',
     ];
 
     public function sendRequest(Request $request)
