@@ -4,6 +4,10 @@
 
 const path = require('path')
 
+require('dotenv').config({path:'../.env'})
+
+const proxyTarget = process.env.FORNT_TARGET ? process.env.FORNT_TARGET : 'http://localhost:8080/'
+
 module.exports = {
   dev: {
 
@@ -12,7 +16,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/':{
-            target:'http://cwshop.one/',
+            target:proxyTarget,
             changeOrigin: true
         }
     },

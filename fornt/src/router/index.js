@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Test from '@/components/Test'
-import Menu from '@/components/Menu'
-import Login from '@/components/Login'
+import Test from '@/view/Test'
+import Menu from '@/view/Menu'
+import Login from '@/view/Login'
 
 Vue.use(Router)
 
