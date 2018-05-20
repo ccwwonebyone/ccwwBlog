@@ -43,13 +43,11 @@ class UserController extends Controller
             'password' => 'require',
             'email'    => 'require'
         ]);
-        $userInfo = $request->post();
+        $userInfo = $this->input();
         if(!$validate->check($userInfo)){
             return ['message'=>'验证不通过','code'=>422];
         }
-        $userdb = new User;
-        // dump(['message'=>$userInfo,'code'=>200]);
-        $res = $userdb->save(array_merge($userInfo,[
+        $res = User::save(array_merge($userInfo,[
             'create_time'=>date('Y-m-d H:i:s')
         ]));
         if($res){
@@ -130,6 +128,6 @@ class UserController extends Controller
         }else{
             echo '0';
         }
-        
+
     }
 }
