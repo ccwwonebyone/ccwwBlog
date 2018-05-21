@@ -4,20 +4,24 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
-use app\index\model\User;
+use app\index\service\UserService;
 use think\Validate;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
+    public function _initialize()
+    {
+        $this->userService = new UserService();
+    }
     /**
      * 显示资源列表
      *
      * @return \think\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        echo '1';
+        $search['username'] = $request->param('username','');
+        return $this->asJson($this->userService->userList($search,$request->param('limit',10)));
     }
 
     /**
@@ -38,22 +42,19 @@ class UserController extends Controller
      */
     public function save(Request $request)
     {
-        $validate = new Validate([
+        $userInfo =$request->all();
+        $validate = $this->validate($data,[
             'username' => 'require',
             'password' => 'require',
-            'email'    => 'require'
+            'email'    => 'require|email'
         ]);
-        $userInfo = $this->input();
-        if(!$validate->check($userInfo)){
-            return ['message'=>'验证不通过','code'=>422];
-        }
-        $res = User::save(array_merge($userInfo,[
-            'create_time'=>date('Y-m-d H:i:s')
-        ]));
+        if(!$validate) return $this->asJson([],$validate,422);
+
+        $res = $this->userService->save($userInfo);
         if($res){
-            return ['message'=>'注册成功','code'=>200];
+            return $this->asJson([],'注册成功',200);
         }else{
-            return ['message'=>'注册失败','code'=>422];
+            return $this->asJson([],'注册失败',422);
         }
     }
 
@@ -65,7 +66,7 @@ class UserController extends Controller
      */
     public function read($id)
     {
-        //
+        return $this->asJson($this->userService->read($id));
     }
 
     /**
@@ -110,24 +111,17 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        $validate = new Validate([
-            'username'     => 'require',
+        $userInfo = $request->all();
+        $validate = $this->validate($userInfo,[
+            'username' => 'require',
             'password' => 'require'
         ]);
-        $userInfo = $request->post();
-        if(!$validate->check($userInfo)){
-
-        }
-        $userdb = new User;
-        $res = $userdb->where($userInfo)->find();
+        if(!$validate) return $this->asJson([],$validate,422);
+        $res = $this->userService->login($userInfo);
         if($res){
-            $userdb->where($userInfo)->update([
-                'last_login_time'=>date('Y-m-d H:i:s')
-            ]);
-            echo '1';
+            return $this->asJson([],'登陆成功',200);
         }else{
-            echo '0';
+            return $this->asJson([],'登录失败',422);
         }
-
     }
 }

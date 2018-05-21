@@ -12,15 +12,15 @@ return [
     // 数据库类型
     'type'            => getenv(ENV_PREFIX.'db_connection') ?: 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => getenv(ENV_PREFIX.'db_hostname') ?: 'localhost',
     // 数据库名
-    'database'        => 'manpro',
+    'database'        => getenv(ENV_PREFIX.'db_database') ?: 'manpro',
     // 用户名
-    'username'        => 'root',
+    'username'        => getenv(ENV_PREFIX.'db_username') ?: 'root',
     // 密码
     'password'        => getenv(ENV_PREFIX.'db_password') ?: 'root',
     // 端口
-    'hostport'        => '3306',
+    'hostport'        => getenv(ENV_PREFIX.'db_port') ?: '3306',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
@@ -46,7 +46,7 @@ return [
     // 自动写入时间戳字段
     'auto_timestamp'  => false,
     // 时间字段取出后的默认时间格式
-    'datetime_format' => 'Y-m-d H:i:s',
+    'datetime_format' => false,
     // 是否需要进行SQL性能分析
     'sql_explain'     => false,
 ];

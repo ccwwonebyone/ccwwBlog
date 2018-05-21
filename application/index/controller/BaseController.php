@@ -7,6 +7,16 @@ use think\Controller;
 
 class BaseController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        Request::hook('all',function(Request $request){
+            $data = $request->param();
+            unset($data[$request->server('REDIRECT_URL')]);
+            return $data;
+        });
+    }
+
     /**
      * 返回Json数据
      *
@@ -18,19 +28,9 @@ class BaseController extends Controller
     protected function asJson($data=[],$message='提交成功',$code=200)
     {
         return json([
-            'message'=>$message,
-            'code'=>$code,
-            'data'=>$data
+            'message' =>$message,
+            'code'    =>$code,
+            'data'    =>$data
         ]);
-    }
-    /**
-     * @param  Request $request 过滤 REDIRECT_URL
-     * @return []
-     */
-    public function input(Request $request)
-    {
-        $data = $request->param();
-        unset($data[$request->server('REDIRECT_URL')]);
-        return $data;
     }
 }

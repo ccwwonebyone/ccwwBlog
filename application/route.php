@@ -11,17 +11,19 @@
 use think\Route;
 
 Route::resource('product','Product');
-Route::resource('user','UserController');
 Route::resource('database','DataBaseController');
 Route::post('login','UserController/login');
 Route::get('test','DataBaseController');
 
 // Route::resource('api','ApiController');     //API资源路由
 Route::group('api',function(){
-    Route::post('/sendRequest','ApiController/sendRequest');     //API资源路由
-    Route::resource('/','ApiController');
+    Route::post('/sendRequest','Api/sendRequest');     //API资源路由
+    Route::resource('/','Api');
 });
-
+Route::group('user',function(){
+    Route::post('/login','User/login');     //API资源路由
+    Route::resource('/','User');
+});
 /*return [
     '__pattern__' => [
         'name' => '\w+',

@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 use think\Request;
 use app\index\service\RequestClientService;
+use app\index\service\ApiService;
 use app\index\model\Api;
 
 class ApiController extends BaseController
@@ -23,9 +24,14 @@ class ApiController extends BaseController
         'project_id|项目ID' =>'number',
     ];
 
+    public function _initialize()
+    {
+        $this->apiService = new ApiService();
+    }
+
     public function sendRequest(Request $request)
     {
-        $data     = $this->input($request);
+        $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if(!$validate) return $this->asJson($validate,'非法请求',422);
 
@@ -40,46 +46,45 @@ class ApiController extends BaseController
 
     public function index(Request $request)
     {
-        extract($this->input($request));
-        $where = [];
-        $url   = isset($url) ? $url : '';
+        extract($request->all());
+        $search = [];
         $limit = isset($limit) ? $limit : 10;
-        if($url) $where['url'] = ['like','%'.$url.'%'];
-        return $this->asJson(Api::where($where)->paginate($limit)->toArray());
+        $search['url'] = isset($url) ? $url : '';
+        return $this->asJson($this->apiService->apiList($search,$limit));
     }
 
     public function save(Request $request)
     {
-        $data     = $this->input($request);
+        $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if(!$validate) return $this->asJson($validate,'非法请求',422);
-        Api::insert($data);
+        $this->apiService->save($data);
         return $this->asJson();
     }
 
     public function update(Request $request,$id)
     {
-        $data     = $this->input($request);
+        $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if(!$validate) return $this->asJson($validate,'非法请求',422);
-        Api::where('id',$id)->update($data);
+        $this->apiService->update($id,$data);
         return $this->asJson();
     }
 
     public function delete($id)
     {
-        Api::where('id',$id)->delete();
+        $this->apiService->delete($id);
         return $this->asJson();
     }
 
     public function read($id)
     {
-        $result = Api::where('id',$id)->find();
+        $result = $this->apiService->read($id);
         if($result){
             return $this->asJson($result);
         }else{
             return $this->asJson([],'查询失败',422);
         }
-        
+
     }
 }

@@ -1,56 +1,118 @@
 <template>
-	<div class="container">
-		<div id="loginForm">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4"></div>
-                <div id="form-inner" class="col-xs-6 col-sm-4">
-                    <form class="form-horizontal">
-                      <div class="form-group">
-                          <input type="text" v-bind:value="loginInfo.username" class="form-control" placeholder="用户名">
-                      </div>
-                      <div class="form-group">
-                          <input type="password" v-bind:value="loginInfo.password" class="form-control" placeholder="密码">
-                      </div>
-                    </form>
-                </div>
-                <!-- Optional: clear the XS cols if their content doesn't match in height -->
-                <div class="clearfix visible-xs-block"></div>
-                <div class="col-xs-6 col-sm-4"></div>
-            </div>
-		</div>
-	</div>
+<div id="loginForm">
+    <!-- <el-col :span="8"><div class="grid-content bg-purple-dark"></div></el-col>
+    <el-col :span="8"><div class="grid-content bg-purple-dark">
+      <el-input v-model="loginInfo.username" placeholder="用户名"></el-input>
+      <el-input v-model="loginInfo.password" type="password" placeholder="密码"></el-input>
+    </div></el-col>
+    <el-col :span="8"><div class="grid-content bg-purple-dark"></div></el-col> -->
+   <!--  <el-form ref="form" :model="form">
+      <el-input v-model="loginInfo.username" style="width: 220px;" placeholder="用户名"></el-input>
+      <el-input v-model="loginInfo.password" style="width: 220px;" type="password" placeholder="密码"></el-input>
+    </el-form> -->
+    <el-row type="flex" >
+  <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="8"><div class="grid-content bg-purple-light">
+    <el-form ref="form" :model="form" label-width="80px">
+  <el-form-item label="活动名称">
+    <el-input v-model="form.name"></el-input>
+  </el-form-item>
+  <el-form-item label="活动名称">
+    <el-input v-model="form.name"></el-input>
+  </el-form-item>
+</el-form>
+  </div></el-col>
+  <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+</el-row>
+
+</div>
 </template>
 <script type="text/javascript">
-	export default{
+  export default {
+    data() {
+      return {
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        dom:{
+          loginForm:'loginForm'
+        }
+      }
+    },
+    methods: {
+      onSubmit() {
+        console.log('submit!');
+      },
+      vetical:function(elId){
+        var screen_height = document.documentElement.clientHeight;
+        var el = document.getElementById(elId);
+        var el_height = el.clientHeight;
+        el.style.marginTop = (screen_height - el_height)/2 + 'px';
+      }
+    },
+    mounted:function(){       //挂载完成时
+      var self = this;
+      self.vetical(self.dom.loginForm);
+      window.onresize = function(){
+          self.vetical(self.dom.loginForm);
+       }
+    }
+  }
+
+	/*export default{
 		name:'login',
 		data(){
 			return {
 				info:'ManPro',
-                dom:{
-                    loginForm:'loginForm'
-                },
-                loginInfo:{
-                    username:'admin',
-                    password:''
-                },
+        message:'',
+        alert:false,
+        dom:{
+            loginForm:'loginForm'
+        },
+        loginInfo:{
+            username:'admin',
+            password:''
+        },
 			}
 		},
 		methods:{
 			vetical:function(elId){
 				var screen_height = document.documentElement.clientHeight;
-                var el = document.getElementById(elId);
-                var el_height = el.clientHeight;
-                el.style.marginTop = (screen_height - el_height)/2 + 'px';
-			}
+        var el = document.getElementById(elId);
+        var el_height = el.clientHeight;
+        el.style.marginTop = (screen_height - el_height)/2 + 'px';
+			},
+      login:function(){
+        var self = this;
+        this.$axios({
+          method:'post',
+          url:'/user/login',
+          data:this.loginInfo
+        })
+        .then(function(response){
+          self.alert = true;
+          self.message = response.data.message;
+        });
+      },
+      close_alert:function(){
+        this.alert = false;
+      }
 		},
 		mounted:function(){       //挂载完成时
 			var self = this;
-            self.vetical(self.dom.loginForm);
-            window.onresize = function(){
-                self.vetical(self.dom.loginForm);
-             }
+      self.vetical(self.dom.loginForm);
+      window.onresize = function(){
+          self.vetical(self.dom.loginForm);
+       }
 		}
-	}
+	}*/
 </script>
 <style type="text/css">
 
