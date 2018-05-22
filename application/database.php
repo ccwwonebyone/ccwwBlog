@@ -20,7 +20,7 @@ return [
     // 密码
     'password'        => getenv(ENV_PREFIX.'db_password') ?: 'root',
     // 端口
-    'hostport'        => getenv(ENV_PREFIX.'db_port') ?: '3306',
+    'hostport'        => getenv(ENV_PREFIX.'db_hostport') ?: '3306',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数

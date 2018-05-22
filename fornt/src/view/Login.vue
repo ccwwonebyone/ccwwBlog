@@ -1,30 +1,17 @@
 <template>
-<div id="loginForm">
-    <!-- <el-col :span="8"><div class="grid-content bg-purple-dark"></div></el-col>
-    <el-col :span="8"><div class="grid-content bg-purple-dark">
-      <el-input v-model="loginInfo.username" placeholder="用户名"></el-input>
-      <el-input v-model="loginInfo.password" type="password" placeholder="密码"></el-input>
-    </div></el-col>
-    <el-col :span="8"><div class="grid-content bg-purple-dark"></div></el-col> -->
-   <!--  <el-form ref="form" :model="form">
-      <el-input v-model="loginInfo.username" style="width: 220px;" placeholder="用户名"></el-input>
-      <el-input v-model="loginInfo.password" style="width: 220px;" type="password" placeholder="密码"></el-input>
-    </el-form> -->
-    <el-row type="flex" >
-  <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="8"><div class="grid-content bg-purple-light">
-    <el-form ref="form" :model="form" label-width="80px">
-  <el-form-item label="活动名称">
-    <el-input v-model="form.name"></el-input>
-  </el-form-item>
-  <el-form-item label="活动名称">
-    <el-input v-model="form.name"></el-input>
-  </el-form-item>
-</el-form>
-  </div></el-col>
-  <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
-</el-row>
-
+<div >
+  <el-form ref="form" :model="form" id="loginForm" style="background-color: #fff;width: 300px;">
+    <el-form-item>
+      <el-input v-model="form.username" placeholder="用户名"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-input v-model="form.password" type="password" placeholder="密码"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="text">忘记密码？</el-button>
+      <el-button type="primary">登录</el-button>
+    </el-form-item>
+  </el-form>
 </div>
 </template>
 <script type="text/javascript">
@@ -32,14 +19,8 @@
     data() {
       return {
         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          username: 'admin',
+          password: ''
         },
         dom:{
           loginForm:'loginForm'
@@ -51,10 +32,14 @@
         console.log('submit!');
       },
       vetical:function(elId){
-        var screen_height = document.documentElement.clientHeight;
-        var el = document.getElementById(elId);
-        var el_height = el.clientHeight;
-        el.style.marginTop = (screen_height - el_height)/2 + 'px';
+        var screen_height   = document.documentElement.clientHeight;
+        var screen_width    = document.documentElement.clientWidth;
+        var el              = document.getElementById(elId);
+        var el_height       = el.clientHeight;
+        var el_width        = el.clientWidth;
+        console.log(screen_height,screen_width,el_height,el_width);
+        el.style.marginTop  = (screen_width - el_height)/2 + 'px';
+        el.style.marginLeft = (screen_height - el_width)/2 + 'px';
       }
     },
     mounted:function(){       //挂载完成时
