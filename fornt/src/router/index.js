@@ -4,13 +4,24 @@ import Test from '@/view/Test'
 import Menu from '@/view/Menu'
 import Login from '@/view/Login'
 import Register from '@/view/Register'
+import Home from '@/view/Home'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      	path: '/',
+        path: '/',
+        name: 'home',
+        component: Home
+    },
+    {
+        path: '/',
+        name: 'register',
+        component: Register
+    },
+    {
+      	path: '/login',
       	name: 'login',
       	component: Login
     },

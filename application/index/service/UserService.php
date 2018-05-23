@@ -17,6 +17,7 @@ class UserService{
 
     public function save($data = [])
     {
+        if(User::where('username',$data['username'])->count() > 0) return false;
         if($data['password']) $data['password'] = password_hash($data['password'],PASSWORD_BCRYPT);
         $data['create_time'] = $data['last_login_time'] = date('Y-m-d H:i:s');
         return User::insertGetId($data);

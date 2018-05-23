@@ -43,7 +43,7 @@ class DataBaseService{
     public function __construct($connection)
     {
         if(isset($connection['id'])){
-            $dbID = $connection['id'];
+            $this->dbID = $connection['id'];
             unset($connection['id']);
         }
         $this->connection = array_merge($this->connection,$connection);

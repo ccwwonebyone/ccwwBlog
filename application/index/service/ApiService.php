@@ -5,12 +5,12 @@ use think\Db;
 use think\Exception;
 use app\index\model\Api;
 
-class DataBaseService{
+class ApiService{
 
     public function apiList($search,$limit = 10)
     {
         $where = [];
-        if($search['url']) $where['url'] = ['like','%'.$url.'%'];
+        if($search['url']) $where['url'] = ['like','%'.$search['url'].'%'];
         $query = Api::where($where);
         $res = $limit ? $query->paginate($limit) : $query->get();
         return $res->toArray();

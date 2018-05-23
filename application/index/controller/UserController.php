@@ -43,18 +43,18 @@ class UserController extends BaseController
     public function save(Request $request)
     {
         $userInfo =$request->all();
-        $validate = $this->validate($data,[
-            'username' => 'require',
-            'password' => 'require',
-            'email'    => 'require|email'
+        $validate = $this->validate($userInfo,[
+            'username|用户名' => 'require',
+            'password|密码' => 'require|confirm',
+            // 'email'    => 'require|email'
         ]);
-        if(!$validate) return $this->asJson([],$validate,422);
-
+        if($validate !== true) return $this->asJson([],$validate,422);
+        unset($userInfo['password_confirm']);
         $res = $this->userService->save($userInfo);
         if($res){
             return $this->asJson([],'注册成功',200);
         }else{
-            return $this->asJson([],'注册失败',422);
+            return $this->asJson([],'注册失败,角色名重复',422);
         }
     }
 
@@ -113,15 +113,15 @@ class UserController extends BaseController
     {
         $userInfo = $request->all();
         $validate = $this->validate($userInfo,[
-            'username' => 'require',
-            'password' => 'require'
+            'username|用户名' => 'require',
+            'password|密码' => 'require'
         ]);
-        if(!$validate) return $this->asJson([],$validate,422);
+        if($validate !== true) return $this->asJson([],$validate,422);
         $res = $this->userService->login($userInfo);
         if($res){
             return $this->asJson([],'登陆成功',200);
         }else{
-            return $this->asJson([],'登录失败',422);
+            return $this->asJson([],'登录失败，帐号或密码错误',422);
         }
     }
 }

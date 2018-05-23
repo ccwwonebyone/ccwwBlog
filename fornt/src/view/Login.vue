@@ -54,6 +54,7 @@
             message: response.data.message,
             type: type
           });
+          if(response.data.code == '200') window.location.href = '#/';
         });
       }
     },

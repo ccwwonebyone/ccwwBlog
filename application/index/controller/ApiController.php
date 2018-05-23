@@ -33,7 +33,7 @@ class ApiController extends BaseController
     {
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
-        if(!$validate) return $this->asJson($validate,'非法请求',422);
+        if($validate !== true) return $this->asJson($validate,'非法请求',422);
 
         $headers = $data['headers'] ?? [];
         $params  = $data['params'] ?? [];
@@ -57,7 +57,7 @@ class ApiController extends BaseController
     {
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
-        if(!$validate) return $this->asJson($validate,'非法请求',422);
+        if($validate !== true) return $this->asJson($validate,'非法请求',422);
         $this->apiService->save($data);
         return $this->asJson();
     }
@@ -66,7 +66,7 @@ class ApiController extends BaseController
     {
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
-        if(!$validate) return $this->asJson($validate,'非法请求',422);
+        if($validate !== true) return $this->asJson($validate,'非法请求',422);
         $this->apiService->update($id,$data);
         return $this->asJson();
     }
