@@ -2,7 +2,6 @@
 
 namespace app\index\controller;
 
-use BaseController;
 use think\Request;
 use app\index\service\DataBaseService;
 
@@ -102,7 +101,7 @@ class DataBaseController extends BaseController
      * @param int $id 数据库ID
      * @return void
      */
-    public function updateDB($id)
+    public function updateDB(Request $request,$id)
     {
         $dataBaseService = new DataBaseService();
         $res = $dataBaseService->updateDb($id);

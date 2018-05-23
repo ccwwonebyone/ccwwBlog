@@ -10,19 +10,17 @@
 // +----------------------------------------------------------------------
 use think\Route;
 
-Route::resource('product','Product');
-Route::resource('database','DataBaseController');
-Route::post('login','UserController/login');
-Route::get('test','DataBaseController');
-
-// Route::resource('api','ApiController');     //API资源路由
 Route::group('api',function(){
-    Route::post('/sendRequest','Api/sendRequest');     //API资源路由
-    Route::resource('/','Api');
+    Route::post('/sendRequest','Api/sendRequest');  //发送请求
+    Route::resource('/','Api');             //API资源路由
 });
 Route::group('user',function(){
-    Route::post('/login','User/login');     //API资源路由
-    Route::resource('/','User');
+    Route::post('/login','User/login');     //用户登录
+    Route::resource('/','User');            //用户资源路由
+});
+Route::group('database',function(){
+    Route::resource('/','DataBase');    //数据库资源路由
+    Route::put('/{id}/updateDB','DataBase/updateDB');
 });
 /*return [
     '__pattern__' => [
