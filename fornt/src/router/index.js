@@ -5,40 +5,24 @@ import Menu from '@/view/Menu'
 import Login from '@/view/Login'
 import Register from '@/view/Register'
 import Home from '@/view/Home'
+import Api  from '@/view/Api'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-        path: '/',
-        name: 'home',
-        component: Home
-    },
-    {
-        path: '/',
-        name: 'register',
-        component: Register
-    },
-    {
-      	path: '/login',
-      	name: 'login',
-      	component: Login
-    },
-    {
-      	path: '/test',
-      	name: 'test',
-      	component: Test
-    },
-    {
-      	path: '/menu',
-      	name: 'menu',
-      	component: Menu
-    },
-    {
-        path: '/register',
-        name: 'register',
-        component: Register
-    }
+    {path: '/home',name: 'home',component: Home},
+
+    {path: '/',name: 'register',component: Register},
+
+    {path: '/login',name: 'login',component: Login},
+
+    {path: '/test',name: 'test',component: Test},
+
+    {path: '/menu',name: 'menu',component: Menu},
+
+    {path: '/register',name: 'register',component: Register},
+
+    {path: '/api',name: 'api',component: Api}
   ]
 })
