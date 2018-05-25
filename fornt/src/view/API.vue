@@ -5,14 +5,14 @@
 </div>
 <div style="margin-left: 190px;">
   <el-card class="box-card" shadow="always">
-    <el-dropdown>
-  <el-button type="primary">
-    {{request.active}}<i class="el-icon-arrow-down el-icon--right"></i>
-  </el-button>
-  <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item v-for="type in request.types" @node-click="methodActive(type)" :key="type">{{type}}</el-dropdown-item>
-  </el-dropdown-menu>
-</el-dropdown>
+<el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
+    <el-select v-model="select" slot="prepend" placeholder="请选择">
+      <el-option label="餐厅名" value="1"></el-option>
+      <el-option label="订单号" value="2"></el-option>
+      <el-option label="用户电话" value="3"></el-option>
+    </el-select>
+    <el-button slot="append" icon="el-icon-search"></el-button>
+  </el-input>
   </el-card>
 </div>
 </div>
@@ -22,15 +22,19 @@
   export default {
     data() {
       return {
+        input3: '',
+        input4: '',
+        input5: '',
+        select: '',
         request:{
           types:['GET','POST','PUT','PATCH','DELETE'],
-          active:'GET'
+          active:'GET',
+          url:''
         }
       }
     },
     methods: {
         methodActive:function(type){
-          console.log(type);
             this.request.active = type;
         }
     }
@@ -41,5 +45,8 @@
 <style scoped>
 body{
   background-color: #fff;
+}
+.el-select .el-input {
+  width: 130px;
 }
 </style>
