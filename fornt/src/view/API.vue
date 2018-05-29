@@ -1,31 +1,57 @@
 <template>
 <div>
-<div style="width: 200px;position: absolute;left: 0px;">
-
-</div>
-<div style="margin-left: 190px;">
-  <el-card class="box-card" shadow="always">
-<el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
-    <el-select v-model="select" slot="prepend" placeholder="请选择">
-      <el-option label="餐厅名" value="1"></el-option>
-      <el-option label="订单号" value="2"></el-option>
-      <el-option label="用户电话" value="3"></el-option>
-    </el-select>
-    <el-button slot="append" icon="el-icon-search"></el-button>
-  </el-input>
+  <div style="width: 200px;position: absolute;left: 0px;"></div>
+  <el-card class="box-card" shadow="always" style="margin-left: 190px;min-width: 800px">
+    <el-row>
+      <el-col :span="2" style="width: 100px;">
+        <el-dropdown>
+          <el-button type="primary" style="width: 100px;">
+            {{request.active}}<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="item in request.types" :key="item" v-on:click.native="active(item)">{{item}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-col>
+      <el-col :span="14">
+        <el-input v-model="request.url" placeholder=""></el-input>
+      </el-col>
+      <el-col :span="6" style="min-width: 210px;">
+        <el-button-group>
+          <el-button type="warning">参数</el-button>
+          <el-button type="primary">发送</el-button>
+          <el-button type="success">保存</el-button>
+        </el-button-group>
+    </el-col>
+  </el-row>
+  <div style="margin-top: 20px;"></div>
+    <el-table
+    :data="tableData"
+    empty-text=" "
+    border
+    style="width: 100%">
+    <el-table-column
+      prop="date"
+      label="key"
+      width="300">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="value"
+      width="300">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="描述">
+    </el-table-column>
+  </el-table>
   </el-card>
 </div>
-</div>
 </template>
-
 <script>
   export default {
     data() {
       return {
-        input3: '',
-        input4: '',
-        input5: '',
-        select: '',
         request:{
           types:['GET','POST','PUT','PATCH','DELETE'],
           active:'GET',
@@ -34,9 +60,9 @@
       }
     },
     methods: {
-        methodActive:function(type){
-            this.request.active = type;
-        }
+      active:function(item) {
+        this.request.active = item;
+      }
     }
   };
 </script>
@@ -45,8 +71,5 @@
 <style scoped>
 body{
   background-color: #fff;
-}
-.el-select .el-input {
-  width: 130px;
 }
 </style>
