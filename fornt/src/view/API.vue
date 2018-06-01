@@ -27,22 +27,25 @@
   <div style="margin-top: 20px;"></div>
     <el-table
     :data="tableData"
-    empty-text=" "
-    border
     style="width: 100%">
     <el-table-column
-      prop="date"
-      label="key"
+      label="日期"
       width="300">
+      <template slot-scope="scope">
+        <el-input placeholder="描述"></el-input>
+      </template>
     </el-table-column>
     <el-table-column
-      prop="name"
-      label="value"
+      label="姓名"
       width="300">
+      <template slot-scope="scope">
+        <el-input placeholder="描述"></el-input>
+      </template>
     </el-table-column>
-    <el-table-column
-      prop="address"
-      label="描述">
+    <el-table-column label="描述">
+      <template slot-scope="scope">
+        <el-input placeholder="描述"></el-input>
+      </template>
     </el-table-column>
   </el-table>
   </el-card>
@@ -56,7 +59,24 @@
           types:['GET','POST','PUT','PATCH','DELETE'],
           active:'GET',
           url:''
-        }
+        },
+        tableData: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }]
       }
     },
     methods: {
