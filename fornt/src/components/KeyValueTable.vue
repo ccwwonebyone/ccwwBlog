@@ -1,6 +1,8 @@
 <template>
+  <transition name="key-value-table">
     <el-table
         :data="params.data"
+        v-if="params.show"
         style="width: 100%">
         <el-table-column
           label="键"
@@ -26,9 +28,13 @@
           </template>
         </el-table-column>
     </el-table>
+  </transition>
 </template>
 <script>
   export default {
+    props: {
+      params: Object,
+    },
     data() {
       return {
         params:{
@@ -39,9 +45,6 @@
             detail:'',
             showdel:false
           }]
-        },
-        tabs:{
-          active:'body'
         }
       }
     },
@@ -57,6 +60,16 @@
       },
       removeParam:function(index){    //移除参数
         this.params.data.splice(index,1);
+      }
+    },
+    watch:{
+      params:{    //参数列表的数据变化
+        handler(val,oldVal){
+          console.log(this.params.show);
+          var data = val.data[val.data.length-1];
+          if(data.key || data.value || data.detail) this.params.data.push({key:'',value:'',detail:'',showdel:false});
+        },
+        deep:true
       }
     }
 }

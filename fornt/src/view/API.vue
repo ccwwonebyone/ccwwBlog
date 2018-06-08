@@ -25,11 +25,15 @@
       </el-col>
     </el-row>
     <div style="margin-top: 20px;"></div>
-    <KeyValueTable v-model="params"></KeyValueTable>
+    <key-value-table :params="params"></key-value-table>
   <el-tabs v-model="tabs.active" @tab-click="handleClick">
-    <el-tab-pane label="body" name="body">用户管理</el-tab-pane>
+    <el-tab-pane label="body" name="body">
+      <key-value-table :params="bodyParams"></key-value-table>
+    </el-tab-pane>
     <el-tab-pane label="权限" name="auth">配置管理</el-tab-pane>
-    <el-tab-pane label="请求头" name="headers">角色管理</el-tab-pane>
+    <el-tab-pane label="请求头" name="headers">
+      <key-value-table :params="bodyParams"></key-value-table>
+    </el-tab-pane>
   </el-tabs>
 </el-card>
 </div>
@@ -45,6 +49,24 @@
           url:''
         },
         params:{
+          show:false,
+          data:[{
+            key:'',
+            value:'',
+            detail:'',
+            showdel:false
+          }]
+        },
+        bodyParams:{
+          show:true,
+          data:[{
+            key:'',
+            value:'',
+            detail:'',
+            showdel:false
+          }]
+        },
+        headersParams:{
           show:true,
           data:[{
             key:'',
@@ -65,26 +87,9 @@
       showParams:function(){     //显示参数列表
         this.params.show = this.params.show ? false : true;
       },
-      showdel:function(index){      //显示删除按钮
-        if(index != this.params.data.length-1) this.params.data[index].showdel = true;
-      },
-      hiddendel:function(index){    //隐藏删除按钮
-        if(index != this.params.data.length-1) this.params.data[index].showdel = false;
-      },
-      removeParam:function(index){    //移除参数
-        this.params.data.splice(index,1);
-      },
+
       handleClick:function(tab,event){
 
-      }
-    },
-    watch:{
-      params:{    //参数列表的数据变化
-        handler(val,oldVal){
-          var data = val.data[val.data.length-1];
-          if(data.key || data.value || data.detail) this.params.data.push({key:'',value:'',detail:'',showdel:false});
-        },
-        deep:true
       }
     },
     components: {
