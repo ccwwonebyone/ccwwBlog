@@ -18,47 +18,24 @@
       </el-col>
       <el-col :span="6" style="min-width: 210px;">
         <el-button-group>
-          <el-button type="warning" v-on:click.native="showParams">参数</el-button>
+          <el-button type="warning" v-on:click.native="showParams">参数<i class="el-icon-caret-bottom"></i></el-button>
           <el-button type="primary">发送</el-button>
           <el-button type="success">保存</el-button>
         </el-button-group>
-    </el-col>
-  </el-row>
-  <div style="margin-top: 20px;"></div>
-  <div v-if="params.show">
-    <el-table
-    :data="params.data"
-    style="width: 100%">
-    <el-table-column
-      label="键"
-      width="300">
-      <template slot-scope="scope">
-        <el-input placeholder="新键" v-model="scope.row.key"></el-input>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="值"
-      width="300">
-      <template slot-scope="scope">
-        <el-input placeholder="值" v-model="scope.row.value"></el-input>
-      </template>
-    </el-table-column>
-    <el-table-column label="描述">
-      <template slot-scope="scope">
-        <el-input placeholder="描述" v-model="scope.row.detail"
-          v-on:mouseover.native="showdel(scope.$index)"
-          v-on:mouseout.native ="hiddendel(scope.$index)">
-          <template slot="append"><el-button slot="append" icon="el-icon-delete" v-on:click.native="removeParam(scope.$index)" v-if="scope.row.showdel"></el-button></template>
-        </el-input>
-      </template>
-    </el-table-column>
-  </el-table>
-  </div>
-
-  </el-card>
+      </el-col>
+    </el-row>
+    <div style="margin-top: 20px;"></div>
+    <KeyValueTable v-model="params"></KeyValueTable>
+  <el-tabs v-model="tabs.active" @tab-click="handleClick">
+    <el-tab-pane label="body" name="body">用户管理</el-tab-pane>
+    <el-tab-pane label="权限" name="auth">配置管理</el-tab-pane>
+    <el-tab-pane label="请求头" name="headers">角色管理</el-tab-pane>
+  </el-tabs>
+</el-card>
 </div>
 </template>
 <script>
+  import KeyValueTable from '@/components/KeyValueTable'
   export default {
     data() {
       return {
@@ -75,6 +52,9 @@
             detail:'',
             showdel:false
           }]
+        },
+        tabs:{
+          active:'body'
         }
       }
     },
@@ -93,6 +73,9 @@
       },
       removeParam:function(index){    //移除参数
         this.params.data.splice(index,1);
+      },
+      handleClick:function(tab,event){
+
       }
     },
     watch:{
@@ -103,6 +86,9 @@
         },
         deep:true
       }
+    },
+    components: {
+      KeyValueTable
     }
   };
 </script>
