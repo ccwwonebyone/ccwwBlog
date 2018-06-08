@@ -110,7 +110,7 @@ body{
 .panel{
   margin-left: 190px;
   min-width: 800px;
-  background-color: #409EFF;
+  background-color: #909399;
   height: 50px;
   margin-top: 30px 0;
   line-height: 50px;
