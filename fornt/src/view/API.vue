@@ -18,9 +18,9 @@
       </el-col>
       <el-col :span="6" style="min-width: 210px;">
         <el-button-group>
-          <el-button type="warning" v-on:click.native="showParams">参数<i class="el-icon-caret-bottom"></i></el-button>
-          <el-button type="primary">发送</el-button>
-          <el-button type="success">保存</el-button>
+          <el-button type="primary" v-on:click.native="showParams">参数</el-button>
+          <el-button type="success">发送</el-button>
+          <el-button type="primary">保存</el-button>
         </el-button-group>
       </el-col>
     </el-row>
@@ -30,11 +30,15 @@
     <el-tab-pane label="body" name="body">
       <key-value-table :params="bodyParams"></key-value-table>
     </el-tab-pane>
-    <el-tab-pane label="权限" name="auth">配置管理</el-tab-pane>
+    <el-tab-pane label="权限" name="auth">权限</el-tab-pane>
     <el-tab-pane label="请求头" name="headers">
-      <key-value-table :params="bodyParams"></key-value-table>
+      <key-value-table :params="headersParams"></key-value-table>
     </el-tab-pane>
   </el-tabs>
+</el-card>
+<div class="panel">响应</div>
+<el-card class="box-card" shadow="always" style="margin-left: 190px;min-width: 800px">
+html
 </el-card>
 </div>
 </template>
@@ -102,5 +106,16 @@
 <style scoped>
 body{
   background-color: #fff;
+}
+.panel{
+  margin-left: 190px;
+  min-width: 800px;
+  background-color: #409EFF;
+  height: 50px;
+  margin-top: 30px 0;
+  line-height: 50px;
+  color: #fff;
+  padding-left: 30px;
+  border-radius: 5px;
 }
 </style>
