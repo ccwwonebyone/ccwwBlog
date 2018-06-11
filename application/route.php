@@ -11,7 +11,7 @@
 use think\Route;
 
 Route::group('api',function(){
-    Route::post('/sendRequest','Api/sendRequest');  //发送请求
+    Route::post('/send_request','Api/sendRequest');  //发送请求
     Route::resource('/','Api');             //API资源路由
 });
 Route::group('user',function(){

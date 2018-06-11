@@ -36,12 +36,12 @@
     },
     data() {
       return {
-          data:[{
+          /* data:[{
             key:'',
             value:'',
             detail:'',
             showdel:false
-          }]
+          }] */
       }
     },
     methods: {
@@ -53,13 +53,29 @@
       },
       removeParam:function(index){    //移除参数
         this.data.splice(index,1);
+      },
+      jsonData:function(){
+        let info = {};
+        for (let i = 0; i < this.data.length; i++) {
+          const param = this.data[i];
+          info[param.key] = param.value;
+        }
+        return info;
+      },
+      urlData:function(){
+        let info = '';
+        for (let i = 0; i < this.data.length; i++) {
+          const param = this.data[i];
+          info += param.key + '=' + param.value + '&';
+        }
+        return info.substr(0,info.length-1);
       }
     },
     watch:{
       data:{    //参数列表的数据变化
         handler(val,oldVal){
-          var data = val[val.length-1];
-          if(data.key || data.value || data.detail) this.data.push({key:'',value:'',detail:'',showdel:false});
+          var info = val[val.length-1];
+          if(info.key || info.value || info.detail) this.data.push({key:'',value:'',detail:'',showdel:false});
         },
         deep:true
       }

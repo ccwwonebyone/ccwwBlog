@@ -35,11 +35,15 @@ class ApiController extends BaseController
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
 
-        $headers = $data['headers'] ?? [];
-        $params  = $data['params'] ?? [];
-        if(!$this->method[$data['method']]) return $this->asJson([],'非法请求',422);
-        $requestClientService  = new RequestClientService($data['url'],$headers);
-        $res  = call_user_func_array([$requestClientService,$this->method[$data['method']]],[$params]);
+
+        $method    = strtolower($data['method']);
+        $headers   = $this->parseParams($data['headers'],'header');
+        $params    = $this->parseParams($data['params']);
+        $urlParams = $this->parseParams($data['url_params'],'url');
+        $url       = strpos($data['url'], '?') === false ? $data['url'].'?'.$urlParams : $data['url'].'&'.$urlParams;
+        if(!isset($this->method[$method])) return $this->asJson([],'非法请求',422);
+        $requestClientService  = new RequestClientService($url,$headers);
+        $res  = call_user_func_array([$requestClientService,$method],[$params]);
         $json = json_decode($res,true);
         return $json ? json($json) : $res;
     }
@@ -86,5 +90,27 @@ class ApiController extends BaseController
             return $this->asJson([],'查询失败',422);
         }
 
+    }
+    /**
+     * 解析前端发过来的参数 type => body,header,url
+     * @param array $params
+     * @param string $type 解析类型
+     * @return array or string
+     */
+    public function parseParams($params,$type = 'body')
+    {
+        $key   = 'key';
+        $value = 'value';
+        $info  = [];
+        foreach($params as $param){
+            if($type == 'body'){
+                $info[$param[$key]] = $param[$value];
+            }else if($type == 'header'){
+                $info = $param[$key].':'.$param[$value];
+            }else if($type == 'url'){
+                $info[] = $param[$key].'='.$param[$value];
+            }
+        }
+        return $type == 'url' ? implode('&',$info) : $info ;
     }
 }

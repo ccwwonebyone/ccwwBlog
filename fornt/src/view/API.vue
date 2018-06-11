@@ -19,16 +19,16 @@
       <el-col :span="6" style="min-width: 210px;">
         <el-button-group>
           <el-button type="primary" v-on:click.native="showParams">参数</el-button>
-          <el-button type="success">发送</el-button>
+          <el-button type="success" v-on:click.native="sendRequest">发送</el-button>
           <el-button type="primary">保存</el-button>
         </el-button-group>
       </el-col>
     </el-row>
     <div style="margin-top: 20px;"></div>
-    <key-value-table :data="params" v-if="paramsShow"></key-value-table>
+    <key-value-table :data="urlParams" v-if="paramsShow"></key-value-table>
   <el-tabs v-model="tabs.active" @tab-click="handleClick">
     <el-tab-pane label="body" name="body">
-      <key-value-table :data="bodyParams"></key-value-table>
+      <key-value-table :data="params"></key-value-table>
     </el-tab-pane>
     <el-tab-pane label="权限" name="auth">权限</el-tab-pane>
     <el-tab-pane label="请求头" name="headers">
@@ -37,8 +37,7 @@
   </el-tabs>
 </el-card>
 <div class="panel">响应</div>
-<el-card class="box-card" shadow="always" style="margin-left: 190px;min-width: 800px">
-html
+<el-card class="box-card" shadow="always" style="margin-left: 190px;min-width: 800px" v-html="responseData">
 </el-card>
 </div>
 </template>
@@ -59,7 +58,7 @@ html
             detail:'',
             showdel:false
         }],
-        bodyParams:[{
+        urlParams:[{
             key:'',
             value:'',
             detail:'',
@@ -71,6 +70,7 @@ html
             detail:'',
             showdel:false
         }],
+        responseData:'',
         tabs:{
           active:'body'
         }
@@ -83,7 +83,46 @@ html
       showParams:function(){     //显示参数列表
         this.paramsShow = this.paramsShow ? false : true;
       },
-
+      syntaxHighlight:function (json) {
+          if (typeof json != 'string') {
+               json = JSON.stringify(json, undefined, 2);
+          }
+          json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+              var cls = 'number';
+              if (/^"/.test(match)) {
+                  if (/:$/.test(match)) {
+                      cls = 'key';
+                  } else {
+                      cls = 'string';
+                  }
+              } else if (/true|false/.test(match)) {
+                  cls = 'boolean';
+              } else if (/null/.test(match)) {
+                  cls = 'null';
+              }
+              return '<span class="' + cls + '">' + match + '</span>';
+          });
+      },
+      sendRequest:function(){
+        let headersParams = this.headersParams.slice(0,-1);
+        let urlParams = this.urlParams.slice(0,-1);
+        let params = this.params.slice(0,-1);
+        this.$axios({
+          method:'post',
+          url:'/api/send_request',
+          data:{
+            url:this.request.url,          //请求地址
+            method:this.request.active,    //请求方法
+            headers:headersParams,    //请求头
+            params:params,        //请求body
+            url_params:urlParams     //url的参数
+          },
+        })
+        .then(response => {
+          this.responseData = '<pre>' +this.syntaxHighlight(JSON.stringify(response.data,null,4)) + '</pre>';
+        })
+      },
       handleClick:function(tab,event){
 
       }
