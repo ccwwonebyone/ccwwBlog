@@ -37,7 +37,8 @@
   </el-tabs>
 </el-card>
 <div class="panel">响应</div>
-<el-card class="box-card" shadow="always" style="margin-left: 190px;min-width: 800px" v-html="responseData">
+<el-card class="box-card" shadow="always" style="margin-left: 190px;min-width: 800px">
+  <div v-html="responseData" v-highlight></div>
 </el-card>
 </div>
 </template>
@@ -120,7 +121,7 @@
           },
         })
         .then(response => {
-          this.responseData = '<pre>' +this.syntaxHighlight(JSON.stringify(response.data,null,4)) + '</pre>';
+          this.responseData = '<pre>'+JSON.stringify(response.data,null,4)+'</pre>';
         })
       },
       handleClick:function(tab,event){

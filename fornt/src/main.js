@@ -10,6 +10,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 // import $ from 'jquery'
 // import 'bootstrap/dist/js/bootstrap.min.js'
 // import 'bootstrap/dist/css/bootstrap.min.css'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/googlecode.css' //样式文件
+
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.use(ElementUI);
@@ -20,4 +23,11 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
+})
+
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
 })
