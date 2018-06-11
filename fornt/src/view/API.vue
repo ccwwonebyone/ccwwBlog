@@ -25,14 +25,14 @@
       </el-col>
     </el-row>
     <div style="margin-top: 20px;"></div>
-    <key-value-table :params="params"></key-value-table>
+    <key-value-table :data="params" v-if="paramsShow"></key-value-table>
   <el-tabs v-model="tabs.active" @tab-click="handleClick">
     <el-tab-pane label="body" name="body">
-      <key-value-table :params="bodyParams"></key-value-table>
+      <key-value-table :data="bodyParams"></key-value-table>
     </el-tab-pane>
     <el-tab-pane label="权限" name="auth">权限</el-tab-pane>
     <el-tab-pane label="请求头" name="headers">
-      <key-value-table :params="headersParams"></key-value-table>
+      <key-value-table :data="headersParams"></key-value-table>
     </el-tab-pane>
   </el-tabs>
 </el-card>
@@ -52,33 +52,25 @@ html
           active:'GET',
           url:''
         },
-        params:{
-          show:false,
-          data:[{
+        paramsShow:false,
+        params:[{
             key:'',
             value:'',
             detail:'',
             showdel:false
-          }]
-        },
-        bodyParams:{
-          show:true,
-          data:[{
+        }],
+        bodyParams:[{
             key:'',
             value:'',
             detail:'',
             showdel:false
-          }]
-        },
-        headersParams:{
-          show:true,
-          data:[{
+        }],
+        headersParams:[{
             key:'',
             value:'',
             detail:'',
             showdel:false
-          }]
-        },
+        }],
         tabs:{
           active:'body'
         }
@@ -89,7 +81,7 @@ html
         this.request.active = item;
       },
       showParams:function(){     //显示参数列表
-        this.params.show = this.params.show ? false : true;
+        this.paramsShow = this.paramsShow ? false : true;
       },
 
       handleClick:function(tab,event){

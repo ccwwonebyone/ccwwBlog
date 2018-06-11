@@ -1,8 +1,7 @@
 <template>
   <transition name="key-value-table">
     <el-table
-        :data="params.data"
-        v-if="params.show"
+        :data="data"
         style="width: 100%">
         <el-table-column
           label="键"
@@ -33,41 +32,34 @@
 <script>
   export default {
     props: {
-      params: Object,
+      data: Array,
     },
     data() {
       return {
-        params:{
-          show:true,
           data:[{
             key:'',
             value:'',
             detail:'',
             showdel:false
           }]
-        }
       }
     },
     methods: {
-      showParams:function(){     //显示参数列表
-        this.params.show = this.params.show ? false : true;
-      },
       showdel:function(index){      //显示删除按钮
-        if(index != this.params.data.length-1) this.params.data[index].showdel = true;
+        if(index != this.data.length-1) this.data[index].showdel = true;
       },
       hiddendel:function(index){    //隐藏删除按钮
-        if(index != this.params.data.length-1) this.params.data[index].showdel = false;
+        if(index != this.data.length-1) this.data[index].showdel = false;
       },
       removeParam:function(index){    //移除参数
-        this.params.data.splice(index,1);
+        this.data.splice(index,1);
       }
     },
     watch:{
-      params:{    //参数列表的数据变化
+      data:{    //参数列表的数据变化
         handler(val,oldVal){
-          console.log(this.params.show);
-          var data = val.data[val.data.length-1];
-          if(data.key || data.value || data.detail) this.params.data.push({key:'',value:'',detail:'',showdel:false});
+          var data = val[val.length-1];
+          if(data.key || data.value || data.detail) this.data.push({key:'',value:'',detail:'',showdel:false});
         },
         deep:true
       }
