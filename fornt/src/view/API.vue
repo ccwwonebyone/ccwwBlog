@@ -38,7 +38,9 @@
 </el-card>
 <div class="panel">响应</div>
 <el-card class="box-card" shadow="always" style="margin-left: 190px;min-width: 800px">
-  <div v-html="responseData" v-highlight></div>
+  <pre  v-highlight>
+    <code v-html="responseData"></code>
+  </pre>
 </el-card>
 </div>
 </template>
@@ -84,27 +86,6 @@
       showParams:function(){     //显示参数列表
         this.paramsShow = this.paramsShow ? false : true;
       },
-      syntaxHighlight:function (json) {
-          if (typeof json != 'string') {
-               json = JSON.stringify(json, undefined, 2);
-          }
-          json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-              var cls = 'number';
-              if (/^"/.test(match)) {
-                  if (/:$/.test(match)) {
-                      cls = 'key';
-                  } else {
-                      cls = 'string';
-                  }
-              } else if (/true|false/.test(match)) {
-                  cls = 'boolean';
-              } else if (/null/.test(match)) {
-                  cls = 'null';
-              }
-              return '<span class="' + cls + '">' + match + '</span>';
-          });
-      },
       sendRequest:function(){
         let headersParams = this.headersParams.slice(0,-1);
         let urlParams = this.urlParams.slice(0,-1);
@@ -121,7 +102,7 @@
           },
         })
         .then(response => {
-          this.responseData = '<pre>'+JSON.stringify(response.data,null,4)+'</pre>';
+          this.responseData = JSON.stringify(response.data,null,4);
         })
       },
       handleClick:function(tab,event){
