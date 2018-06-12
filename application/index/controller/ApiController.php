@@ -21,6 +21,7 @@ class ApiController extends BaseController
         'method|请求方法' =>'alpha',
         'params|参数' =>'array',
         'headers|请求头' =>'array',
+        'url_params|url的请求参数'=>'array',
         'project_id|项目ID' =>'number',
     ];
 
@@ -62,6 +63,7 @@ class ApiController extends BaseController
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
+        $data = $this->filter($data);
         $this->apiService->save($data);
         return $this->asJson();
     }
@@ -71,6 +73,7 @@ class ApiController extends BaseController
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
+        $data = $this->filter($data);
         $this->apiService->update($id,$data);
         return $this->asJson();
     }
@@ -90,6 +93,18 @@ class ApiController extends BaseController
             return $this->asJson([],'查询失败',422);
         }
 
+    }
+    /**
+     * 过滤数据
+     * @param array $data
+     * @return 
+     */
+    public function filter($data)
+    {
+        foreach(['params','headers','url_params'] as $field){
+            $data[$field] = json_encode($data[$field]);
+        }
+        return $data;
     }
     /**
      * 解析前端发过来的参数 type => body,header,url

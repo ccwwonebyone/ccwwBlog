@@ -62,7 +62,7 @@ class DataBaseService{
     public function saveDbConfig()
     {
         $connection = $this->connection;
-        $connection['params'] = serialize($connection['params']);
+        $connection['params'] = json_encode($connection['params']);
         $this->DBConfig->data($connection)->save();
         $this->dbID = $this->DBConfig->id;
         return $this->dbID;
