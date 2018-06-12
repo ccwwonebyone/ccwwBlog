@@ -20,7 +20,7 @@
         <el-button-group>
           <el-button type="primary" v-on:click.native="showParams">参数</el-button>
           <el-button type="success" v-on:click.native="sendRequest">发送</el-button>
-          <el-button type="primary">保存</el-button>
+          <el-button type="primary" v-on:click.native="saveRequest">保存</el-button>
         </el-button-group>
       </el-col>
     </el-row>
@@ -103,6 +103,25 @@
         })
         .then(response => {
           this.responseData = JSON.stringify(response.data,null,4);
+        })
+      },
+      saveRequest:function(){
+        let headersParams = this.headersParams.slice(0,-1);
+        let urlParams = this.urlParams.slice(0,-1);
+        let params = this.params.slice(0,-1);
+        this.$axios({
+          method:'post',
+          url:'/api',
+          data:{
+            url:this.request.url,          //请求地址
+            method:this.request.active,    //请求方法
+            headers:headersParams,    //请求头
+            params:params,        //请求body
+            url_params:urlParams     //url的参数
+          },
+        })
+        .then(response => {
+
         })
       },
       handleClick:function(tab,event){
