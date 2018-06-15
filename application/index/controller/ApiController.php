@@ -35,8 +35,6 @@ class ApiController extends BaseController
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
-
-
         $method    = strtolower($data['method']);
         $headers   = $this->parseParams($data['headers'],'header');
         $params    = $this->parseParams($data['params']);
@@ -60,9 +58,7 @@ class ApiController extends BaseController
 
     public function save(Request $request)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'非法请求',422);
+        $data = $request->all();
         $data = $this->filter($data);
         $this->apiService->save($data);
         return $this->asJson();
@@ -70,9 +66,7 @@ class ApiController extends BaseController
 
     public function update(Request $request,$id)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'非法请求',422);
+        $data = $request->all();
         $data = $this->filter($data);
         $this->apiService->update($id,$data);
         return $this->asJson();
@@ -94,13 +88,16 @@ class ApiController extends BaseController
         }
 
     }
+
     /**
      * 过滤数据
      * @param array $data
-     * @return 
+     * @return
      */
     public function filter($data)
     {
+        $validate = $this->validate($data,$this->rules);
+        if($validate !== true) return $this->asJson($validate,'非法请求',422);
         foreach(['params','headers','url_params'] as $field){
             $data[$field] = json_encode($data[$field]);
         }

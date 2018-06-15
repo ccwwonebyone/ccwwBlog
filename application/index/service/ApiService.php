@@ -41,7 +41,11 @@ class ApiService{
     {
         return $this->strtoarr(Api::where('id',$id)->find()->toArray());
     }
-
+    /**
+     * 将API数据参数，消息头，url的参数变更为数组
+     * @param  array $data 单条api记录
+     * @return array       转换之后的数据
+     */
     public function strtoarr($data)
     {
         foreach (['params','url_params','headers'] as $v) {
