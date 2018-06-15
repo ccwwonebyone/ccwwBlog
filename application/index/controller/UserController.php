@@ -89,7 +89,11 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        if($this->userService->update($id,$request->all())){
+            return $this->asJson([],'修改成功',200);
+        }else{
+            return $this->asJson([],'修改失败',422);
+        }
     }
 
     /**

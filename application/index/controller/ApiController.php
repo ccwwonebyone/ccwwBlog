@@ -58,16 +58,14 @@ class ApiController extends BaseController
 
     public function save(Request $request)
     {
-        $data = $request->all();
-        $data = $this->filter($data);
+        $data = $this->filter($request->all());
         $this->apiService->save($data);
         return $this->asJson();
     }
 
     public function update(Request $request,$id)
     {
-        $data = $request->all();
-        $data = $this->filter($data);
+        $data = $this->filter($request->all());
         $this->apiService->update($id,$data);
         return $this->asJson();
     }
