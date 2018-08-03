@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 use think\Route;
 
+Route::get('/','Index/index');          //vue页面入口
+
 Route::group('api',function(){
     Route::post('/send_request','Api/sendRequest');  //发送请求
     Route::resource('/','Api');             //API资源路由
