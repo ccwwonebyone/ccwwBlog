@@ -4,9 +4,15 @@ namespace app\index\controller;
 
 use think\Request;
 use app\index\service\DataBaseService;
+use app\index\service\DbInfoService;
 
 class DataBaseController extends BaseController
 {
+    public function _initialize()
+    {
+        $this->dbInfoService   = new DbInfoService();
+    }
+
     /**
      * 显示资源列表
      *
@@ -14,7 +20,8 @@ class DataBaseController extends BaseController
      */
     public function index()
     {
-        //
+        $search = ['database'=>''];
+        return $this->asJson($this->dbInfoService->dbList($search,false));
     }
 
     /**
@@ -89,11 +96,7 @@ class DataBaseController extends BaseController
     {
         $dataBaseService = new DataBaseService();
         $res = $dataBaseService->delDB($id);
-        if($res){
-            $this->asJson();
-        }else{
-            $this->asJson([],'出问题了','501');
-        }
+        return $res ? $this->asJson() : $this->asJson([],'出问题了','501');
     }
     /**
      * 更新整个数据库，只能新增或删除
@@ -105,10 +108,28 @@ class DataBaseController extends BaseController
     {
         $dataBaseService = new DataBaseService();
         $res = $dataBaseService->updateDb($id);
-        if($res){
-            $this->asJson();
-        }else{
-            $this->asJson([],'出问题了','501');
-        }
+        return $res ? $this->asJson() : $this->asJson([],'出问题了','501');
+    }
+    /**
+     * 获取表格列表
+     *
+     * @param Request $request
+     * @param int $db_id  数据库id
+     * @return json
+     */
+    public function get_table(Request $request,$db_id)
+    {
+        return $this->asJson($this->dbInfoService->tableList(compact('db_id'),false));
+    }
+    /**
+     * 获取字段信息
+     *
+     * @param Request $request
+     * @param int $table_id 数据表id
+     * @return json
+     */
+    public function get_column(Request $request,$table_id)
+    {
+        return $this->asJson($this->dbInfoService->columnList(compact('table_id'),false));
     }
 }

@@ -6,6 +6,7 @@ import Login from '@/view/Login'
 import Register from '@/view/Register'
 import Home from '@/view/Home'
 import Api  from '@/view/Api'
+import Db from '@/view/Db'
 
 Vue.use(Router)
 
@@ -23,6 +24,8 @@ export default new Router({
 
     {path: '/register',name: 'register',component: Register},
 
-    {path: '/api',name: 'api',component: Api}
+    {path: '/api',name: 'api',component: Api},
+
+    { path: '/db', name: 'db', component: Db }
   ]
 })

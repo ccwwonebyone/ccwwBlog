@@ -7,7 +7,7 @@
     size="mini"
     v-model="urlSearch">
   </el-input>
-    <div v-for="api in apis" style="margin-left: 10px;margin-top:10px;margin-right:10px;">
+    <div v-for="api in apis" :key="api" style="margin-left: 10px;margin-top:10px;margin-right:10px;">
       <el-container v-on:click.native="selectApi(api)">
         <el-aside width="75px">
           <el-tag style="width: 75px;text-align: center;" size="medium" v-bind:type="methodType[api.method]">{{api.method}}</el-tag>
