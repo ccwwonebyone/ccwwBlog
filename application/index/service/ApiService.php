@@ -13,7 +13,6 @@ class ApiService{
         if($search['url']) $where['url'] = ['like','%'.$search['url'].'%'];
         $query = Api::where($where);
         $res = $limit ? $query->paginate($limit) : $query->get();
-        $res = $res->toArray();
         $data = $limit ? $res['data'] : $res;
         foreach ($data as &$v) {
             $v = $this->strtoarr($v);
