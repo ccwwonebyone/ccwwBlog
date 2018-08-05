@@ -23,7 +23,7 @@ Route::group('user',function(){
 Route::group('database',function(){
     Route::resource('/','DataBase');    //数据库资源路由
     Route::put('/{id}/updateDB','DataBase/updateDB');
-    Route::get('/get_table','DataBase/get_table');  //获取数据库
+    Route::get('/get_table/:db_id','DataBase/get_table');  //获取数据库
 });
 /*return [
     '__pattern__' => [

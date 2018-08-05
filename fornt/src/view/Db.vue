@@ -1,33 +1,13 @@
 <template>
 <div>
   <div style="width: 150px;position: absolute;left: 0px;">
-<el-collapse v-model="activeName" accordion>
-  <el-collapse-item  v-for="database in databases" :key="database.id"
-                      v-bind:name="database.id"
-                    >
-       <template slot="title">
-          <i class="header-icon el-icon-star-on" style="margin-left: 20px;"></i>  {{database.database}}
-      </template>
-      <el-alert
-    title="表一"
-    type="success"
-    center
-    :closable="false">
-  </el-alert>
-  <el-alert
-    title="表二"
-    type="info"
-    center
-    :closable="false">
-  </el-alert>
-  <el-alert
-    title="表三"
-    type="info"
-    center
-    :closable="false">
-  </el-alert>
-  </el-collapse-item>
-</el-collapse>
+    <el-tree
+      :props="props"
+      :load="dbTables"
+      :render-content="renderContent"
+      accordion
+      lazy>
+    </el-tree>
   </div>
 </div>
 </template>
@@ -36,9 +16,13 @@
     data() {
       return {
         activeName: '1',
+        props: {
+          isLeaf: 'leaf'
+        },
         databases:[{
             "id": 1,
             "driver": "mysql",
+            "name":'',
             "database": "manpro",
             "hostname": "127.0.0.1",
             "username": "root",
@@ -47,22 +31,45 @@
             "charset": "utf8",
             "hostport": 3306,
             "type": "mysql",
-          }]
+          }],
+        tables:[{
+
+        }]
       };
     },
     methods:{
-      getDbs:function(){
-        this.$axios({
-          method:'get',
-          url:'/database'
-        })
-        .then(response => {
-          this.databases = response.data.data;
-        })
+      dbTables(node,resolve) {
+        if (node.level === 0) {
+          this.$axios({
+            method:'get',
+            url:'/database'
+          })
+          .then(response => {
+            return resolve(response.data.data);
+          })
+        }
+        if (node.level== 1){
+          this.$axios({
+            method:'get',
+            url:'/database/get_table/' + node.data.id
+          })
+          .then(response => {
+            for(let index in response.data.data){
+              response.data.data[index].leaf = true;
+            }
+            return resolve(response.data.data);
+          })
+        }
+      },
+      renderContent(h, { node, data, store }) {     //自定义树的内容
+        if(data.database){
+          return (<span>{data.database}-{data.charset}</span>);
+        }else{
+          return (<span>{data.name}</span>);
+        }
       }
     },
     created:function () {
-      this.getDbs();
     }
   }
 </script>

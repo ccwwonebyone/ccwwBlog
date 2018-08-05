@@ -119,7 +119,8 @@ class DataBaseController extends BaseController
      */
     public function get_table(Request $request,$db_id)
     {
-        return $this->asJson($this->dbInfoService->tableList(compact('db_id'),false));
+        $name = '';
+        return $this->asJson($this->dbInfoService->tableList(compact('name','db_id'),false));
     }
     /**
      * 获取字段信息
