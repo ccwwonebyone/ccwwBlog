@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style>
-.body,html{
+body,html{
 	margin: 0;
 	padding: 0;
   width: 100%;
@@ -33,8 +33,9 @@ export default {
 }
 #app{
   width: 100%;
-  height: 100%;
+  height:calc(100% - 80px);
   overflow-y: hidden;
+  min-height: auto;
 }
 .el-scrollbar__wrap {
   overflow-x: hidden;

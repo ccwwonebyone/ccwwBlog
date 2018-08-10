@@ -1,6 +1,6 @@
 </<template>
 <transition name="nav-menu">
-    <el-scrollbar style="height:calc(100% - 80px);margin-top:80px;">
+    <el-scrollbar style="height:100%;margin-top:80px;">
     <span>Haoijia</span>
     <el-menu
       default-active="2"
@@ -49,47 +49,6 @@
         <i class="el-icon-setting"></i>
         <span slot="title">导航四</span>
       </el-menu-item>
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
-
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
-
-
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div><div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
-      <div>
-        asdasdass
-      </div>
       <div>
         asdasdass
       </div>
