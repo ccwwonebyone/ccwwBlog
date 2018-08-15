@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-
-        <nav-menu></nav-menu>
-    <!-- <el-row>
-      <div class="content-right">
-       <router-view/>
+    <el-scrollbar class="content-left" style="height:100%;">
+      <div class="content-title">
+        Manpro
       </div>
-    </el-row> -->
+      <nav-menu></nav-menu>
+    </el-scrollbar>
+    <el-scrollbar  style="height:100%;padding-left:300px;">
+      <router-view/>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -28,14 +30,26 @@ body,html{
   height: 100%;
   overflow: hidden;
 }
-.content-right{
-  padding-left: 250px;
-}
 #app{
   width: 100%;
-  height:calc(100% - 80px);
+  height:100%;
   overflow-y: hidden;
   min-height: auto;
+}
+.content-left{
+  width: 300px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background-color: #545c64;
+  z-index: 1500;
+}
+.content-title{
+  height: 60px;
+  font-size: 50px;
+  line-height: 60px;
+  padding-left: 10px;
+  background-color: aliceblue;
 }
 .el-scrollbar__wrap {
   overflow-x: hidden;

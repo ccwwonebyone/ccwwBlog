@@ -3,9 +3,9 @@
 namespace app\index\controller;
 
 use think\Request;
-use think\Controller;
+use think\Controller as BaseController;
 
-class BaseController extends Controller
+class Controller extends BaseController
 {
     public function __construct()
     {

@@ -25,6 +25,10 @@ Route::group('database',function(){
     Route::put('/{id}/updateDB','DataBase/updateDB');
     Route::get('/get_table/:db_id','DataBase/get_table');  //获取数据库
 });
+
+Route::group('component',function(){
+    Route::resource('/','Component');       //组件资源路由
+});
 /*return [
     '__pattern__' => [
         'name' => '\w+',

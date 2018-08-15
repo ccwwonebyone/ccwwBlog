@@ -10,17 +10,17 @@
 // +----------------------------------------------------------------------
 return [
     // 数据库类型
-    'type'            => getenv(ENV_PREFIX.'db_connection') ?: 'mysql',
+    'type'            => getenv(ENV_PREFIX.'DB_TYPE') ?: 'mysql',
     // 服务器地址
-    'hostname'        => getenv(ENV_PREFIX.'db_hostname') ?: 'localhost',
+    'hostname'        => getenv(ENV_PREFIX.'DB_HOSTNAME') ?: 'localhost',
     // 数据库名
-    'database'        => getenv(ENV_PREFIX.'db_database') ?: 'manpro',
+    'database'        => getenv(ENV_PREFIX.'DB_DATABASE') ?: 'manpro',
     // 用户名
-    'username'        => getenv(ENV_PREFIX.'db_username') ?: 'root',
+    'username'        => getenv(ENV_PREFIX.'DB_USERNAME') ?: 'root',
     // 密码
-    'password'        => getenv(ENV_PREFIX.'db_password') ?: 'root',
+    'password'        => getenv(ENV_PREFIX.'DB_PASSWORD') ?: 'root',
     // 端口
-    'hostport'        => getenv(ENV_PREFIX.'db_hostport') ?: '3306',
+    'hostport'        => getenv(ENV_PREFIX.'DB_HOSTPORT') ?: '3306',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
@@ -28,7 +28,7 @@ return [
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀
-    'prefix'          => '',
+    'prefix'          => 'gl_',
     // 数据库调试模式
     'debug'           => true,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
