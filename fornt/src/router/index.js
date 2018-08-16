@@ -10,6 +10,7 @@ import Api from '@/view/Api'
 import Db from '@/view/Db'
 import Company from '@/view/Company'
 import ComponentEdit from '@/view/component/ComponentEdit'
+import PageEdit from '@/view/page/PageEdit'
 
 Vue.use(Router)
 
@@ -33,6 +34,9 @@ export default new Router({
 
         { path: '/company', name: 'company', component: Company },
 
-        { path: '/component_edit', name: 'component_edit', component: ComponentEdit }
+        { path: '/component_edit', name: 'component_edit', component: ComponentEdit },
+        
+        { path: '/page_edit', name: 'page_edit', component: PageEdit }
+
     ]
 })

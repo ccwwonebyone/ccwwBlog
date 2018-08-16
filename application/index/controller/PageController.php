@@ -9,24 +9,29 @@ class PageController extends Controller
 {
     protected $pageService;
 
+    //验证规则
+    protected $rules = [
+        'name|页面名' =>'require',
+        'component_ids|插件组件' =>'require',
+    ];
+
     public function _initialize()
     {
         $this->pageService = new PageService();
     }
 
-    public function showPage($id)
+    public function page(Request $request, $name)
     {
-        $pageInfo = $this->pageService->read($id);
-        
+        return $this->fetch($name,['title'=>'']);
     }
     /**
      * 显示资源列表
      *
      * @return \think\Response
      */
-    public function index(Request $request, $name)
+    public function index(Request $request)
     {
-        return $this->fetch($name,['title'=>'测试']);
+        exit('index');
     }
 
     /**
@@ -47,7 +52,15 @@ class PageController extends Controller
      */
     public function save(Request $request)
     {
-        //
+        $data     = $request->all();
+        $validate = $this->validate($data,$this->rules);
+        if($validate !== true) return $this->asJson($validate,'非法请求',422);
+        if($this->pageService->save($data))
+        {
+            return $this->asJson();
+        }else{
+            return $this->asJson([],'新增失败',422);
+        }
     }
 
     /**
@@ -58,7 +71,7 @@ class PageController extends Controller
      */
     public function read($id)
     {
-        
+        echo 'read';
     }
 
     /**

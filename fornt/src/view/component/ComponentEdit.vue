@@ -15,7 +15,7 @@
     class="avatar-uploader"
     drag
     :on-success="setFilename"
-    action="/component">
+    action="/file">
     <i class="el-icon-upload"></i>
   <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
   <div class="el-upload__tip" slot="tip">只能上传压缩文件，且不超过20M</div>

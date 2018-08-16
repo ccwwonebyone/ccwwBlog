@@ -6,7 +6,7 @@ use app\index\service\RequestClientService;
 use app\index\service\ApiService;
 use app\index\model\Api;
 
-class ApiController extends BaseController
+class ApiController extends Controller
 {
     protected $method = [
         'get'   =>'get',

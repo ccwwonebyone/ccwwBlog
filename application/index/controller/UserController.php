@@ -2,12 +2,11 @@
 
 namespace app\index\controller;
 
-use think\Controller;
 use think\Request;
 use app\index\service\UserService;
 use think\Validate;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     public function _initialize()
     {

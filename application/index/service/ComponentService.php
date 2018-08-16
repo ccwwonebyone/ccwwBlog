@@ -18,13 +18,13 @@ class ComponentService{
 
     public function save($data)
     {
-        if($data['filename']){
-            $data['js']  = 'component/'.$data['filename'].'/index.js';
-            $data['css'] = 'component/'.$data['filename'].'/index.css';
-            $data['plugins']  = 'component/'.$data['filename'].'/plugins.josn';
-            $data['html']  = 'component/'.$data['filename'].'/index.html';
-        }
+        $data['js']      = 'component/'.$data['name'].'/index.js';
+        $data['css']     = 'component/'.$data['name'].'/index.css';
+        $data['plugins'] = 'component/'.$data['name'].'/plugins.json';
+        $data['html']    = 'component/'.$data['name'].'/index.html';
         unset($data['filename']);
+        $info = Component::where('name',$data['name'])->find();
+        if($info) return false;
         return Component::create($data);
     }
 

@@ -20,14 +20,13 @@ class PageService{
 
     public function save($data)
     {
-        if($data['filename']){
-            $data['js_path']  = 'component/'.$data['filename'].'/js/index.js';
-            $data['css_path'] = 'component/'.$data['filename'].'/css/index.css';
-            $data['plugins']  = 'component/'.$data['filename'].'/plugins/index.json';
-            $data['content']  = 'component/'.$data['filename'].'/content/index.json';
+        $page = Page::create($data);
+        if($page){
+            $this->createPage($page->id);
+            return true;
+        }else{
+            return false;   
         }
-        unset($data['filename']);
-        return Page::create($data);
     }
 
     public function update($id,$data)
@@ -55,9 +54,7 @@ class PageService{
     public function createPage($id)
     {
         //try{
-            echo '连接数据库';
             $pageInfo   = Page::where('id',$id)->find();
-            echo '连接成功';
             $components = Component::whereIn('id',explode(',',$pageInfo['component_ids']))->select();
             //生成模板文件
             $content    = $this->conetent(array_column($components, 'html'));
@@ -66,7 +63,6 @@ class PageService{
             $title      = '{$title}';
             $html = $view->fetch('index@template/index',compact('content', 'head', 'pageInfo', 'title'));
             file_put_contents(APP_PATH.'/index/view/page/'.$pageInfo['name'].'.html', $html);
-            echo $html;
             //生成js,css文件
             $this->js($pageInfo, array_column($components, 'js'));
             $this->css($pageInfo, array_column($components, 'css'));
@@ -88,11 +84,11 @@ class PageService{
         $jsStr   = '';
         $installPlugins = [];
         foreach($plugins as $pluginPath){
-            $pluginInfo = json_decode(file_get_contents(ROOT_PATH.$pluginPath));
+            $pluginInfo = json_decode(file_get_contents(ROOT_PATH.$pluginPath),true);
             foreach($pluginInfo as $k=>$plugin){
                 if(in_array($k,$installPlugins)) continue;
                 if(isset($plugin['js'])) $jsStr  .= '<script src="/node_modules/'.$plugin['js'].'"></script>'."\r\n";
-                if(isset($plugin['css'])) $jsStr .= '<link rel="stylesheet" src="/node_modules/'.$plugin['css'].'">'."\r\n";
+                if(isset($plugin['css'])) $cssStr .= '<link rel="stylesheet" href="/node_modules/'.$plugin['css'].'">'."\r\n";
                 $installPlugins[] = $k;
             }
         }
@@ -119,7 +115,7 @@ class PageService{
     public function js($pageInfo, $jsPaths)
     {
         if(!is_dir(ROOT_PATH.'public/js')) mkdir(ROOT_PATH.'public/js');
-        if(!is_dir(ROOT_PATH.'public/js'.$pageInfo['name'])) mkdir(ROOT_PATH.'public/js/'.$pageInfo['name']);
+        if(!is_dir(ROOT_PATH.'public/js/'.$pageInfo['name'])) mkdir(ROOT_PATH.'public/js/'.$pageInfo['name']);
         foreach($jsPaths as $jsPath){
             $content = file_get_contents(ROOT_PATH.$jsPath)."\r\n";
             file_put_contents(ROOT_PATH.'public/js/'.$pageInfo['name'].'/index.js',$content,FILE_APPEND);
@@ -135,7 +131,7 @@ class PageService{
     public function css($pageInfo, $cssPaths)
     {
         if(!is_dir(ROOT_PATH.'public/css')) mkdir(ROOT_PATH.'public/css');
-        if(!is_dir(ROOT_PATH.'public/css'.$pageInfo['name'])) mkdir(ROOT_PATH.'public/css/'.$pageInfo['name']);
+        if(!is_dir(ROOT_PATH.'public/css/'.$pageInfo['name'])) mkdir(ROOT_PATH.'public/css/'.$pageInfo['name']);
 
         foreach($cssPaths as $cssPath){
             $content = file_get_contents(ROOT_PATH.$cssPath)."\r\n";

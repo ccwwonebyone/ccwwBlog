@@ -1,0 +1,8 @@
+{
+    "wowjs":{
+    	"js":"wowjs/dist/wow.min.js"
+    },
+    "animate.css":{
+    	"css":"animate.css/animate.min.css"
+    }
+}

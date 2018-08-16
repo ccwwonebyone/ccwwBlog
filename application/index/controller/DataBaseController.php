@@ -6,7 +6,7 @@ use think\Request;
 use app\index\service\DataBaseService;
 use app\index\service\DbInfoService;
 
-class DataBaseController extends BaseController
+class DataBaseController extends Controller
 {
     public function _initialize()
     {

@@ -30,7 +30,13 @@ Route::group('component',function(){
     Route::resource('/','Component');       //组件资源路由
 });
 
-Route::get('/page/:name','Page/index');    //前端页面入口
+Route::post('/file','Upload/upload');     //上传服务
+
+Route::group('page',function(){
+    Route::resource('/','Page');       //页面资源路由
+});
+
+Route::get('front/:name', 'Page/page');
 /*return [
     '__pattern__' => [
         'name' => '\w+',

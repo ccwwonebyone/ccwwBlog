@@ -11,6 +11,7 @@ class ComponentController extends Controller
     //验证规则
     protected $rules = [
         'name|插件名' =>'require',
+        'filename|压缩包'=>'require',
         'type|插件类型' =>'require|number',
     ];
 
@@ -47,22 +48,16 @@ class ComponentController extends Controller
      */
     public function save(Request $request)
     {
-        if($file      = $request->file('file')){
-            $info     = $file->rule(false)->move(ROOT_PATH . 'component' . DS,'');
-            $fileName = $info->getSaveName();
-            $savePath = ROOT_PATH . 'component';
-            $res      = $this->componentService->unzip($savePath . DS . $fileName, $savePath);
-            return $res ? $this->asJson($fileName) : $this->asJson('','解压文件失败',422);
-        }else{
-            $data     = $request->all();
-            $validate = $this->validate($data,$this->rules);
-            if($validate !== true) return $this->asJson($validate,'非法请求',422);
-        }
+
+        $data     = $request->all();
+        $validate = $this->validate($data,$this->rules);
+        if($validate !== true) return $this->asJson($validate,'非法请求',422);
         if($this->componentService->save($data))
         {
+            $this->componentService->unzip(ROOT_PATH.$data['filename'],ROOT_PATH.'component');
             return $this->asJson();
         }else{
-            return $this->asJson([],'新增失败',422);
+            return $this->asJson([],'新增失败,该组件已存在',422);
         }
     }
 
