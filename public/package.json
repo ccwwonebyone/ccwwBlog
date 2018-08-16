@@ -1,0 +1,15 @@
+{
+  "name": "gitlar",
+  "version": "1.0.0",
+  "description": "web所用组件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gitlar",
+  "license": "ISC",
+  "dependencies": {
+    "animate.css": "^3.7.0",
+    "wowjs": "^1.1.3"
+  }
+}

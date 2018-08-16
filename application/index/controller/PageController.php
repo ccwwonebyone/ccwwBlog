@@ -3,8 +3,9 @@
 namespace app\index\controller;
 
 use think\Request;
+use app\index\Service\PageService;
 
-class PageControllerController extends Controller
+class PageController extends Controller
 {
     protected $pageService;
 
@@ -23,9 +24,9 @@ class PageControllerController extends Controller
      *
      * @return \think\Response
      */
-    public function index()
+    public function index(Request $request, $name)
     {
-        //
+        return $this->fetch($name,['title'=>'测试']);
     }
 
     /**

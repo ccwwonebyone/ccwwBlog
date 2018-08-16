@@ -5,6 +5,7 @@ use think\console\Command;
 use think\console\Input;
 use think\console\Output;
 use think\View;
+use app\index\service\PageService;
 
 class Test extends Command
 {
@@ -21,9 +22,14 @@ class Test extends Command
         // if($zip->open($file) !== true) exit($output->writeln("解压失败:"));
         // $zip->extractTo($destination);
         // $zip->close();
-        $content = $this->viewTest();
-        file_put_contents(APP_PATH.'/index/view/page/test.html',$content);
+        $page = new PageService();
+        $output->writeln('try start');
+        $page->createPage(1);
         $output->writeln('write success');
+
+        /*$content = $this->viewTest();
+        file_put_contents(APP_PATH.'/index/view/page/test.html',$content);
+        $output->writeln('write success');*/
         
     }
 

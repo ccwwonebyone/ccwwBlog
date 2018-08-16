@@ -19,10 +19,10 @@ class ComponentService{
     public function save($data)
     {
         if($data['filename']){
-            $data['js_path']  = 'component/'.$data['filename'].'/js/index.js';
-            $data['css_path'] = 'component/'.$data['filename'].'/css/index.css';
-            $data['plugins']  = implode(',',json_decode('component/'.$data['filename'].'/plugins/index.json',true));
-            $data['content']  = 'component/'.$data['filename'].'/content/index.html';
+            $data['js']  = 'component/'.$data['filename'].'/index.js';
+            $data['css'] = 'component/'.$data['filename'].'/index.css';
+            $data['plugins']  = 'component/'.$data['filename'].'/plugins.josn';
+            $data['html']  = 'component/'.$data['filename'].'/index.html';
         }
         unset($data['filename']);
         return Component::create($data);

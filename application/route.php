@@ -29,6 +29,8 @@ Route::group('database',function(){
 Route::group('component',function(){
     Route::resource('/','Component');       //组件资源路由
 });
+
+Route::get('/page/:name','Page/index');    //前端页面入口
 /*return [
     '__pattern__' => [
         'name' => '\w+',

@@ -54,27 +54,26 @@ class PageService{
      */
     public function createPage($id)
     {
-        try{
+        //try{
+            echo '连接数据库';
             $pageInfo   = Page::where('id',$id)->find();
-            $components = Component::whereIn('id',$pageInfo['component'])->get();
+            echo '连接成功';
+            $components = Component::whereIn('id',explode(',',$pageInfo['component_ids']))->select();
             //生成模板文件
-            $content    = '';
-            foreach($components as $component){
-                //拼接内容
-                $content .= $component['content']."\r\n";
-            }
-            $head        = $this->head($pageInfo);
-            $view        = new View();
-            $title       = '{$title}';
-            $html = $view->fetch('template/index',compact('content', 'head', 'pageInfo', 'title'));
-            file_put_contents(APP_PATH.'index/view/page/'.$pageInfo['name'].'.html', $html);
+            $content    = $this->conetent(array_column($components, 'html'));
+            $head       = $this->head(array_column($components, 'plugins'));
+            $view       = new View();
+            $title      = '{$title}';
+            $html = $view->fetch('index@template/index',compact('content', 'head', 'pageInfo', 'title'));
+            file_put_contents(APP_PATH.'/index/view/page/'.$pageInfo['name'].'.html', $html);
+            echo $html;
             //生成js,css文件
-            $this->js($pageInfo, array_column($components, 'js_path'));
-            $this->css($pageInfo, array_column($components, 'css_path'));
+            $this->js($pageInfo, array_column($components, 'js'));
+            $this->css($pageInfo, array_column($components, 'css'));
             return true;
-        }catch(\Exception $e){
-            throw new Exception('权限不足',5001);
-        }
+        //}catch(\Exception $e){
+        //    throw new Exception($e->,5001);
+        //}
 
     }
     /**
@@ -83,18 +82,33 @@ class PageService{
      * @param array $pageInfo 页面信息
      * @return array
      */
-    public function head($pageInfo)
+    public function head($plugins)
     {
-        $plugins = explode(',',$pageInfo['plugins']);
         $cssStr  = '';
         $jsStr   = '';
-        foreach($plugins as $plugin){
-            $cssStr .= '<link rel="stylesheet" href="/node_modules/'.$plugin.'/dist/css/'.$plugin.'.min.css">'."\r\n";
-            $jsStr  .= '<script src="/node_modules/'.$plugin.'/dist/js/'.$plugin.'.min.js"></script>'."\r\n";
+        $installPlugins = [];
+        foreach($plugins as $pluginPath){
+            $pluginInfo = json_decode(file_get_contents(ROOT_PATH.$pluginPath));
+            foreach($pluginInfo as $k=>$plugin){
+                if(in_array($k,$installPlugins)) continue;
+                if(isset($plugin['js'])) $jsStr  .= '<script src="/node_modules/'.$plugin['js'].'"></script>'."\r\n";
+                if(isset($plugin['css'])) $jsStr .= '<link rel="stylesheet" src="/node_modules/'.$plugin['css'].'">'."\r\n";
+                $installPlugins[] = $k;
+            }
         }
         return compact('cssStr','jsStr');
     }
 
+    public function conetent($htmls)
+    {
+        $content = '';
+        foreach($htmls as $htmlPath)
+        {
+            $data = file_get_contents(ROOT_PATH . $htmlPath);
+            $content .= $data."\r\n";
+        }
+        return $content;
+    }
     /**
      * 创建页面的js文件
      *
@@ -104,9 +118,11 @@ class PageService{
      */
     public function js($pageInfo, $jsPaths)
     {
+        if(!is_dir(ROOT_PATH.'public/js')) mkdir(ROOT_PATH.'public/js');
+        if(!is_dir(ROOT_PATH.'public/js'.$pageInfo['name'])) mkdir(ROOT_PATH.'public/js/'.$pageInfo['name']);
         foreach($jsPaths as $jsPath){
-            $content = file_get_contents($jsPath)."\r\n";
-            file_put_contents('/js/'.$pageInfo['name'].'/index.js',$content,FILE_APPEND);
+            $content = file_get_contents(ROOT_PATH.$jsPath)."\r\n";
+            file_put_contents(ROOT_PATH.'public/js/'.$pageInfo['name'].'/index.js',$content,FILE_APPEND);
         }
     }
     /**
@@ -118,9 +134,12 @@ class PageService{
      */
     public function css($pageInfo, $cssPaths)
     {
+        if(!is_dir(ROOT_PATH.'public/css')) mkdir(ROOT_PATH.'public/css');
+        if(!is_dir(ROOT_PATH.'public/css'.$pageInfo['name'])) mkdir(ROOT_PATH.'public/css/'.$pageInfo['name']);
+
         foreach($cssPaths as $cssPath){
-            $content = file_get_contents($cssPath)."\r\n";
-            file_put_contents('/css/'.$pageInfo['name'].'/index.css',$content,FILE_APPEND);
+            $content = file_get_contents(ROOT_PATH.$cssPath)."\r\n";
+            file_put_contents(ROOT_PATH.'public/css/'.$pageInfo['name'].'/index.css',$content,FILE_APPEND);
         }
     }
 }
