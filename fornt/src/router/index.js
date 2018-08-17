@@ -36,7 +36,7 @@ export default new Router({
 
         { path: '/component_edit', name: 'component_edit', component: ComponentEdit },
         
-        { path: '/page_edit', name: 'page_edit', component: PageEdit }
+        { path: '/page_edit', name: 'page_edit', component: PageEdit },
 
     ]
 })

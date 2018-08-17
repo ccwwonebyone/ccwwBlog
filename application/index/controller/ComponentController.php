@@ -54,7 +54,9 @@ class ComponentController extends Controller
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
         if($this->componentService->save($data))
         {
-            $this->componentService->unzip(ROOT_PATH.$data['filename'],ROOT_PATH.'component');
+            if($this->componentService->unzip(ROOT_PATH.$data['filename'],ROOT_PATH.'component')){
+                $this->componentService->vueComponentJs($data);
+            }
             return $this->asJson();
         }else{
             return $this->asJson([],'新增失败,该组件已存在',422);

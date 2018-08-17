@@ -25,7 +25,7 @@
       onSubmit() {
         this.$axios({
           method:'post',
-          url:'/page',
+          url:'/admin/page',
           data:this.form
         })
         .then(response => {

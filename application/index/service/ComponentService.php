@@ -57,5 +57,32 @@ class ComponentService{
         $zip->close();
         return true;
     }
-
+    /**
+     * 移动当前组件的vue文件，重置vue引入所有组件的js文件
+     *
+     * @param array $component 组件信息
+     * @return boolean
+     */
+    public function vueComponentJs($component)
+    {
+        $vuePath = ROOT_PATH . 'front/src/components/' . ucwords($component['name']) . '.vue';
+        if(copy(ROOT_PATH. 'component/'. $component['name'] . '/index.vue', $vuePath))
+        {
+            $components = Component::column('name');
+            $head       = '';
+            foreach($components as &$name)
+            {
+                $name = ucwords($name);
+                $head = 'import '. $name . 'from ' .$name . "\r\n";
+            }
+            $componentStr = implode(',', $components);
+            $content      = "{$head}export export default {\r\n";
+            $content     .= $componentStr."\r\n";
+            $content     .= "}\r\n\r\n";          
+            file_put_contents(ROOT_PATH . 'front/src/components/index.js', $content);
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
