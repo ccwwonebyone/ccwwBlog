@@ -1,4 +1,4 @@
-</<template>
+<template>
 <transition name="nav-menu">
     <el-menu
       default-active="1-1"

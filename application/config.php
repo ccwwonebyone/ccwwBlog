@@ -15,7 +15,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 应用调试模式
-    'app_debug'              => true,
+    'app_debug'              => getenv(ENV_PREFIX.'DEBUG') ?: false,
     // 应用Trace
     'app_trace'              => true,
     // 应用模式状态
