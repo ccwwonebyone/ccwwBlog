@@ -1,15 +1,15 @@
 @charset "utf-8";
-#zotikos_head > h1 {
+h1 {
     font-weight: 500;
 }
 
-#zotikos_head a {
+a {
     text-decoration: none;
     cursor: pointer;
     color: #666;
 }
 
-#zotikos_head a:hover {
+a:hover {
     text-decoration: none;
     color: #004684;
     -webkit-transition: all .5s ease-in-out 0s;
@@ -19,7 +19,7 @@
     transition: all .5s ease-in-out 0s;
 }
 
-#zotikos_head a:focus {
+a:focus {
     outline: none;
 }
 

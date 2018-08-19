@@ -22,7 +22,11 @@ class PageController extends Controller
 
     public function page(Request $request, $name)
     {
-        return $this->fetch($name,['title'=>'']);
+        $info = $this->pageService->info($name);
+        if(!$info) return 'error';
+        $info = $info->toArray();
+        $title = '';        //网站的标题
+        return $this->fetch($name,['title'=>$title,'data'=>$info['data']]);
     }
     /**
      * 显示资源列表

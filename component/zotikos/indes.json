@@ -1,0 +1,10 @@
+{
+    "logo":{
+        "type":"img",
+        "value":"/zotikos.png"
+    },
+    "url":{
+        "type":"url",
+        "value":"/index"
+    }
+}

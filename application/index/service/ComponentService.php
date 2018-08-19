@@ -65,21 +65,23 @@ class ComponentService{
      */
     public function vueComponentJs($component)
     {
-        $vuePath = ROOT_PATH . 'front/src/components/' . ucwords($component['name']) . '.vue';
+        $vuePath = ROOT_PATH . 'fornt/src/components/' . ucwords($component['name']) . '.vue';
         if(copy(ROOT_PATH. 'component/'. $component['name'] . '/index.vue', $vuePath))
         {
-            $components = Component::column('name');
-            $head       = '';
-            foreach($components as &$name)
+            $components = Component::column('plugins', 'name');
+            $names      = [];
+            $head = [];
+            $plugins = [];
+            foreach($components as $name=>$plugin)
             {
                 $name = ucwords($name);
-                $head = 'import '. $name . 'from ' .$name . "\r\n";
+                $head = 'import '. $name . ' from ' .$name . "\r\n";
             }
-            $componentStr = implode(',', $components);
-            $content      = "{$head}export export default {\r\n";
+            $componentStr = implode(',', $names);
+            $content      = "\r\n{$head}export export default {\r\n";
             $content     .= $componentStr."\r\n";
-            $content     .= "}\r\n\r\n";          
-            file_put_contents(ROOT_PATH . 'front/src/components/index.js', $content);
+            $content     .= "}\r\n\r\n";
+            file_put_contents(ROOT_PATH . 'fornt/src/components/index.js', $content);
             return true;
         }else{
             return false;

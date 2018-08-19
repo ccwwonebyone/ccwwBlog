@@ -25,7 +25,7 @@ class PageService{
             $this->createPage($page->id);
             return true;
         }else{
-            return false;   
+            return false;
         }
     }
 
@@ -44,11 +44,16 @@ class PageService{
         return Page::where('id',$id)->find()->toArray();
     }
 
+    public function info($name)
+    {
+        return Page::where('name',$name)->find();
+    }
+
     /**
      * 根据页面ID创建页面的一整套流程
      *
      * @param int $id 页面ID
-     * @throws Exception 
+     * @throws Exception
      * @return void
      */
     public function createPage($id)
