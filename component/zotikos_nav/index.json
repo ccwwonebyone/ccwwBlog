@@ -1,0 +1,18 @@
+{
+    "url":{
+        "type":"url",
+        "name":"导航链接",
+        "data":[{
+            "name":"首页",
+            "url":"/zotikos/index.html"
+        },
+        {
+            "name":"关于我们",
+            "url":"/zotikos/contents/738/2381.html",
+            "children":[{
+                "name":"公司简介",
+                "url":"/zotikos/contents/738/2381.html"
+            }]
+        }]
+    }
+}

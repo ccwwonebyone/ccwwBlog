@@ -20,6 +20,7 @@ class PageService{
 
     public function save($data)
     {
+        $data['data'] = $this->pageData($data['component_ids']);
         $page = Page::create($data);
         if($page){
             $this->createPage($page->id);
@@ -31,6 +32,7 @@ class PageService{
 
     public function update($id,$data)
     {
+        $data['data'] = $this->pageData($data['component_ids']);
         return Page::where('id',$id)->update($data);
     }
 
@@ -41,7 +43,10 @@ class PageService{
 
     public function read($id)
     {
-        return Page::where('id',$id)->find()->toArray();
+        $info = Page::where('id',$id)->find()->toArray();
+        $info['data'] = json_decode($info['data'],true);
+        $info['component_name'] = Component::whereIn('id',$info['component_ids'])->column('name');
+        return $info;
     }
 
     public function info($name)
@@ -90,6 +95,7 @@ class PageService{
         $installPlugins = [];
         foreach($plugins as $pluginPath){
             $pluginInfo = json_decode(file_get_contents(ROOT_PATH.$pluginPath),true);
+            if(!$pluginInfo) continue;
             foreach($pluginInfo as $k=>$plugin){
                 if(in_array($k,$installPlugins)) continue;
                 if(isset($plugin['js'])) $jsStr  .= '<script src="/node_modules/'.$plugin['js'].'"></script>'."\r\n";
@@ -142,5 +148,21 @@ class PageService{
             $content = file_get_contents(ROOT_PATH.$cssPath)."\r\n";
             file_put_contents(ROOT_PATH.'public/css/'.$pageInfo['name'].'/index.css',$content,FILE_APPEND);
         }
+    }
+
+    /**
+     * 根据启用组件ID生成使用数据
+     *
+     * @param string|array $component_ids
+     * @return string
+     */
+    public function pageData($component_ids)
+    {
+        if(!$component_ids) return '';
+        $pageData = Component::whereIn('id',$component_ids)->column('data','name');
+        foreach($pageData as &$info){
+            $info = json_decode(file_get_contents(ROOT_PATH.$info),true);
+        }
+        return json_encode($pageData);
     }
 }

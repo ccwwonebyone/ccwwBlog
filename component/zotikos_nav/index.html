@@ -1,0 +1,41 @@
+<!--导航开始 -->
+    <nav>
+      <div class="wrap clearfix">
+        <ul class="nav">
+              {volist name="data['zotikos_nav']['url']['data']" id="item"}
+              <li class="sub"> <a href="{$item.url}">{$item.name}</a>
+              {if condition="isset($item['children'])"}
+              <div class="subNav">
+                {volist name="item['children']" id="subItem"}
+                <p><a href="{$subItem.url}">{$subItem.name}</a></p>
+                {/volist}
+              </div>
+              {/if}
+            </li>
+              {/volist}
+        </ul>
+      </div>
+    </nav>
+    <!--导航结束 -->
+    <!--平板导航开始 -->
+    <section>
+      <div class="meunBox">
+        <div class="meunCont">
+          {volist name="data['zotikos_nav']['url']['data']" id="item"}
+          <dl>
+            <dt><a href="{$item.url}">{$item.name}</a></dt>
+              {if condition="isset($item['children'])"}
+              <dd>
+                {volist name="item['children']" id="subItem"}
+                <a href="{$subItem.url}">{$subItem.name}</a>
+                {/volist}
+              </dd>
+              {/if}
+            </dl>
+              {/volist}
+        </div>
+      </div>
+    </section>
+    <!--平板导航结束 -->
+
+    

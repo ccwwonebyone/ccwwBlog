@@ -11,6 +11,7 @@ import Db from '@/view/Db'
 import Company from '@/view/Company'
 import ComponentEdit from '@/view/component/ComponentEdit'
 import PageEdit from '@/view/page/PageEdit'
+import Layout from '@/view/Layout'
 
 Vue.use(Router)
 
@@ -38,5 +39,6 @@ export default new Router({
         
         { path: '/page_edit', name: 'page_edit', component: PageEdit },
 
+        { path: '/layout', name: 'layout', component: Layout }
     ]
 })

@@ -1,0 +1,12 @@
+{
+    "logo":{
+        "name":"图标",
+        "type":"img",
+        "data":"/zotikos.png"
+    },
+    "url":{
+        "name":"图标链接",
+        "type":"url",
+        "data":"/index"
+    }
+}

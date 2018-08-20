@@ -74,7 +74,7 @@
     }
   }
 </script>
-<style type="text/css">
+<style scoped>
   body{
     background-color: #242c39;
   }

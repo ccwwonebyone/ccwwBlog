@@ -25,8 +25,8 @@ class PageController extends Controller
         $info = $this->pageService->info($name);
         if(!$info) return 'error';
         $info = $info->toArray();
-        $title = '';        //网站的标题
-        return $this->fetch($name,['title'=>$title,'data'=>$info['data']]);
+        $title = '测试';        //网站的标题
+        return $this->fetch($name,['title'=>$title,'data'=>json_decode($info['data'],true)]);
     }
     /**
      * 显示资源列表
@@ -75,7 +75,46 @@ class PageController extends Controller
      */
     public function read($id)
     {
-        echo 'read';
+        return $this->asJson($this->pageService->read($id));
+        /* zotikos:{
+                  logo:{
+                    name:"标题",
+                    type:"img",
+                    data:"/upload/3161545713.png"
+                  },
+                  url:{
+                    name:"链接",
+                    type:"text",
+                    data:"主页"
+                  }
+              },
+              test:{
+                  text:{
+                      name:"测试",
+                      type:"text",
+                      data:"完美"
+                  } */
+        // return $this->asJson([
+        //     'zotikos'=>[
+        //         'logo'=>[
+        //             'name'=>'标题',
+        //             'type'=>'img',
+        //             'data'=>'/upload/3161545713.png'
+        //         ],
+        //         'url'=>[
+        //             'name'=>"链接",
+        //             'type'=>"text",
+        //             'data'=>"主页"
+        //         ]
+        //     ],
+        //     'test'=>[
+        //         'text'=>[
+        //             'name'=>"测试",
+        //             'type'=>"text",
+        //             'data'=>"完美"
+        //         ]
+        //     ]
+        // ]);
     }
 
     /**

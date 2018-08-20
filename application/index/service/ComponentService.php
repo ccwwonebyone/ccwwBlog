@@ -22,6 +22,7 @@ class ComponentService{
         $data['css']     = 'component/'.$data['name'].'/index.css';
         $data['plugins'] = 'component/'.$data['name'].'/plugins.json';
         $data['html']    = 'component/'.$data['name'].'/index.html';
+        $data['data']    = 'component/'.$data['name'].'/index.json';
         unset($data['filename']);
         $info = Component::where('name',$data['name'])->find();
         if($info) return false;
@@ -67,18 +68,28 @@ class ComponentService{
     {
         $vuePath = ROOT_PATH . 'fornt/src/components/' . ucwords($component['name']) . '.vue';
         if(copy(ROOT_PATH. 'component/'. $component['name'] . '/index.vue', $vuePath))
-        {
+        {       
             $components = Component::column('plugins', 'name');
-            $names      = [];
-            $head = [];
-            $plugins = [];
-            foreach($components as $name=>$plugin)
+            $installPlugins = $plugins = $head = $names = [];
+            $jsStr = $cssStr = $head = '';
+            foreach($components as $name=>$pluginPath)
             {
                 $name = ucwords($name);
-                $head = 'import '. $name . ' from ' .$name . "\r\n";
+                $head .= 'import '. $name . ' from "./' .$name . '"'."\r\n";
+
+                $names[]    = $name;
+                $pluginInfo = json_decode(file_get_contents(ROOT_PATH.$pluginPath),true);
+                if(!$pluginInfo) continue;
+                foreach($pluginInfo as $k=>$plugin){
+                    if(in_array($k,$installPlugins)) continue;
+                    if(isset($plugin['js'])) $jsStr   .= "import '{$plugin['js']}'\r\n";
+                    if(isset($plugin['css'])) $cssStr .= "import '{$plugin['css']}'\r\n";
+                    $installPlugins[] = $k;
+                }
             }
             $componentStr = implode(',', $names);
-            $content      = "\r\n{$head}export export default {\r\n";
+            $content      = $head.$jsStr.$cssStr."\r\n";
+            $content     .= "export default {\r\n";
             $content     .= $componentStr."\r\n";
             $content     .= "}\r\n\r\n";
             file_put_contents(ROOT_PATH . 'fornt/src/components/index.js', $content);
@@ -87,4 +98,5 @@ class ComponentService{
             return false;
         }
     }
+
 }

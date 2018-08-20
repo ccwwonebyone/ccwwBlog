@@ -1,0 +1,37 @@
+/*导航*/nav{background-color: #004684;height: 48px;width: 100%;}
+.nav{display:inline-block;height:48px;}
+.nav li{float:left;height:48px;line-height:48px;position:relative;padding-top: 0;padding-bottom: 0;padding-right: 17px;padding-left: 17px;z-index: 69;}
+.nav li.sub a{color:#fff;text-align: center;}
+.nav li.sub:hover,.nav li.sub.cur{background:#002C52;}
+.nav li.sub:hover p>a{background-color: #0062b8;}
+.nav li .subNav{position:absolute;top:48px;z-index:69;line-height:normal;display:none;background-color: #0062b8;left: 0px;}
+.nav li .subNav p a{color:#000;display:block;text-align: left;padding-top: 7px;padding-right: 12px;padding-bottom: 7px;padding-left: 12px;list-style-type: disc;border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #00549e;}
+.nav li .subNav p a:hover{color:#fff;}
+.current{background:#002c52;}
+/*手机导航*/
+.meun{background-color: #ce2222;display: block;height: 30px;width: 40px;position: absolute;top: 0px;z-index: 99;border-radius: 6px;right: 5px;padding-top: 5px;padding-bottom: 5px;}
+.meun-nav{background: transparent;border: none;-webkit-transition: all .5s ease;-moz-transition: all .5s ease;-ms-transition: all .5s ease;-o-transition: all .5s ease;transition: all .5s ease;cursor: pointer;}
+.meun-nav span{background-color: #fff;display: block;height: 3px;width: 30px;margin-top: 5.25px;margin-right: auto;margin-left: auto;}
+.meunCont{background: #fff;display: none;padding-top: 0px;padding-right: 20px;padding-bottom: 0px;padding-left: 20px;position: absolute;z-index: 9999;width: 100%;top: 60px;}
+.meunCont dl{border-top: 1px solid #e5e5e5;padding-bottom: 5px;padding-top: 5px;}
+.meunCont dt{font-size: 15px;}
+.meunCont dt a{color: #333;}
+.meunCont dd{font-size: 14px;}
+.meunCont dd a{color: #999;margin-top: 8px;margin-right: 8px;display: inline-block;}
+.meunCont a:hover{color: #666;}
+
+@media screen and (min-width:1200px){body{font-size:14px;}
+.wrap{width: 1180px;}
+.meun,.meunBox{display:none;}
+}
+@media screen and (min-width:992px) and (max-width:1199px){body{font-size:14px;}
+.meun,.meunBox{display:none;}
+.nav{width:960px;}
+.nav li{padding-right: 7px;padding-left: 7px;}}
+@media screen and (min-width:768px) and (max-width:991px){body{font-size:13px;}
+nav{display:none;}
+.meun{top: 40px;}}
+@media screen and (min-width:320px) and (max-width:767px){body{font-size:13px;}
+nav{display:none;}
+.meun{top: 10px;}
+}
