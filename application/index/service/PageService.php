@@ -90,7 +90,7 @@ class PageService{
      */
     public function head($plugins)
     {
-        $cssStr  = '';
+        $cssStr  = '<link rel="stylesheet" href="/css/base.css">'."\r\n";
         $jsStr   = '';
         $installPlugins = [];
         foreach($plugins as $pluginPath){

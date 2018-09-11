@@ -31,6 +31,10 @@ Route::group('admin',function(){
         Route::resource('/','Component');       //组件资源路由
     });
 
+    Route::group('company',function(){
+        Route::resource('/','Company');       //网站配置
+    });
+
     Route::post('/file','Upload/upload');     //上传服务
 
     Route::group('page',function(){

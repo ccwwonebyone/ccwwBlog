@@ -130,7 +130,7 @@
         let params = this.params.slice(0,-1);
         this.$axios({
           method:'post',
-          url:'/api/send_request',
+          url:'/admin/api/send_request',
           data:{
             url:this.request.url,          //请求地址
             method:this.request.active,    //请求方法

@@ -6,6 +6,8 @@ use think\console\Input;
 use think\console\Output;
 use think\View;
 use app\index\service\PageService;
+use app\index\service\CategoryService;
+use app\index\service\ArticleService;
 
 class Test extends Command
 {
@@ -22,15 +24,33 @@ class Test extends Command
         // if($zip->open($file) !== true) exit($output->writeln("解压失败:"));
         // $zip->extractTo($destination);
         // $zip->close();
-        $page = new PageService();
-        $output->writeln('try start');
-        $page->createPage(1);
-        $output->writeln('write success');
+        // $page = new PageService();
+        // $output->writeln('try start');
+        // $page->createPage(1);
+        // $output->writeln('write success');
 
         /*$content = $this->viewTest();
         file_put_contents(APP_PATH.'/index/view/page/test.html',$content);
-        $output->writeln('write success');*/
-        
+        $output->writeln('write success');
+
+        [
+            'name' =>'php',
+            'route'=>'php',
+            'sort' =>2,
+        ],
+        [
+            'title'=>'测试',
+            'sub_title'=>'sub_测试',
+            'content'=>'sss',
+            'author'=>'ccwwonebyone',
+            'tag'=>'php,nginx',
+            'category_id'=>1,
+        ],
+        */
+        $service = new ArticleService();
+        $info = $service->read(1);
+        dump($info);
+        // $output->writeln($info);
     }
 
     public function viewTest()

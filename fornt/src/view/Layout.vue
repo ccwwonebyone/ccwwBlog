@@ -73,5 +73,5 @@ import components from '../components'
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    @import '../../../public/css/base.css';
 </style>
