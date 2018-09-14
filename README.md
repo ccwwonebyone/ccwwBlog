@@ -1,6 +1,6 @@
-manpro
+oneBlog
 ===
-manpro旨在自动生成数据库文档,API文档，并提供项目管理工具。
+oneBlog旨在自动生成数据库文档,API文档，并提供项目管理工具。
 
 > 系统相关
 +  php7
