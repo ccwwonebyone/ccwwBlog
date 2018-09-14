@@ -35,6 +35,10 @@ Route::group('admin',function(){
         Route::resource('/','Company');       //网站配置
     });
 
+    Route::group('article', function(){
+        Route::resource('/', 'Article');    //文章编辑
+    });
+
     Route::post('/file','Upload/upload');     //上传服务
 
     Route::group('page',function(){

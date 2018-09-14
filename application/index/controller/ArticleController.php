@@ -2,7 +2,6 @@
 
 namespace app\index\controller;
 
-use think\Controller;
 use think\Request;
 use app\index\service\ArticleService;
 
@@ -12,7 +11,7 @@ class ArticleController extends Controller
     //验证规则
     protected $rules = [
         'title|标题'       =>'require',
-        'categroy_id|分类' => 'require',
+        // 'categroy_id|分类' => 'require',
         'content|内容'     => 'require',
     ];
 
@@ -52,7 +51,7 @@ class ArticleController extends Controller
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'参数错误',5001);
-        if($this->articleService->save($data))
+        if($this->articleService->store($data))
         {
             return $this->asJson();
         }else{

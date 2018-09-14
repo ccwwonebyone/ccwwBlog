@@ -114,6 +114,16 @@ const webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: 'node_modules/mavon-editor/dist/highlightjs',
+        to: config.dev.assetsSubDirectory + '/highlightjs' // 插件将会把文件导出于/dist/highlightjs之下
+      }, {
+        from: 'node_modules/mavon-editor/dist/markdown',
+        to: config.dev.assetsSubDirectory + '/markdown' // 插件将会把文件导出于/dist/markdown之下
+      }, {
+        from: 'node_modules/mavon-editor/dist/katex', // 插件将会把文件导出
+        to: config.dev.assetsSubDirectory + '/katex'
       }
     ])
   ]

@@ -1,13 +1,13 @@
 <?php
 namespace app\index\service;
 
-use app\index\model\Comapny;
+use app\index\model\Company;
 
 class CompanyService{
 
     public function update($data, $id)
     {
-        return Comapny::where('id', $id)->update($data);
+        return Company::where('id', $id)->update($data);
     }
 
     public function store($data)

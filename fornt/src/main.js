@@ -5,18 +5,18 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui'
-// import common from './methods/common';
 import 'element-ui/lib/theme-chalk/index.css'
-// import $ from 'jquery'
-// import 'bootstrap/dist/js/bootstrap.min.js'
-// import 'bootstrap/dist/css/bootstrap.min.css'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/googlecode.css' // 样式文件
+//markdown编辑器
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.use(ElementUI)
-// Vue.use(common);
+Vue.use(mavonEditor)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

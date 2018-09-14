@@ -4,11 +4,10 @@ namespace app\index\controller;
 
 use think\Request;
 use think\Controller as BaseController;
-use Manpro;
+use Manpro\Manpro;
 
 class Controller extends BaseController
 {
-    use Manpro;
 
     public function __construct()
     {
