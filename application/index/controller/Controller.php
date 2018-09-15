@@ -4,7 +4,6 @@ namespace app\index\controller;
 
 use think\Request;
 use think\Controller as BaseController;
-use Manpro\Manpro;
 
 class Controller extends BaseController
 {

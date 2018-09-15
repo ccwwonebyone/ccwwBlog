@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ccwwBlog</title>
+  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/katex/katex.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/markdown/github-markdown.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/highlightjs/styles/solarized-dark.min.css">
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    body{
+      background-color: #f0eef5;
+      padding-top: 70px;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark fixed-top">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+    <img src="/imgs/brand.png" width="150" height="50" alt="oneBlog">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+      </li>
+      {foreach $category as $cate}
+        {if condition="$cate['has_sub']"}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown{$cate['id']}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {$cate['name']}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown{$cate['id']}">
+            {foreach $cate['has_sub'] as $sub_cate}
+            <a class="dropdown-item" href="#">{$sub_cate['name']}</a>
+            {/foreach}
+          </div>
+      </li>
+        {else /}
+          {if condition="$cate['show']"}
+          <li class="nav-item">
+            <a class="nav-link" href="#">{$cate['name']} <span class="sr-only">(current)</span></a>
+          </li>
+          {/if}
+        {/if}
+      {/foreach}
+    </ul>
+    <span class="navbar-text text-right">
+        ccwwBlog轻巧型博客系统
+      </span>
+  </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+      <div class="card">
+        <div class="card-header">
+          <h1>{$article['title']}</h1>
+        </div>
+        <div class="card-body  {$article['markdown']? 'markdown-body' : ''}">
+          {$article['content']}
+        </div>
+        <div class="card-footer text-right">
+          本文由{$article['author']}发表于{$article['create_time']}
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          分类
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div>
+
+      <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          标签
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div>
+
+      <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          评论最多
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div>
+
+      <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          最新文章
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="container text-center" style="margin-bottom: 30px;">copyright©️<a href="/">ccwwBlog</a></div>
+</body>
+</html>

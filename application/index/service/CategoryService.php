@@ -2,6 +2,7 @@
 namespace app\index\service;
 
 use app\index\model\Category;
+use Manpro\Manpro;
 
 class CategoryService{
 
@@ -23,8 +24,18 @@ class CategoryService{
 
     public function show()
     {
-        $data = Category::order('pid')->order('sort')->select()->toArray();
-        return array_combine(array_column($data,'id'), $data);
+        $manpro = new Manpro();
+        $data   = Category::order('pid')->order('sort')->select()->toArray();
+        $data   = $manpro->indexArrKey($data, 'id');
+        foreach ($data as $k => &$info) {
+            $info['has_sub'] = false;
+            $info['show']    = true;
+            if(isset($data[$info['pid']])){
+                $data[$info['pid']]['has_sub'][] = $info;
+                $info['show'] = false;
+            }
+        }
+        return $data;
     }
 
     public function delete($id)

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 use think\Route;
 
-Route::get('/','Index/index');          //vue页面入口
+Route::get('','index/home');          //vue页面入口
 
 Route::group('admin',function(){
     Route::group('api',function(){
