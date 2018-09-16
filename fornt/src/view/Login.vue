@@ -8,8 +8,7 @@
       <el-input v-model="form.password" type="password" placeholder="密码"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="text">忘记密码？</el-button>
-      <el-button type="primary" style="margin-left: 214px;" v-on:click="login">登录</el-button>
+      <el-button type="primary" style="margin-left: 280px;" v-on:click="login()">登录</el-button>
     </el-form-item>
   </el-form>
 </div>
@@ -34,14 +33,13 @@
         var el              = document.getElementById(elId);
         var el_height       = el.clientHeight;
         var el_width        = el.clientWidth;
-        console.log(screen_height,screen_width,el_height,el_width);
         el.style.marginTop  = (screen_height - el_height)/2 + 'px';
         el.style.marginLeft = (screen_width - el_width)/2 + 'px';
       },
       login:function(){
         this.$axios({
           method:'post',
-          url:'user/login',
+          url:'/admin/user/login',
           data:this.form
         })
         .then(response => {
@@ -54,7 +52,7 @@
             message: response.data.message,
             type: type
           });
-          if(response.data.code == '200') window.location.href = '#/';
+          if(response.data.code == '200') this.$router.push('/company');
         });
       }
     },

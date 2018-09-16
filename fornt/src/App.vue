@@ -1,19 +1,28 @@
 <template>
   <div id="app">
-    <el-scrollbar class="content-left" style="height:100%;">
-      <div class="content-title">
-        Manpro
-      </div>
-      <nav-menu></nav-menu>
-    </el-scrollbar>
-    <el-scrollbar  style="height:100%;padding-left:300px;">
+    <template v-if="this.$route.name == 'login'">
       <router-view/>
-    </el-scrollbar>
+    </template>
+    <template v-else>
+      <div class="content-title">
+        <img src="/imgs/brand.png" width="200" height="70" alt="oneBlog">
+      </div>
+      <div style="height:100%;">
+        <el-scrollbar class="content-left" style="height:100%;">
+        <nav-menu></nav-menu>
+        </el-scrollbar>
+        <el-scrollbar  style="height:100%;padding-left:300px;">
+          <router-view/>
+        </el-scrollbar>
+      </div>
+
+    </template>
   </div>
 </template>
 
 <script>
 import NavMenu from '@/components/NavMenu'
+
 export default {
   name: 'App',
   components: {
@@ -39,17 +48,16 @@ body,html{
 .content-left{
   width: 300px;
   position: fixed;
-  top: 0;
-  bottom: 0;
   background-color: #545c64;
   z-index: 1500;
 }
 .content-title{
-  height: 60px;
-  font-size: 50px;
+  color: #fff;
+  height: 70px;
+  font-size: 60px;
   line-height: 60px;
-  padding-left: 10px;
-  background-color: aliceblue;
+  padding-left: 30px;
+  background-color: #343a40;
 }
 .el-scrollbar__wrap {
   overflow-x: hidden;

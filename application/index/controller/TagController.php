@@ -3,9 +3,9 @@
 namespace app\index\controller;
 
 use think\Request;
-use app\index\service\CategoryService;
+use app\index\service\TagService;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
 
     //验证规则
@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function _initialize()
     {
-        $this->categoryService = new CategoryService();
+        $this->tagService = new TagService();
     }
 
     /**
@@ -26,7 +26,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $type = $request->param('type','');
-        return $this->asJson($this->categoryService->show($type));
+        return $this->asJson($this->tagService->show($type));
     }
 
     /**
@@ -50,7 +50,7 @@ class CategoryController extends Controller
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
-        if($this->categoryService->store($data))
+        if($this->tagService->store($data))
         {
             return $this->asJson();
         }else{
@@ -92,7 +92,7 @@ class CategoryController extends Controller
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
-        if($this->categoryService->update($data, $id))
+        if($this->tagService->update($data, $id))
         {
             return $this->asJson();
         }else{
@@ -108,7 +108,7 @@ class CategoryController extends Controller
      */
     public function delete($id)
     {
-        if($this->categoryService->delete($id))
+        if($this->tagService->delete($id))
         {
             return $this->asJson();
         }else{

@@ -13,7 +13,7 @@
     <el-form-item>
       <el-button type="primary" v-on:click="register" style="width: 100%;text-align: center;">注册</el-button>
       <div style="width: 100%;text-align: center;">or</div>
-      <a style="width: 100%;text-align: center;" href="#/login">已有帐号？登录</a>
+      <router-link to="/login" style="width: 100%;text-align: center;">已有帐号？登录</router-link>
     </el-form-item>
   </el-form>
 </div>
@@ -39,14 +39,13 @@
         var el              = document.getElementById(elId);
         var el_height       = el.clientHeight;
         var el_width        = el.clientWidth;
-        console.log(screen_height,screen_width,el_height,el_width);
         el.style.marginTop  = (screen_height - el_height)/2 + 'px';
         el.style.marginLeft = (screen_width - el_width)/2 + 'px';
       },
       register:function(){
         this.$axios({
           method:'post',
-          url:'user',
+          url:'/admin/user',
           data:this.form
         })
         .then(response => {
@@ -62,7 +61,7 @@
         });
       },
       toLogin:function(){
-        window.location.herf='#/login';
+        this.$router.push('/login');
       }
     },
     mounted:function(){       //挂载完成时

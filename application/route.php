@@ -44,6 +44,14 @@ Route::group('admin',function(){
     Route::group('page',function(){
         Route::resource('/','Page');       //页面资源路由
     });
+
+    Route::group('category',function(){
+        Route::resource('/','Category');       //分类资源路由
+    });
+
+    Route::group('tag',function(){
+        Route::resource('/','Tag');       //标签资源路由
+    });
 });
 
 Route::get('front/:name', 'Page/page');

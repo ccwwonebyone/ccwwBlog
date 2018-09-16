@@ -49,7 +49,7 @@ class UserController extends Controller
         ]);
         if($validate !== true) return $this->asJson([],$validate,422);
         unset($userInfo['password_confirm']);
-        $res = $this->userService->save($userInfo);
+        $res = $this->userService->store($userInfo);
         if($res){
             return $this->asJson([],'注册成功',200);
         }else{

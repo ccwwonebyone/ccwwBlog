@@ -15,12 +15,13 @@ class UserService{
         return $limit ? $query->paginate($limit)->toArray() : $query->select();
     }
 
-    public function save($data = [])
+    public function store($data = [])
     {
         if(User::where('username',$data['username'])->count() > 0) return false;
         if($data['password']) $data['password'] = password_hash($data['password'],PASSWORD_BCRYPT);
-        $data['create_time'] = $data['last_login_time'] = date('Y-m-d H:i:s');
-        return User::insertGetId($data);
+        $data['last_login_time'] = date('Y-m-d H:i:s');
+        $user =  User::create($data);
+        return $user->id;
     }
 
     public function update($id,$data = [])
@@ -39,9 +40,7 @@ class UserService{
         if($info){
             if(password_verify($data['password'],$info['password'])){
                 $this->update($info['id'],['last_login_time'=>date('Y-m-d H:i:s')]);
-                foreach ($info as $k => $v) {
-                    session($k,$v);     //保存用户信息到session
-                }
+                session('user',json_encode($info));    //保存用户信息到session
                 return $info;
             }
         }

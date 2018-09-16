@@ -4,6 +4,7 @@ namespace app\index\controller;
 
 use think\Request;
 use think\Controller as BaseController;
+use app\index\service\UserService;
 
 class Controller extends BaseController
 {
@@ -33,5 +34,14 @@ class Controller extends BaseController
             'code'    =>$code,
             'data'    =>$data
         ]);
+    }
+    /**
+     * 获取登录用户信息
+     * @return array
+     */
+    public function userInfo()
+    {
+        $info = new UserService();
+        return json_decode(session('user'),true);
     }
 }

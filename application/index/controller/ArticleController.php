@@ -27,7 +27,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        return $this->asJson($this->articleService->show());
     }
 
     /**
@@ -67,7 +67,7 @@ class ArticleController extends Controller
      */
     public function read($id)
     {
-        //
+        return $this->asJson($this->articleService->read($id));
     }
 
     /**

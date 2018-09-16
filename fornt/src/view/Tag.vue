@@ -1,11 +1,11 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <span>文章</span>
+      <span>标签</span>
     </div>
-    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="add()"">新增文章</el-button>
+    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="add()"">新增标签</el-button>
     <el-table
-      :data="articles"
+      :data="category"
       border
       style="width: 100%">
       <el-table-column
@@ -14,28 +14,8 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="title"
-        label="标题">
-      </el-table-column>
-      <el-table-column
-        prop="category"
+        prop="name"
         label="分类">
-      </el-table-column>
-      <el-table-column
-        prop="tags"
-        label="标签">
-      </el-table-column>
-      <el-table-column
-        prop="author"
-        label="作者">
-      </el-table-column>
-      <el-table-column
-        prop="create_time"
-        label="创建时间">
-      </el-table-column>
-      <el-table-column
-        prop="update_time"
-        label="修改时间">
       </el-table-column>
       <el-table-column
         label="操作">
@@ -45,13 +25,27 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog
+      title="分类"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="名称">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="makeSure()">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-card>
 </template>
 <script>
   export default {
     data() {
       return {
-        articles:[],
+        category:[],
         dialogVisible: false,
         form:{
           id:'',
@@ -64,14 +58,19 @@
       info(){
         this.$axios({
           method:'get',
-          url:'/admin/article'
+          url:'/admin/tag',
+          params:{
+            type:'admin'
+          }
         })
         .then(response => {
-          this.articles = response.data.data.data;
+          this.category = response.data.data;
         })
       },
       edit(info){
-        this.$router.push('/article/' + info.id + '/edit');
+        this.dialogVisible = true;
+        this.form = info;
+        this.method = 'put';
       },
       add(){
         this.dialogVisible = true;

@@ -8,7 +8,11 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+$_SERVER['PATH_INFO'] = explode('?', $_SERVER['REQUEST_URI'])[0];
+// echo '<pre>';
+// print_r($_SERVER);
+// echo '</pre>';
+// exit;
 // [ 应用入口文件 ]
 ini_set('opcache.revalidate_freq',0);
 // 定义应用目录

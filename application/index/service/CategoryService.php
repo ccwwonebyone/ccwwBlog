@@ -22,24 +22,41 @@ class CategoryService{
         return Category::get($id)->toArray();
     }
 
-    public function show()
+    public function show($type = '')
     {
         $manpro = new Manpro();
         $data   = Category::order('pid')->order('sort')->select()->toArray();
         $data   = $manpro->indexArrKey($data, 'id');
+        $sort   = [];
         foreach ($data as $k => &$info) {
             $info['has_sub'] = false;
-            $info['show']    = true;
             if(isset($data[$info['pid']])){
+                $info['pname'] = $data[$info['pid']]['name'];    //父分类
                 $data[$info['pid']]['has_sub'][] = $info;
-                $info['show'] = false;
+                unset($data[$k]);
             }
+        }
+        if($type == 'admin'){
+            $res = [];
+            foreach ($data as $val) {
+                $temp = $val;
+                unset($temp['has_sub']);
+                $res[] = $temp;
+                if($val['has_sub']){
+                    foreach ($val['has_sub'] as $v) {
+                        unset($v['has_sub']);
+                        $res[] = $v;
+                    }
+                }
+
+            }
+            $data = $res;
         }
         return $data;
     }
 
     public function delete($id)
     {
-        return Category::delete($id);
+        return Category::destroy($id);
     }
 }
