@@ -1,24 +1,23 @@
 <template>
-<el-form ref="form" :model="form" label-width="80px">
-  <el-form-item label="公司名称">
-    <el-input v-model="form.name"></el-input>
-  </el-form-item>
-  <el-form-item label="图标">
-    <el-upload
-    class="avatar-uploader"
-    action="https://jsonplaceholder.typicode.com/posts/"
-    :show-file-list="false"
-    :on-success="handleAvatarSuccess"
-    :before-upload="beforeAvatarUpload">
-    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="onSubmit">立即创建</el-button>
-    <el-button>取消</el-button>
-  </el-form-item>
-</el-form>
+  <el-card class="box-card">
+    <div slot="header" class="clearfix">
+      <span>公司</span>
+    </div>
+    <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="网站名称" style="width: 240px;">
+        <el-input v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item label="网站图片" style="width: 240px;">
+
+        <el-upload
+          class="upload-company"
+          action="/admin/file"
+          list-type="picture">
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
+      </el-form-item>
+    </el-form>
+  </el-card>
 </template>
 <script>
   export default {

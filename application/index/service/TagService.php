@@ -12,8 +12,12 @@ class TagService{
 
     public function store($data)
     {
-        $tag = Tag::create($data);
-        return $tag->id;
+        if(Tag::where('name', $data['name'])->find()){
+            return false;
+        }else{
+            $tag = Tag::create($data);
+            return $tag->id;
+        }
     }
 
     public function read($id)

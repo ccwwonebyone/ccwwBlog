@@ -1,5 +1,5 @@
 import Vue from "vue";
 
-Vue.prototype.testMethod = function(){
-    
+Vue.prototype.remove = function(){
+
 }

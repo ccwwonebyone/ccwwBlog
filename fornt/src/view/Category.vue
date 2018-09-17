@@ -141,13 +141,9 @@
         this.method = 'post';
       },
       remove(info){
-        this.$axios({
-            method:'delete',
-            url:'/admin/category/'+info.id
-          })
-          .then(response => {
-            this.categoryInfo();
-          })
+        this.$remove('/admin/category/'+info.id, response => {
+          this.categoryInfo();
+        });
       },
       makeSure(){
         if(this.method == 'post'){

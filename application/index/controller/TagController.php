@@ -50,9 +50,9 @@ class TagController extends Controller
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'非法请求',422);
-        if($this->tagService->store($data))
+        if($id = $this->tagService->store($data))
         {
-            return $this->asJson();
+            return $this->asJson($id);
         }else{
             return $this->asJson([],'新增失败',422);
         }

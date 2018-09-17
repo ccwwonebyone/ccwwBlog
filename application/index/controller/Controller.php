@@ -41,7 +41,6 @@ class Controller extends BaseController
      */
     public function userInfo()
     {
-        $info = new UserService();
         return json_decode(session('user'),true);
     }
 }

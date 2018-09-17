@@ -52,6 +52,8 @@ export default new Router({
 
         { path: '/tag', name: 'tag', component: Tag },
 
-        { path: '/article/:id/edit', name:"article_edit", component: ArticleForm, props: true}
+        { path: '/article/:id/edit', name:"article_edit", component: ArticleForm, props: true},
+
+        { path: '/article/create', name:"article_create", component: ArticleForm }
     ]
 })

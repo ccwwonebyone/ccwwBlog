@@ -22,7 +22,7 @@
         label="分类">
       </el-table-column>
       <el-table-column
-        prop="tags"
+        prop="tag_name"
         label="标签">
       </el-table-column>
       <el-table-column
@@ -45,6 +45,12 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination style="margin: 20px 0;float: right;"
+      @current-change="handleCurrentChange"
+      :page-size="limit"
+      layout="total, prev, pager, next"
+      :total="total">
+    </el-pagination>
   </el-card>
 </template>
 <script>
@@ -57,37 +63,39 @@
           id:'',
           name:'',
         },
-        method:'post'
+        method:'post',
+        total:0,
+        limit:10,
       }
     },
     methods: {
-      info(){
+      info(page = 1){
         this.$axios({
           method:'get',
-          url:'/admin/article'
+          url:'/admin/article',
+          params:{
+            limit:this.limit,
+            page:page
+          }
         })
         .then(response => {
           this.articles = response.data.data.data;
+          this.total    = response.data.data.total;
         })
       },
       edit(info){
         this.$router.push('/article/' + info.id + '/edit');
       },
       add(){
-        this.dialogVisible = true;
-        this.form = {
-          name:'',
-        }
-        this.method = 'post';
+        this.$router.push('/article/create');
       },
       remove(info){
-        this.$axios({
-            method:'delete',
-            url:'/admin/tag/'+info.id
-          })
-          .then(response => {
-            this.info();
-          })
+        this.$remove('/admin/article/'+info.id, response => {
+          this.info();
+        });
+      },
+      handleCurrentChange(val){
+        this.info(val)
       },
       makeSure(){
         if(this.method == 'post'){

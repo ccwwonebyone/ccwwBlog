@@ -14,6 +14,7 @@ class ArticleService{
 
     public function store($data)
     {
+        $data['author'] = json_decode(session('user'),true)['username'];
         $article = Article::create($data);
         return $article->id;
     }
@@ -30,7 +31,8 @@ class ArticleService{
         extract($search);
         $where = [];
         if(isset($title)) $where[] = ['title', 'like', '%'.$search['title'].'%'];
-        $data = Article::where($where)->paginate($limit)->toArray();
+        $data = Article::where($where)->field('id,title,tag,category_id,author,create_time,update_time')
+                        ->paginate($limit)->toArray();
         foreach ($data['data'] as &$article) {
             $article = array_merge($article, $this->detail($article));
         }
@@ -43,7 +45,13 @@ class ArticleService{
         $category = Category::where('id', $article['category_id'])->field('name,pid')->find()->toArray();
         if($category['pid']) $pname = Category::where('id', $category['pid'])->value('name').' > ';
         $category = $pname.$category['name'];
-        $tags     = implode(',', Tag::whereIn('id', $article['tag'])->column('name'));
-        return compact('category', 'tags');
+        $tags     = Tag::whereIn('id', $article['tag'])->field('id,name')->select()->toArray();
+        $tag_name = implode(',', array_column($tags, 'name'));
+        return compact('category', 'tags', 'tag_name');
+    }
+
+    public function delete($id)
+    {
+        return Article::destroy($id);
     }
 }

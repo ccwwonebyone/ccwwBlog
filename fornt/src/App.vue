@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <template v-if="this.$route.name == 'login'">
+    <template v-if="this.$route.name.toLowerCase() == 'login'">
       <router-view/>
     </template>
     <template v-else>
@@ -10,6 +10,7 @@
       <div style="height:100%;">
         <el-scrollbar class="content-left" style="height:100%;">
         <nav-menu></nav-menu>
+        <div class="copy">copyright©️<el-button type="text">ccwwBlog</el-button></div>
         </el-scrollbar>
         <el-scrollbar  style="height:100%;padding-left:300px;">
           <router-view/>
@@ -50,6 +51,12 @@ body,html{
   position: fixed;
   background-color: #545c64;
   z-index: 1500;
+}
+.copy{
+  color: #fff;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
 }
 .content-title{
   color: #fff;

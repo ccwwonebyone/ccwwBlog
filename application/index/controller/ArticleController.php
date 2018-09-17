@@ -25,9 +25,9 @@ class ArticleController extends Controller
      *
      * @return \think\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->asJson($this->articleService->show());
+        return $this->asJson($this->articleService->show([],$request->param('limit', 10)));
     }
 
     /**
