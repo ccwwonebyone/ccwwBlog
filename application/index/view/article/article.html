@@ -1,0 +1,21 @@
+{extend name="layout" /}
+{block name="content"}
+
+<div class="card">
+  {if condition="!empty($article)"}
+  <div class="card-header">
+    <h1>{$article['title']}</h1>
+  </div>
+  <div class="card-body  {$article['markdown']? 'markdown-body' : ''}">
+    {$article['content']}
+  </div>
+  <div class="card-footer text-right">
+    本文由{$article['author']}发表于{$article['create_time']}
+  </div>
+  {else /}
+  <div class="card-header">
+    <h1>oh~出错了呢！</h1>
+  </div>
+  {/if}
+</div>
+{/block}

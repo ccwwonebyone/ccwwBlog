@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui'
+
 import 'element-ui/lib/theme-chalk/index.css'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/googlecode.css' // 样式文件
@@ -16,9 +17,6 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
-
-var CancelToken = Vue.prototype.$axios.CancelToken;
-var source = CancelToken.source();
 
 Vue.prototype.$axios.interceptors.response.use(
     response => {
@@ -73,14 +71,30 @@ Vue.prototype.$remove = function(url,callback){
     });
 }
 
-
-
 /* eslint-disable no-new */
 new Vue({
+  //全局变量
+  data:{
+    web_company:{
+        name:'',
+        brand:'',
+        copyright:'',
+        power:''
+    }
+  },
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  //观察者
+  watch:{
+    web_company:{
+        handler(newInfo, oldInfo){
+            document.title = newInfo.name;
+        },
+        deep:true
+    }
+  }
 })
 
 Vue.directive('highlight', function (el) {

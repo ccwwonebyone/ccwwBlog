@@ -1,8 +1,10 @@
 <?php
 namespace app\index\controller;
 
+use think\Request;
 use app\index\service\ArticleService;
 use app\index\service\CategoryService;
+use app\index\service\CompanyService;
 
 class IndexController extends Controller
 {
@@ -10,6 +12,12 @@ class IndexController extends Controller
     {
         $this->articleService = new ArticleService();
         $this->categoryService = new CategoryService();
+        $this->companyService = new CompanyService();
+        $this->company  = $this->companyService->info();
+        $this->category = $this->categoryService->show();
+        $this->assign('company', $this->company);
+        $this->assign('category', $this->category);
+
     }
 
 	//vue编译后的页面的入口
@@ -18,12 +26,46 @@ class IndexController extends Controller
         return $this->fetch();
     }
 
-    public function home()
+    public function article($id)
     {
-        $category = $this->categoryService->show();
-        $article  = $this->articleService->read(8);
+        $article  = $this->articleService->read($id);
         $this->assign('article', $article);
-        $this->assign('category', $category);
+        return $this->fetch('article/article');
+    }
+
+    public function home(Request $request)
+    {
+
+        $limit    = $request->param('limit',10);
+        $current  = $request->param('page', 1);
+        $articles = $this->articleService->show([], $limit);
+        $page     = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
+        $this->assign('page', $page);
+        $this->assign('articles', $articles);
         return $this->fetch();
+    }
+
+    public function category(Request $request, $id)
+    {
+        $limit    = $request->param('limit',10);
+        $current  = $request->param('page', 1);
+        $articles = $this->articleService->show(['category_id'=>$id], $limit);
+        $page     = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
+        $this->assign('page', $page);
+        $this->assign('articles', $articles);
+        $this->assign('category_id', $id);
+        return $this->fetch('home');
+    }
+
+    public function tag(Request $request, $id)
+    {
+
+        $limit    = $request->param('limit',10);
+        $current  = $request->param('page', 1);
+        $articles = $this->articleService->show(['tag'=>$id], $limit);
+        $page     = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
+        $this->assign('page', $page);
+        $this->assign('articles', $articles);
+        return $this->fetch('home');
     }
 }

@@ -21,8 +21,13 @@ class ArticleService{
 
     public function read($id)
     {
-        $info = Article::get($id)->toArray();
-        $info = array_merge($info, $this->detail($info));
+        $info = Article::get($id);
+        if($info){
+            $info = $info->toArray();
+            $info = array_merge($info, $this->detail($info));
+        }else{
+            $info = [];
+        }
         return $info;
     }
 
@@ -31,8 +36,8 @@ class ArticleService{
         extract($search);
         $where = [];
         if(isset($title)) $where[] = ['title', 'like', '%'.$search['title'].'%'];
-        $data = Article::where($where)->field('id,title,tag,category_id,author,create_time,update_time')
-                        ->paginate($limit)->toArray();
+        if(isset($category_id)) $where['category_id'] =  $category_id;
+        $data = Article::where($where)->paginate($limit)->toArray();
         foreach ($data['data'] as &$article) {
             $article = array_merge($article, $this->detail($article));
         }

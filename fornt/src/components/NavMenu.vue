@@ -29,7 +29,7 @@
   export default {
     data(){
       return{
-        activeIndex:'0'
+        activeIndex:'1'
       }
     },
     methods: {

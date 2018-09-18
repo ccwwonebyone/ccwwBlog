@@ -18,6 +18,11 @@ class CompanyService{
 
     public function read($id)
     {
-        return Company::find();
+        return Company::get($id)->toArray();
+    }
+
+    public function info()
+    {
+        return Company::find()->toArray();
     }
 }

@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 //解决linux无path_info问题
-if(!$_SERVER['PATH_INFO']) $_SERVER['PATH_INFO'] = explode('?', $_SERVER['REQUEST_URI'])[0];
+if(!isset($_SERVER['PATH_INFO']) || !$_SERVER['PATH_INFO']) $_SERVER['PATH_INFO'] = explode('?', $_SERVER['REQUEST_URI'])[0];
 // [ 应用入口文件 ]
 ini_set('opcache.revalidate_freq',0);
 // 定义应用目录

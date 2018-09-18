@@ -10,7 +10,10 @@
 // +----------------------------------------------------------------------
 use think\Route;
 
-Route::get('','index/home');          //vue页面入口
+Route::get('','index/home');          //web页面入口
+Route::get('article/:id', 'Index/article');
+Route::get('category/:id', 'Index/category');
+Route::get('tag/:id', 'Index/tag');
 
 Route::group('admin',function(){
     Route::group('api',function(){
@@ -54,7 +57,6 @@ Route::group('admin',function(){
     });
 });
 
-Route::get('front/:name', 'Page/page');
 /*return [
     '__pattern__' => [
         'name' => '\w+',

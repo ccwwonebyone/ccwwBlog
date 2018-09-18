@@ -12,7 +12,7 @@
       <template v-for="category in categorys" >
         <el-option v-if="category.pid != 0" v-bind:label="category.name"
                   v-bind:value="category.id" style="padding-left: 50px"></el-option>
-        <el-option v-else v-bind:label="category.name" v-bind:value="category.id"></el-option>
+        <el-option v-else v-bind:label="category.name" v-bind:value="category.id" :disabled="!category.select"></el-option>
       </template>
     </el-select>
   </el-form-item>

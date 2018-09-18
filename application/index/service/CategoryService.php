@@ -30,6 +30,7 @@ class CategoryService{
         $sort   = [];
         foreach ($data as $k => &$info) {
             $info['has_sub'] = false;
+            $info['select']  = true;
             if(isset($data[$info['pid']])){
                 $info['pname'] = $data[$info['pid']]['name'];    //父分类
                 $data[$info['pid']]['has_sub'][] = $info;
@@ -40,6 +41,7 @@ class CategoryService{
             $res = [];
             foreach ($data as $val) {
                 $temp = $val;
+                if($temp['has_sub']) $temp['select'] = false;
                 unset($temp['has_sub']);
                 $res[] = $temp;
                 if($val['has_sub']){
@@ -48,7 +50,6 @@ class CategoryService{
                         $res[] = $v;
                     }
                 }
-
             }
             $data = $res;
         }

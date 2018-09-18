@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{@$company['name']}</title>
-  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/js/bootstrap.min.css">
+  <title>{$company['name']}</title>
+  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/katex/katex.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/markdown/github-markdown.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/highlightjs/styles/solarized-dark.min.css">
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    body{
+      background-color: #f0eef5;
+      padding-top: 70px;
+    }
+  </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">oneBlog</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark fixed-top">
+  <div class="container">
+      <a class="navbar-brand" href="#">
+    <img src="{$company['brand']}" width="150" height="50" alt="{$company['name']}">
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -16,33 +28,79 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
+      {foreach $category as $cate}
+        {if condition="$cate['has_sub']"}
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="/category/{$cate['id']}" id="dropdown{$cate['id']}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {$cate['name']}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdown{$cate['id']}">
+              {foreach $cate['has_sub'] as $sub_cate}
+              <a class="dropdown-item"
+              href="/category/{$sub_cate['id']}">{$sub_cate['name']}</a>
+              {/foreach}
+            </div>
+          </li>
+        {else /}
+          <li class="nav-item active">
+            <a class="nav-link" href="/category/{$cate['id']}">{$cate['name']} <span class="sr-only">(current)</span></a>
+          </li>
+        {/if}
+      {/foreach}
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <span class="navbar-text text-right">
+        {$company['introduce']}
+      </span>
+  </div>
   </div>
 </nav>
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+      {block name="content"}主体{/block}
+    </div>
+    <div class="col">
+      <!-- <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          分类
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div>
+
+      <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          标签
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div>
+
+      <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          评论最多
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div>
+
+      <div class="list-group" style="margin-top: 30px;">
+        <button type="button" class="list-group-item list-group-item-action bg-dark text-white">
+          最新文章
+        </button>
+        {foreach $category as $cate}
+          <li class="list-group-item list-group-item-action">{$cate['name']}</li>
+        {/foreach}
+      </div> -->
+
+    </div>
+  </div>
+</div>
+<div class="container text-center" style="margin-bottom: 30px;">copyright©️<a href="/">{$company['copyright']}</a></div>
 </body>
 </html>

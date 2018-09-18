@@ -11,6 +11,6 @@ class UploadController extends Controller
         $file = $request->file('file');
         if(!is_dir('./upload')) mkdir('./upload');
         $info = $file->move('upload/','');
-        return $info ? $this->asJson('public/upload/'.$info->getSaveName()) : $this->asJson('','上传文件失败',422);
+        return $info ? $this->asJson('/upload/'.$info->getSaveName()) : $this->asJson('','上传文件失败',422);
     }
 }

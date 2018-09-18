@@ -25,7 +25,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        return $this->asJson($this->companyService->info());
     }
 
     /**
@@ -91,7 +91,7 @@ class CompanyController extends Controller
         $data     = $request->all();
         $validate = $this->validate($data,$this->rules);
         if($validate !== true) return $this->asJson($validate,'参数错误',5001);
-        if($this->companyService->update($data))
+        if($this->companyService->update($data, $id))
         {
             return $this->asJson();
         }else{

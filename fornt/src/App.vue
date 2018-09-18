@@ -5,12 +5,12 @@
     </template>
     <template v-else>
       <div class="content-title">
-        <img src="/imgs/brand.png" width="200" height="70" alt="oneBlog">
+        <img v-bind:src="this.$root.$data.web_company.brand" width="200" height="70" v-bind:alt="this.$root.$data.web_company.name">
       </div>
       <div style="height:100%;">
         <el-scrollbar class="content-left" style="height:100%;">
         <nav-menu></nav-menu>
-        <div class="copy">copyright©️<el-button type="text">ccwwBlog</el-button></div>
+        <div class="copy">copyright©️<el-button type="text">{{this.$root.$data.web_company.copyright}}</el-button></div>
         </el-scrollbar>
         <el-scrollbar  style="height:100%;padding-left:300px;">
           <router-view/>
@@ -28,6 +28,15 @@ export default {
   name: 'App',
   components: {
       NavMenu
+  },
+  beforeCreate(){
+    this.$axios({
+      method:'get',
+      url:'/admin/company'
+    })
+    .then( response => {
+      this.$root.$data.web_company = response.data.data
+    })
   }
 }
 </script>

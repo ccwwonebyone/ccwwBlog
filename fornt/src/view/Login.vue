@@ -1,16 +1,18 @@
 <template>
-<div id="login-form">
-  <el-form ref="form" :model="form">
-    <el-form-item>
-      <el-input v-model="form.username" placeholder="用户名"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-input v-model="form.password" type="password" placeholder="密码"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" style="margin-left: 280px;" v-on:click="login()">登录</el-button>
-    </el-form-item>
-  </el-form>
+<div id="login_body">
+  <div id="login-form">
+    <el-form ref="form" :model="form">
+      <el-form-item>
+        <el-input v-model="form.username" placeholder="用户名"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-input v-model="form.password" type="password" placeholder="密码"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" style="margin-left: 280px;" v-on:click="login()">登录</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </div>
 </template>
 <script type="text/javascript">
@@ -27,15 +29,6 @@
       }
     },
     methods: {
-      vetical:function(elId){
-        var screen_height   = document.documentElement.clientHeight;
-        var screen_width    = document.documentElement.clientWidth;
-        var el              = document.getElementById(elId);
-        var el_height       = el.clientHeight;
-        var el_width        = el.clientWidth;
-        el.style.marginTop  = (screen_height - el_height)/2 + 'px';
-        el.style.marginLeft = (screen_width - el_width)/2 + 'px';
-      },
       login:function(){
         this.$axios({
           method:'post',
@@ -43,31 +36,21 @@
           data:this.form
         })
         .then(response => {
-          if(response.data.code == '200'){
-            var type = 'success';
-          }else{
-            var type = 'error';
-          }
-          this.$message({
-            message: response.data.message,
-            type: type
-          });
           if(response.data.code == '200') this.$router.push('/company');
         });
       }
-    },
-    mounted:function(){       //挂载完成时
-      var self = this;
-      self.vetical(self.dom.loginForm);
-      window.onresize = function(){
-          self.vetical(self.dom.loginForm);
-       }
     }
   }
 </script>
 <style>
-  body{
+  #login_body{
     background-color: #242c39;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /*display: table-cell;*/
+    /*vertical-align: middle;*/
+    /*text-align: center;*/
   }
   #login-form{
     width: 360px;
@@ -75,5 +58,8 @@
     background-color: #fff;
     padding: 45px 30px 0 30px;
     border-radius:5px;
+    position: absolute;
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
   }
 </style>
