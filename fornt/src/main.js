@@ -15,7 +15,6 @@ import 'mavon-editor/dist/css/index.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-Vue.prototype.$cookie = cookie
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
 
