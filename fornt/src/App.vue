@@ -4,39 +4,40 @@
       <router-view/>
     </template>
     <template v-else>
-      <div>
-        <div class="content-title">
-          <img v-bind:src="this.$root.$data.web_company.brand" width="200" height="70" v-bind:alt="this.$root.$data.web_company.name">
-            <template v-if="this.$root.$data.username">
-              <div id="user">
-                <el-dropdown>
-                  <span class="el-dropdown-link">
-                    <img v-bind:src="this.$root.$data.web_company.header" width="32" height="32" style="border-radius: 25px;" class="el-icon-arrow-down el-icon--right">
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item disabled>{{this.$root.$data.username}}</el-dropdown-item>
-                    <el-dropdown-item>
-                      <el-button type="text">修改密码</el-button>
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                      <el-button type="text" @click="loginOut()">退出登录</el-button>
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </div>
-            </template>
-        </div>
+      <div class="content-title">
+        <img v-bind:src="this.$root.$data.web_company.brand" width="200" height="70" v-bind:alt="this.$root.$data.web_company.name">
+          <template v-if="this.$root.$data.username">
+            <div id="user">
+              <el-dropdown>
+                <span class="el-dropdown-link">
+                  <img v-bind:src="this.$root.$data.web_company.header" width="32" height="32" style="border-radius: 25px;" class="el-icon-arrow-down el-icon--right">
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item disabled>{{this.$root.$data.username}}</el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button type="text">修改密码</el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button type="text" @click="loginOut()">退出登录</el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </template>
       </div>
       <div style="height:100%;">
-        <el-scrollbar class="content-left" style="height:100%;">
-        <nav-menu></nav-menu>
-        <div class="copy">copyright©️<el-button type="text">{{this.$root.$data.web_company.copyright}}</el-button></div>
+        <div class="content-left"  style="height:100%;">
+          <el-scrollbar style="height:100%;">
+          <nav-menu></nav-menu>
+          <div class="copy">
+            copyright©️<el-button type="text">{{this.$root.$data.web_company.copyright}}</el-button>
+          </div>
         </el-scrollbar>
+        </div>
         <el-scrollbar  style="height:100%;padding-left:300px;">
-          <router-view/>
+            <router-view/>
         </el-scrollbar>
       </div>
-
     </template>
   </div>
 </template>
@@ -57,20 +58,12 @@ export default {
       })
       .then(response => {
         this.$root.$data.username = '';
+        sessionStorage.clear();
         this.$router.push('/login');
       })
     }
   },
-  beforeCreate(){
-    this.$router.beforeEach((to, from, next) => { //全局钩子函数
-      to.matched.some((route) => {
-          if(route.path != '/login' && this.$root.$data.username == ''){
-            next('/login')
-          }else{
-            next()
-          }
-      });
-    });
+  mounted(){
     this.$axios({
       method:'get',
       url:'/admin/profile'
@@ -78,8 +71,6 @@ export default {
     .then(response => {
       if(response.data.data){
         this.$root.$data.username = response.data.data.username;
-      }else{
-        this.$router.push('/login');
       }
     })
     this.$axios({
@@ -87,7 +78,7 @@ export default {
       url:'/admin/company'
     })
     .then( response => {
-      this.$root.$data.web_company = response.data.data
+      this.$root.$data.web_company = response.data.data;
     })
   }
 }

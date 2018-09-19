@@ -36,8 +36,11 @@
           data:this.form
         })
         .then(response => {
-          this.$root.$data.username = this.form.username;
-          this.$router.push('/company');
+          if(response.data.code == 200){
+              sessionStorage.setItem("username",this.form.username);
+              this.$root.$data.username = this.form.username;
+              this.$router.push('/company');
+          }
         });
       }
     }

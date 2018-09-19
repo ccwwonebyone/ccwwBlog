@@ -14,8 +14,10 @@ Route::get('','index/home');          //web页面入口
 Route::get('article/:id', 'Index/article');
 Route::get('category/:id', 'Index/category');
 Route::get('tag/:id', 'Index/tag');
+Route::get('/vue', 'index/index');
 
 Route::group('admin',function(){
+
     Route::group('api',function(){
         Route::post('/send_request','Api/sendRequest');  //发送请求
         Route::resource('/','Api');             //API资源路由
