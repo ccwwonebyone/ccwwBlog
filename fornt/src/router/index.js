@@ -18,7 +18,7 @@ import Tag from '@/view/Tag'
 import Login from '@/view/Login'
 import ArticleForm from '@/view/ArticleForm'
 
-import NotFound from '@/view/NotFound'
+// import NotFound from '@/view/NotFound'
 Vue.use(Router)
 
 export default new Router({
