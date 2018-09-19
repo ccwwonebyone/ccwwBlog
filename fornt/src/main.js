@@ -6,8 +6,6 @@ import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui'
 
-import cookie from 'vue-js-cookie'
-
 import 'element-ui/lib/theme-chalk/index.css'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/googlecode.css' // 样式文件
