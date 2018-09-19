@@ -4,10 +4,11 @@
       <span>公司</span>
     </div>
     <el-form ref="form" :model="form" label-width="100px">
-      <el-form-item label="网站名称" style="width: 340px;">
+      <el-form-item label="网站名称" style="width: 500px;">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="网站图片" style="width: 340px;">
+      <el-form-item label="网站图片" style="width: 500px;">
+        <el-input v-model="form.brand" readonly></el-input>
         <img :src="form.brand" style="width: 250px;height: 70px;">
         <el-upload
           class="upload-company"
@@ -16,8 +17,9 @@
           <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
       </el-form-item>
-      <el-form-item label="浏览器图标" style="width: 340px;">
-        <img :src="form.favicon" style="width: 16px;height: 16px;">
+      <el-form-item label="浏览器图标" style="width: 500px;">
+        <el-input v-model="form.favicon" readonly></el-input>
+        <img :src="form.favicon" style="width: 32px;height: 32px;">
         <el-upload
           class="upload-company"
           action="/admin/file"
@@ -26,11 +28,24 @@
           <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
       </el-form-item>
-      <el-form-item label="copyright" style="width: 340px;">
+      <el-form-item label="头像" style="width: 500px;">
+        <el-input v-model="form.header" readonly></el-input>
+        <img :src="form.header" style="width: 32px;height: 32px;">
+        <el-upload
+          class="upload-company"
+          action="/admin/file"
+          :on-success="headerUpload">
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="copyright" style="width: 500px;">
         <el-input v-model="form.copyright"></el-input>
       </el-form-item>
-      <el-form-item label="power" style="width: 340px;">
+      <el-form-item label="power" style="width: 500px;">
         <el-input v-model="form.power"></el-input>
+      </el-form-item>
+      <el-form-item label="介绍" style="width: 500px;">
+        <el-input v-model="form.introduce"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="save()">保存</el-button>
@@ -48,7 +63,9 @@
           power: '',
           copyright: '',
           brand: '',
-          favicon: ''
+          favicon: '',
+          introduce:'',
+          header:''
         }
       }
     },
@@ -73,12 +90,12 @@
       },
       brandUpload(response, file, fileList){
         this.form.brand = response.data;
-        fileList = [file];
-
       },
       icoUpload(response, file, fileList){
         this.form.favicon = response.data;
-        fileList = [file];
+      },
+      headerUpload(response, file, fileList){
+        this.form.header = response.data;
       },
       info(){
         this.$axios({

@@ -127,4 +127,29 @@ class UserController extends Controller
             return $this->asJson([],'登录失败，帐号或密码错误',422);
         }
     }
+
+    /**
+     * 用户信息
+     * @return \think\Response
+     */
+    public function userInfo()
+    {
+        $info = json_decode(session('user'),true);
+        if($info){
+            unset($info['password']);
+        }else{
+            $info = false;
+        }
+        return $this->asJson($info);
+    }
+
+    /**
+     * 登出
+     * @return \think\Response
+     */
+    public function loginOut()
+    {
+        $this->userService->loginOut();
+        return $this->asJson('','退出登录');
+    }
 }

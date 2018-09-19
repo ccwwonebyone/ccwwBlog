@@ -10,7 +10,7 @@ class UploadController extends Controller
     {
         $file = $request->file('file');
         if(!is_dir('./upload')) mkdir('./upload');
-        $info = $file->move('upload/','');
+        $info = $file->rule('md5')->move('upload/');
         return $info ? $this->asJson('/upload/'.$info->getSaveName()) : $this->asJson('','上传文件失败',422);
     }
 }

@@ -20,10 +20,16 @@ Route::group('admin',function(){
         Route::post('/send_request','Api/sendRequest');  //发送请求
         Route::resource('/','Api');             //API资源路由
     });
+
+
     Route::group('user',function(){
         Route::post('/login','User/login');     //用户登录
         Route::resource('/','User');            //用户资源路由
+        Route::post('/login_out', 'User/loginOut'); //用户登出
     });
+    Route::get('profile', 'User/userInfo'); //用户信息
+
+
     Route::group('database',function(){
         Route::resource('/','DataBase');    //数据库资源路由
         Route::put('/{id}/updateDB','DataBase/updateDB');
@@ -55,6 +61,8 @@ Route::group('admin',function(){
     Route::group('tag',function(){
         Route::resource('/','Tag');       //标签资源路由
     });
+
+
 });
 
 /*return [

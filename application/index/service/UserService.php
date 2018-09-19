@@ -61,4 +61,10 @@ class UserService{
     {
         return User::where('id',$id)->find()->toArray();
     }
+
+    public function loginOut()
+    {
+        session(null);
+        return true;
+    }
 }

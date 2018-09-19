@@ -18,6 +18,7 @@ import Tag from '@/view/Tag'
 import Login from '@/view/Login'
 import ArticleForm from '@/view/ArticleForm'
 
+import NotFound from '@/view/NotFound'
 Vue.use(Router)
 
 export default new Router({
@@ -54,6 +55,10 @@ export default new Router({
 
         { path: '/article/:id/edit', name:"article_edit", component: ArticleForm, props: true},
 
-        { path: '/article/create', name:"article_create", component: ArticleForm }
+        { path: '/article/create', name:"article_create", component: ArticleForm },
+
+        // { path: '/404', name:"not_found", component: NotFound},
+
+        { path: '*', redirect:'/company'}
     ]
 })

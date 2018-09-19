@@ -36,7 +36,8 @@
           data:this.form
         })
         .then(response => {
-          if(response.data.code == '200') this.$router.push('/company');
+          this.$root.$data.username = this.form.username;
+          this.$router.push('/company');
         });
       }
     }
