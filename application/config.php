@@ -15,9 +15,9 @@ return [
     // +----------------------------------------------------------------------
 
     // 应用调试模式
-    'app_debug'              => true,
+    'app_debug'              => getenv(ENV_PREFIX.'DEBUG') ?: false,
     // 应用Trace
-    'app_trace'              => true,
+    'app_trace'              => getenv(ENV_PREFIX.'TRACE') ?: false,
     // 应用模式状态
     'app_status'             => '',
     // 是否支持多模块

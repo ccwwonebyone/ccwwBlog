@@ -70,9 +70,6 @@
       }
     },
     methods: {
-      onSubmit() {
-        console.log('submit!');
-      },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
       },
@@ -115,9 +112,6 @@
         })
         .then(response => {
           this.info()
-          // console.log(this.$common);
-          // this.$common = response.data.data;
-
         })
       }
     },

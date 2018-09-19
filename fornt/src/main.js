@@ -70,21 +70,39 @@ Vue.prototype.$remove = function(url,callback){
       });
     });
 }
-
-
+router.beforeEach((to, from, next) => { //全局钩子函数
+  to.matched.some((route) => {
+      if(sessionStorage.getItem("username")){
+        if(route.name.toLowerCase() == 'login'){
+          next('/company')
+        }else{
+          next()
+        }
+      }else{
+        if(route.name.toLowerCase() == 'login'){
+          next()
+        }else{
+          next('/login');
+        }
+      }
+  });
+});
 
 /* eslint-disable no-new */
 new Vue({
   //全局变量
-  data:{
-    web_company:{
-        name:'',
-        brand:'',
-        copyright:'',
-        power:'',
-        header:''
-    },
-    username:''
+  data(){
+    return {
+      web_company:{
+          name:'',
+          brand:'',
+          copyright:'',
+          power:'',
+          header:'',
+          favicon:''
+      },
+      username:''
+    }
   },
   el: '#app',
   router,
@@ -94,19 +112,14 @@ new Vue({
   watch:{
     web_company:{
         handler(newInfo, oldInfo){
-            document.title = newInfo.name;
-            var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-            link.type = 'image/x-icon';
-            link.rel = 'shortcut icon';
-            link.href = newInfo.favicon;
-            document.getElementsByTagName('head')[0].appendChild(link);
+              document.title = newInfo.name;
+              var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+              link.type = 'image/x-icon';
+              link.rel = 'shortcut icon';
+              link.href = newInfo.favicon;
+              document.getElementsByTagName('head')[0].appendChild(link);
         },
         deep:true
-    },
-    username(newVal, oldVal){
-      if(newVal == ''){
-        this.$router.push('/login');
-      }
     }
   }
 })
