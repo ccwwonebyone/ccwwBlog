@@ -4,18 +4,28 @@ namespace app\index\service;
 use app\index\model\Article;
 use app\index\model\Category;
 use app\index\model\Tag;
+use app\index\model\ArticleTag;
 
 class ArticleService{
 
     public function update($data, $id)
     {
-        return Article::where('id', $id)->update($data);
+
+        $tags = $data['tag'];
+        unset($data['tag']);
+        Article::where('id', $id)->update($data);
+        ArticleTag::where('article_id', $id)->delete();
+        (new ArticleTag())->addArtcile($tags, $id);    //添加标签
+        return true;
     }
 
     public function store($data)
     {
         $data['author'] = json_decode(session('user'),true)['username'];
+        $tags    = $data['tag'];
+        unset($data['tag']);
         $article = Article::create($data);
+        if($article) (new ArticleTag())->addArtcile($tag, $article->id);    //添加标签
         return $article->id;
     }
 
@@ -37,7 +47,12 @@ class ArticleService{
         $where = [];
         if(isset($title)) $where[] = ['title', 'like', '%'.$search['title'].'%'];
         if(isset($category_id)) $where['category_id'] =  $category_id;
-        $data = Article::where($where)->paginate($limit)->toArray();
+        if(isset($tag)){
+            $data = Article::alias('a')->join('one_article_tag at', 'a.id = at.article_id')
+                           ->where($where)->where('at.tag_id', $tag)->order('create_time')->paginate($limit)->toArray();
+        }else{
+            $data = Article::where($where)->order('create_time')->paginate($limit)->toArray();
+        }
         foreach ($data['data'] as &$article) {
             $article = array_merge($article, $this->detail($article));
         }
@@ -46,17 +61,20 @@ class ArticleService{
 
     public function detail($article)
     {
-        $pname    = '';
-        $category = Category::where('id', $article['category_id'])->field('name,pid')->find()->toArray();
-        if($category['pid']) $pname = Category::where('id', $category['pid'])->value('name').' > ';
-        $category = $pname.$category['name'];
-        $tags     = Tag::whereIn('id', $article['tag'])->field('id,name')->select()->toArray();
+        $pname     = '';
+        $category  = Category::where('id', $article['category_id'])->field('name,pid')->find()->toArray();
+        $pcategory = $category['pid'] ?  Category::where('id', $category['pid'])->value('name') : '';
+        $category  = $category['name'];
+        $tags = ArticleTag::field('id,name')->where('article_id', $article['id'])->alias('at')->join('one_tags t', 'at.tag_id = t.id', 'LEFT')->select();
+        $tags = $tags ? $tags->toArray() : [];
         $tag_name = implode(',', array_column($tags, 'name'));
-        return compact('category', 'tags', 'tag_name');
+        return compact('category', 'pcategory','tags', 'tag_name');
     }
 
     public function delete($id)
     {
-        return Article::destroy($id);
+        $res = Article::destroy($id);
+        if($res) ArticleTag::where('article_id', $id)->delete();
+        return $res;
     }
 }

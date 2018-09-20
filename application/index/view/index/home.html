@@ -10,13 +10,15 @@
           {:strip_tags($article['content'])}
         </div>
     </p>
-    <div class="card-footer text-right">
-      <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">{$article['create_time']}
+    <div>
+      <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">{$article['author']} {$article['create_time']}
     </div>
   </div>
 </div>
 {/foreach}
+{if condition="$page"}
 <div class="card" style="padding-top: 30px;">
 {$page}
 </div>
+{/if}
 {/block}

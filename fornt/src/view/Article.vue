@@ -20,6 +20,10 @@
       <el-table-column
         prop="category"
         label="分类">
+        <template slot-scope="scope">
+          <span v-if="scope.row.pcategory">{{scope.row.pcategory}} > {{scope.row.category}}</span>
+          <span v-else>{{scope.row.category}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="tag_name"

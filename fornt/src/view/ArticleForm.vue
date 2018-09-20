@@ -111,7 +111,7 @@
          }
         var data = {
               title:this.form.title,
-              tag:tags.join(),
+              tag:tags,
               category_id:this.form.category_id,
               content:this.form.content,
               markdown:this.form.markdown

@@ -8,10 +8,11 @@
   </div>
   <div class="card-body  {$article['markdown']? 'markdown-body' : ''}">
     {$article['content']}
+    <div>
+      <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">{$article['author']} {$article['create_time']}
   </div>
-  <div class="card-footer text-right">
-    <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">{$article['create_time']}
   </div>
+
   {else /}
   <div class="card-header">
     <h1>oh~出错了呢！</h1>

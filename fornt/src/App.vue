@@ -25,7 +25,7 @@
             </div>
           </template>
       </div>
-      <div style="height:100%;">
+      <div class="content-body">
         <div class="content-left"  style="height:100%;">
           <el-scrollbar style="height:100%;">
           <nav-menu></nav-menu>
@@ -34,7 +34,7 @@
           </div>
         </el-scrollbar>
         </div>
-        <el-scrollbar  style="height:100%;padding-left:300px;">
+        <el-scrollbar  style="height:100%;margin-left:300px;width: 100%;">
             <router-view/>
         </el-scrollbar>
       </div>
@@ -103,6 +103,10 @@ body,html{
   position: fixed;
   background-color: #545c64;
   z-index: 1500;
+}
+.content-body{
+  height:calc(100% - 70px);
+  width: calc(100% - 300px);
 }
 .copy{
   color: #fff;

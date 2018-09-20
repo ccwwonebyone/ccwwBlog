@@ -12,7 +12,8 @@ use think\Route;
 
 Route::get('','index/home');          //web页面入口
 Route::get('article/:id', 'Index/article');
-Route::get('category/:id', 'Index/category');
+Route::get('category_article/:id', 'Index/categoryArticle');
+Route::get('tag_article/:id', 'Index/tagArticle');
 Route::get('tag/:id', 'Index/tag');
 Route::get('vue', 'Index/index');    //vue页面入口
 Route::group('admin',function(){
