@@ -25,7 +25,7 @@ class ArticleService{
         $tags    = $data['tag'];
         unset($data['tag']);
         $article = Article::create($data);
-        if($article) (new ArticleTag())->addArtcile($tag, $article->id);    //添加标签
+        if($article) (new ArticleTag())->addArtcile($tags, $article->id);    //添加标签
         return $article->id;
     }
 
