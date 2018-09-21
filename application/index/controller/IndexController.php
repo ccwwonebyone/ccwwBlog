@@ -39,7 +39,7 @@ class IndexController extends Controller
     public function home(Request $request)
     {
 
-        $limit    = $request->param('limit',10);
+        $limit    = $request->param('limit',5);
         $current  = $request->param('page', 1);
         $articles = $this->articleService->show([], $limit);
         $page     = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
