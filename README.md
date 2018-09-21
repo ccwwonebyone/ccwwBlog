@@ -44,7 +44,7 @@ TRACE=false
 FORNT_TARGET=http://localhost
 //保存
 
-//初始化[重置]用户名密码
+//初始化[重置]用户名密码 执行前请先导入数据库
 php think init:user username password
 
 ```

@@ -181,8 +181,7 @@
               }
             })
             .then(response => {
-              this.dynamicTags.push(response.data.data);
-              this.push({
+              this.dynamicTags.push({
                 id:response.data.data,
                 name:newTag
               });
