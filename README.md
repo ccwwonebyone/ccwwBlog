@@ -28,6 +28,25 @@ composer install
 cd public
 //安装npm包
 npm install
+
+//环境配置
+cp .env.explame .env
+vi .env
+//然后修改数据库，调试信息就好了
+DB_TYPE=mysql
+DB_HOSTNAME=localhost
+DB_HOSTPORT=3306
+DB_DATABASE=ccwwBlog
+DB_USERNAME=root
+DB_PASSWORD=secret
+DEBUG=false
+TRACE=false
+FORNT_TARGET=http://localhost
+//保存
+
+//初始化[重置]用户名密码
+php think init:user username password
+
 ```
 如果想自己打包的话
 ```
@@ -41,6 +60,6 @@ http://yourwebsite.com/vue
 ```
 数据库安装
 ```
-待完善
+根目录下有一份```ccwwBlog.sql```为网站数据库。
 ```
 本网站完全开源！

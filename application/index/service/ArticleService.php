@@ -62,7 +62,8 @@ class ArticleService{
     public function detail($article)
     {
         $pname     = '';
-        $category  = Category::where('id', $article['category_id'])->field('name,pid')->find()->toArray();
+        $category  = Category::where('id', $article['category_id'])->field('name,pid')->find();
+        $category = $category ? $category->toArray() : ['pid'=>0, 'name'=>''];
         $pcategory = $category['pid'] ?  Category::where('id', $category['pid'])->value('name') : '';
         $category  = $category['name'];
         $tags = ArticleTag::field('id,name')->where('article_id', $article['id'])->alias('at')->join('one_tags t', 'at.tag_id = t.id', 'LEFT')->select();
