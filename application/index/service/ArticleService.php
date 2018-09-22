@@ -49,9 +49,9 @@ class ArticleService{
         if(isset($category_id)) $where['category_id'] =  $category_id;
         if(isset($tag)){
             $data = Article::alias('a')->join('one_article_tag at', 'a.id = at.article_id')
-                           ->where($where)->where('at.tag_id', $tag)->order('create_time')->paginate($limit)->toArray();
+                           ->where($where)->where('at.tag_id', $tag)->order('create_time desc')->paginate($limit)->toArray();
         }else{
-            $data = Article::where($where)->order('create_time')->paginate($limit)->toArray();
+            $data = Article::where($where)->order('create_time desc')->paginate($limit)->toArray();
         }
         foreach ($data['data'] as &$article) {
             $article = array_merge($article, $this->detail($article));
