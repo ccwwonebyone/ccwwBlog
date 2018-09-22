@@ -5,7 +5,7 @@
     </div>
 <el-form ref="form" :model="form" label-width="80px">
   <el-form-item label="标题">
-    <el-input style="width: 240px;" v-model="form.title"></el-input>
+    <el-input v-model="form.title"></el-input>
   </el-form-item>
   <el-form-item label="所属分类">
     <el-select v-model="form.category_id" placeholder="选择分类">
