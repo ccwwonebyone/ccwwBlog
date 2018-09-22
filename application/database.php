@@ -8,19 +8,21 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+use think\Env;
+
 return [
     // 数据库类型
-    'type'            => getenv(ENV_PREFIX.'DB_TYPE') ?: 'mysql',
+    'type'            => Env::get('DB_TYPE', 'mysql'),
     // 服务器地址
-    'hostname'        => getenv(ENV_PREFIX.'DB_HOSTNAME') ?: 'localhost',
+    'hostname'        => Env::get('DB_HOSTNAME', 'localhost'),
     // 数据库名
-    'database'        => getenv(ENV_PREFIX.'DB_DATABASE') ?: 'manpro',
+    'database'        => Env::get('DB_DATABASE', 'ccwwBlog'),
     // 用户名
-    'username'        => getenv(ENV_PREFIX.'DB_USERNAME') ?: 'root',
+    'username'        => Env::get('DB_USERNAME', 'root'),
     // 密码
-    'password'        => getenv(ENV_PREFIX.'DB_PASSWORD') ?: 'root',
+    'password'        => Env::get('DB_PASSWORD', 'secret'),
     // 端口
-    'hostport'        => getenv(ENV_PREFIX.'DB_HOSTPORT') ?: '3306',
+    'hostport'        => Env::get('DB_HOSTPORT', 3306),
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
