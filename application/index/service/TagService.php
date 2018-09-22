@@ -34,6 +34,7 @@ class TagService{
 
     public function delete($id)
     {
+        if(ArticleTag::where('tag_id', $id)->find($id)) return false;
         return Tag::destroy($id);
     }
 

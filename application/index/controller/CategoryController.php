@@ -112,7 +112,7 @@ class CategoryController extends Controller
         {
             return $this->asJson();
         }else{
-            return $this->asJson([],'删除',422);
+            return $this->asJson([],'无法删除，该分类已被使用',422);
         }
     }
 }

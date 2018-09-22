@@ -2,6 +2,7 @@
 namespace app\index\service;
 
 use app\index\model\Category;
+use app\index\model\Article;
 use Manpro\Manpro;
 
 class CategoryService{
@@ -58,6 +59,7 @@ class CategoryService{
 
     public function delete($id)
     {
+        if(Article::where('category_id', $id)->find()) return false;
         return Category::destroy($id);
     }
 }
