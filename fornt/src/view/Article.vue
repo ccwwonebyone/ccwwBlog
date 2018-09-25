@@ -34,6 +34,10 @@
         label="作者">
       </el-table-column>
       <el-table-column
+        prop="sort"
+        label="排序">
+      </el-table-column>
+      <el-table-column
         prop="create_time"
         label="创建时间">
       </el-table-column>

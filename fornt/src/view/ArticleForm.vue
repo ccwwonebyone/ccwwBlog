@@ -38,6 +38,10 @@
     </el-tag>
   </el-form-item>
 
+  <el-form-item label="排序">
+    <el-input style="width: 240px;" v-model="form.sort"></el-input>
+  </el-form-item>
+
   <el-form-item label="正文">
   <mavon-editor
     :subfield="subfield"
@@ -67,6 +71,7 @@
           category_id: '',
           markdown:'',
           content:'',
+          sort:''
         },
         categorys:[],     //分类
         newTag:'',        //新标签
@@ -114,7 +119,8 @@
               tag:tags,
               category_id:this.form.category_id,
               content:this.form.content,
-              markdown:this.form.markdown
+              markdown:this.form.markdown,
+              sort:this.form.sort
             };
         if(this.form.id){
           this.$axios({
