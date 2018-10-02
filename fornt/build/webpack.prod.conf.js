@@ -46,7 +46,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
       // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
-      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`, 
+      // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`,
       // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
       allChunks: true,
     }),
@@ -114,16 +114,6 @@ const webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
-      },
-      {
-        from: 'node_modules/mavon-editor/dist/highlightjs',
-        to: config.dev.assetsSubDirectory + '/highlightjs' // 插件将会把文件导出于/dist/highlightjs之下
-      }, {
-        from: 'node_modules/mavon-editor/dist/markdown',
-        to: config.dev.assetsSubDirectory + '/markdown' // 插件将会把文件导出于/dist/markdown之下
-      }, {
-        from: 'node_modules/mavon-editor/dist/katex', // 插件将会把文件导出
-        to: config.dev.assetsSubDirectory + '/katex'
       }
     ])
   ]

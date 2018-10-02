@@ -13,6 +13,9 @@ import 'highlight.js/styles/googlecode.css' // 样式文件
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
+
+
+
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.use(ElementUI)

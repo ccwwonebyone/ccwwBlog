@@ -1,6 +1,8 @@
 {extend name="layout" /}
+{block name="more-title" /}
+-{$article['title']}
+{/block}
 {block name="content"}
-
 <div class="card">
   {if condition="!empty($article)"}
   <div class="card-header">
@@ -10,7 +12,7 @@
     {$article['content']}
     <div>
       <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">{$article['author']} {$article['create_time']}
-  </div>
+    </div>
   </div>
 
   {else /}
