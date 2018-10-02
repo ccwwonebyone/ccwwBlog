@@ -13,6 +13,7 @@ ccwwBlog小型博客系统
 支持
 - 分类
 - 标签
+- 富文本编辑器（tinymce）
 - markdown
 ![markdown](https://raw.githubusercontent.com/ccwwonebyone/ccwwBlog/master/public/about/markdown.png)
 - 自定义网站配置（包括版权信息，网页浏览器图标等）
@@ -60,6 +61,6 @@ http://yourwebsite.com/vue
 ```
 数据库安装
 ```
-根目录下有一份```ccwwBlog.sql```为网站数据库。
+根目录下有一份ccwwBlog.sql为网站数据库。
 ```
 本网站完全开源！
