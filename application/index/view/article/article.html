@@ -2,6 +2,12 @@
 {block name="more-title" /}
 -{$article['title']}
 {/block}
+{block name="prism" /}
+{if condition="$article['markdown']"}
+<link rel="stylesheet" type="text/css" href="/static/prismjs/prism.css">
+<script type="text/javascript" src="/static/prismjs/prism.js"></script>
+{/if}
+{/block}
 {block name="content"}
 <div class="card">
   {if condition="!empty($article)"}
