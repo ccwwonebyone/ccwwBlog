@@ -3,7 +3,7 @@
 -{$article['title']}
 {/block}
 {block name="prism" /}
-{if condition="$article['markdown']"}
+{if condition="!$article['markdown']"}
 <link rel="stylesheet" type="text/css" href="/static/prismjs/prism.css">
 <script type="text/javascript" src="/static/prismjs/prism.js"></script>
 {/if}
