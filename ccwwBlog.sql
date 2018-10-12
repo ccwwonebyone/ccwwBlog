@@ -120,3 +120,20 @@ CREATE TABLE `one_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+--  Table structure for `one_medias`
+-- ----------------------------
+DROP TABLE IF EXISTS `one_medias`;
+CREATE TABLE `one_medias` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) DEFAULT NULL COMMENT '文件地址',
+  `name` varchar(255) DEFAULT NULL COMMENT '文件名称',
+  `type` varchar(30) DEFAULT NULL COMMENT '文件类型',
+  `size` float(11,0) DEFAULT NULL COMMENT '文件大小',
+  `create_time` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+SET FOREIGN_KEY_CHECKS = 1;
