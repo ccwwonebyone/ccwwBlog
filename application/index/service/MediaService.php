@@ -1,0 +1,50 @@
+<?php
+namespace app\index\service;
+
+use app\index\model\Media;
+
+class MediaService{
+
+    public function update($data, $id)
+    {
+        return Media::where('id', $id)->update($data);
+    }
+
+    public function store($file)
+    {
+        if(!is_dir('./upload')) mkdir('./upload');
+
+        $file_info = $file->getInfo();
+        if($info = $file->rule('md5')->move('upload/')){
+                Media::create([
+                    'name' => $file_info['name'],
+                    'type' => $file_info['type'],
+                    'size' => $file_info['size']/1024,
+                    'url'  => request()->domain().'/upload/'.$info->getSaveName(),
+                ]);
+                return request()->domain().'/upload/'.$info->getSaveName();
+        }else{
+            return false;
+        }
+    }
+
+    public function read($id)
+    {
+        return Media::get($id)->toArray();
+    }
+
+    public function show($type = '', $limit = 10)
+    {
+        $data   = Media::paginate($limit)->toArray();
+        foreach ($data['data'] as &$info) {
+            $info['size'] = $info['size'] > 1024 ? ($info['size'] / 1024).'m' : $info['size'].'kb';
+        }
+        return $data;
+    }
+
+    public function delete($id)
+    {
+        return Media::destroy($id);
+    }
+
+}
