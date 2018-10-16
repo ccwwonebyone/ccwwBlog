@@ -59,6 +59,10 @@ class CategoryService{
 
     public function delete($id)
     {
+        $sub_category = Category::where('pid', $id)->column('id');
+        if($sub_category){
+            if(Article::whereIn('category_id', $sub_category)->find()) return false;
+        }
         if(Article::where('category_id', $id)->find()) return false;
         return Category::destroy($id);
     }

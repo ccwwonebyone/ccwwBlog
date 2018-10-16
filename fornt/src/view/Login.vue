@@ -2,6 +2,7 @@
 <div id="login_body">
   <div id="login-form">
     <el-form ref="form" :model="form">
+      <img v-bind:src="this.$root.$data.web_company.brand" width="200" height="70" v-bind:alt="this.$root.$data.web_company.name" style="margin-left: 70px;">
       <el-form-item>
         <el-input v-model="form.username" placeholder="用户名"></el-input>
       </el-form-item>
@@ -58,7 +59,7 @@
   }
   #login-form{
     width: 360px;
-    height: 200px;
+    height: 280px;
     background-color: #fff;
     padding: 45px 30px 0 30px;
     border-radius:5px;
