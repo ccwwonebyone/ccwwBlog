@@ -42,7 +42,7 @@ class TagService{
     {
         $info = Tag::alias('t')->field('id,name,count(article_id) AS num')
                    ->join('one_article_tag at', 't.id = at.tag_id', 'left')
-                   ->group('id')->order('num desc')->select();
+                   ->group('id')->order('num desc')->limit(5)->select();
         return $info ? $info->toArray() : [];
     }
 }
