@@ -3,7 +3,7 @@
     <div slot="header" class="clearfix">
       <span>文章</span>
     </div>
-    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="add()"">新增文章</el-button>
+    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="add()">新增文章</el-button>
     <el-table
       :data="articles"
       border
