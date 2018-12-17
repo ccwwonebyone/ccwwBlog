@@ -11,7 +11,6 @@
   {block name="prism"}{/block}
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=6L5OMskQxQZhm0oklT5Czufi5IcMbR9R"></script>
   <style type="text/css">
     body{
       background-color: #f0eef5;
@@ -79,15 +78,5 @@
     </div>
   </div>
 </div>
-<div id="container"></div>
-<script>
-  var map = new BMap.Map("container");          // 创建地图实例
-  var geolocation = new BMap.Geolocation();
-  geolocation.getCurrentPosition(function(r){
-    if(this.getStatus() == BMAP_STATUS_SUCCESS){
-      console.log(r.point);
-    }       
-  });
-</script>
 </body>
 </html>
