@@ -3,10 +3,9 @@ namespace app\index\service;
 
 use app\index\model\Category;
 use app\index\model\Article;
-use Manpro\Manpro;
 
-class CategoryService{
-
+class CategoryService
+{
     public function update($data, $id)
     {
         return Category::where('id', $id)->update($data);
@@ -25,27 +24,27 @@ class CategoryService{
 
     public function show($type = '')
     {
-        $manpro = new Manpro();
         $data   = Category::order('pid')->order('sort')->select()->toArray();
-        $data   = $manpro->indexArrKey($data, 'id');
-        $sort   = [];
+        $data   = array_combine(array_column($data, 'id'), $data);
         foreach ($data as $k => &$info) {
             $info['has_sub'] = false;
             $info['select']  = true;
-            if(isset($data[$info['pid']])){
+            if (isset($data[$info['pid']])) {
                 $info['pname'] = $data[$info['pid']]['name'];    //父分类
                 $data[$info['pid']]['has_sub'][] = $info;
                 unset($data[$k]);
             }
         }
-        if($type == 'admin'){
+        if ($type == 'admin') {
             $res = [];
             foreach ($data as $val) {
                 $temp = $val;
-                if($temp['has_sub']) $temp['select'] = false;
+                if ($temp['has_sub']) {
+                    $temp['select'] = false;
+                }
                 unset($temp['has_sub']);
                 $res[] = $temp;
-                if($val['has_sub']){
+                if ($val['has_sub']) {
                     foreach ($val['has_sub'] as $v) {
                         unset($v['has_sub']);
                         $res[] = $v;
@@ -60,10 +59,14 @@ class CategoryService{
     public function delete($id)
     {
         $sub_category = Category::where('pid', $id)->column('id');
-        if($sub_category){
-            if(Article::whereIn('category_id', $sub_category)->find()) return false;
+        if ($sub_category) {
+            if (Article::whereIn('category_id', $sub_category)->find()) {
+                return false;
+            }
         }
-        if(Article::where('category_id', $id)->find()) return false;
+        if (Article::where('category_id', $id)->find()) {
+            return false;
+        }
         return Category::destroy($id);
     }
 }
