@@ -69,6 +69,7 @@ class ArticleService{
             $category  = $category['name'];
         }else{
             $category  = '';
+            $pcategory = '';
         }
         $tags = ArticleTag::field('id,name')->where('article_id', $article['id'])->alias('at')->join('one_tags t', 'at.tag_id = t.id', 'LEFT')->select();
         $tags = $tags ? $tags->toArray() : [];
