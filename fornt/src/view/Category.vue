@@ -3,7 +3,7 @@
     <div slot="header" class="clearfix">
       <span>分类</span>
     </div>
-    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="add()"">新增分类</el-button>
+    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="add()">新增分类</el-button>
     <el-table
       :data="category"
       border
