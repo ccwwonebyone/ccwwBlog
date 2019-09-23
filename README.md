@@ -1,4 +1,4 @@
-[ccwwBlog](https://blog.haoijia.com/)
+[ccwwBlog](https://www.ccwwonebyone.com/)
 ---
 ccwwBlog小型博客系统
 
