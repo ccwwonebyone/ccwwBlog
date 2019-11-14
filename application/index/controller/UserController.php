@@ -8,6 +8,13 @@ use think\Validate;
 
 class UserController extends Controller
 {
+    /**
+     * 用户服务
+     *
+     * @var UserService
+     */
+    protected $userService;
+
     public function _initialize()
     {
         $this->userService = new UserService();
@@ -141,6 +148,26 @@ class UserController extends Controller
             $info = false;
         }
         return $this->asJson($info);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $validate = $this->validate($request->all(),[
+            'old_password|原密码' => 'require',
+            'password|新密码' => 'require|different:old_password',
+            'confirm_password|确认密码'=> 'confirm:password'
+        ], [
+            'password.different' => '新密码与原密码不能相同',
+            'confirm_password.confirm' => '确认密码与新密码需要相同'
+        ]);
+        if($validate !== true) return $this->asJson([],$validate,422);
+        $info = json_decode(session('user'), true);
+        if($this->userService->updatePassword($info['id'], $request->all())){
+            $this->userService->loginOut();
+            return $this->asJson([], '修改成功');
+        }else{
+            return $this->asJson('', '原密码错误', 422);
+        }
     }
 
     /**

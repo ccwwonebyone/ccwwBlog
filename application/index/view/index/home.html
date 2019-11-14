@@ -1,7 +1,7 @@
 {extend name="layout" /}
 {block name="content"}
 {foreach $articles['data'] as $article}
-<div class="card">
+<div class="card" style="margin-top: 10px;">
   <!-- <img class="card-img-top" src="..." alt="{$article['title']}"> -->
   <div class="card-body">
     <h5 class="card-title"><a href="/article/{$article['id']}">{$article['title']}</a></h5>
@@ -11,7 +11,10 @@
         </div>
     </p>
     <div>
-      <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">{$article['author']} {$article['create_time']}
+      <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">
+      <span style="margin-left: 5px;">
+        {$article['author']} {$article['create_time']}
+      </span>
     </div>
   </div>
 </div>

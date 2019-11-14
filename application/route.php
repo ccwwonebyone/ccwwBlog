@@ -25,6 +25,7 @@ Route::group('admin',function(){
 
 
     Route::group('user',function(){
+        Route::put('/update_password', 'User/updatePassword');  //修改密码
         Route::post('/login','User/login');     //用户登录
         Route::resource('/','User');            //用户资源路由
         Route::post('/login_out', 'User/loginOut'); //用户登出

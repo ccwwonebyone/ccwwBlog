@@ -17,7 +17,10 @@
   <div class="card-body  {$article['markdown']? 'markdown-body' : ''}">
     {$article['content']}
     <div>
-      <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">{$article['author']} {$article['create_time']}
+      <img src="{$company['header']}" width="25" height="25" title="{$article['author']}" alt="{$article['author']}">
+      <span style="margin-left: 5px;">
+        {$article['author']} {$article['create_time']}
+      </span>
     </div>
   </div>
 

@@ -33,6 +33,7 @@ class UserService{
     {
         return User::where('id',$id)->delete();
     }
+
     //登陆
     public function login($data = [])
     {
@@ -46,6 +47,7 @@ class UserService{
         }
         return false;
     }
+
     //更新密码
     public function updatePassword($id,$data = [])
     {
@@ -57,6 +59,7 @@ class UserService{
         }
         return false;
     }
+
     public function read($id)
     {
         return User::where('id',$id)->find()->toArray();

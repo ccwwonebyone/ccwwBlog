@@ -4,6 +4,26 @@
       <router-view/>
     </template>
     <template v-else>
+      <el-dialog
+        title="修改密码"
+        :visible.sync="loginDialog"
+        width="30%">
+        <el-form ref="form" :model="updatePasswordform" label-width="80px">
+          <el-form-item label="原密码">
+            <el-input type="password" v-model="updatePasswordform.old_password"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码">
+            <el-input type="password" v-model="updatePasswordform.password"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码">
+            <el-input type="password" v-model="updatePasswordform.confirm_password"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="loginDialog = false">取 消</el-button>
+          <el-button type="primary" @click="updatePassword()">确 定</el-button>
+        </span>
+    </el-dialog>
       <div class="content-title">
         <img v-bind:src="this.$root.$data.web_company.brand" width="200" height="70" v-bind:alt="this.$root.$data.web_company.name">
           <template v-if="this.$root.$data.username">
@@ -15,7 +35,7 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item disabled>{{this.$root.$data.username}}</el-dropdown-item>
                   <el-dropdown-item>
-                    <el-button type="text">修改密码</el-button>
+                    <el-button type="text" @click="loginDialog = true">修改密码</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <el-button type="text" @click="loginOut()">退出登录</el-button>
@@ -50,6 +70,16 @@ export default {
   components: {
       NavMenu
   },
+  data(){
+    return {
+      loginDialog:false,
+      updatePasswordform:{
+        old_password:'',
+        password:'',
+        confirm_password:''
+      }
+    }
+  },
   methods:{
     loginOut(){
       this.$axios({
@@ -60,6 +90,26 @@ export default {
         this.$root.$data.username = '';
         sessionStorage.clear();
         this.$router.push('/login');
+      })
+    },
+    updatePassword(){
+      this.$axios({
+        method:'put',
+        url:'/admin/user/update_password',
+        data:this.updatePasswordform
+      })
+      .then(response => {
+        if(response.data.code == 200){
+          this.loginDialog = false
+          this.updatePasswordform.old_password = ''
+          this.updatePasswordform.password = ''
+          this.updatePasswordform.confirm_password = ''
+          self = this
+          setTimeout(function(){
+            sessionStorage.clear();
+            self.$router.push('/login');
+          }, 1000);
+        }
       })
     }
   },
