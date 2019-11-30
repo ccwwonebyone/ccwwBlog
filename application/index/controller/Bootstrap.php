@@ -61,9 +61,9 @@ class Bootstrap extends Paginator
             return '';
 
         $block = [
-            'first'  => null,
-            'slider' => null,
-            'last'   => null
+            'first'  => [],
+            'slider' => [],
+            'last'   => []
         ];
 
         $side   = 3;
