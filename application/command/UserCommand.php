@@ -32,7 +32,7 @@ class UserCommand extends Command
             ]);
             $output->writeln('用户信息已准备！可以开心的使用了！');
             $output->writeln('后台入口:http[s]://yourwebsite.com/vue');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $output->writeln($e->getMessage());
         }
     }
