@@ -68,20 +68,22 @@ CREATE TABLE `one_company` (
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '网站名字',
   `power` varchar(100) NOT NULL DEFAULT '' COMMENT '归属权限',
   `copyright` varchar(100) NOT NULL DEFAULT '' COMMENT '版权归属',
+  `icp` varchar(255) NOT NULL COMMENT '备案号',
+  `icp_url` varchar(255) DEFAULT NULL COMMENT '备案号超链接',
   `brand` varchar(100) NOT NULL COMMENT '网站图标',
   `favicon` varchar(100) NOT NULL DEFAULT '' COMMENT '网页标签图标',
   `introduce` varchar(255) NOT NULL DEFAULT '' COMMENT '展示自我',
   `header` varchar(100) NOT NULL DEFAULT '' COMMENT '头像地址',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of one_company
 -- ----------------------------
 BEGIN;
-INSERT INTO `one_company` VALUES (1, 'ccwwBlog', 'ccwwBlog', 'ccwwblog', '/img/ca297c9c8010afeb9fa4aaf0fa2cbb.png', '/img/eddff169cdd12e3d6a663d7b7ed40b.jpg', 'ccwwBlog轻巧型博客系统', '/img/eddff169cdd12e3d6a663d7b7ed40b.jpg', NULL, NULL);
+INSERT INTO `one_company` VALUES (1, 'ccwwBlog', 'ccwwBlog', 'ccwwblog','','', '/img/ca297c9c8010afeb9fa4aaf0fa2cbb.png', '/img/eddff169cdd12e3d6a663d7b7ed40b.jpg', 'ccwwBlog轻巧型博客系统', '/img/eddff169cdd12e3d6a663d7b7ed40b.jpg', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
