@@ -41,6 +41,12 @@
       <el-form-item label="copyright" style="width: 500px;">
         <el-input v-model="form.copyright"></el-input>
       </el-form-item>
+      <el-form-item label="备案号" style="width: 500px;">
+        <el-input v-model="form.icp"></el-input>
+      </el-form-item>
+      <el-form-item label="备案号连接" style="width: 500px;">
+        <el-input v-model="form.icp_url"></el-input>
+      </el-form-item>
       <el-form-item label="power" style="width: 500px;">
         <el-input v-model="form.power"></el-input>
       </el-form-item>
@@ -65,7 +71,8 @@
           brand: '',
           favicon: '',
           introduce:'',
-          header:''
+          header:'',
+          icp:'',
         }
       }
     },

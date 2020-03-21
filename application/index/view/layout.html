@@ -72,8 +72,16 @@
   <div class="row">
     <div class="col-9">
       {block name="content"}主体{/block}
-      <div class="text-center" style="margin: 30px; 0">copyright©️<a href="/">{$company['copyright']}</a></div>
-
+      <div class="text-center" style="margin: 30px; 0">
+        copyright©️<a href="/">{$company['copyright']}</a>
+        {if condition="$company['icp']"}
+        <img src="/img/icp.png" alt="">
+          {if condition="$company['icp_url']"}
+          <a href="{$company['icp_url']}">
+          {/if}
+            {$company['icp']}</a>
+        {/if}
+      </div>
     </div>
     <div class="col">
       <div class="card">
