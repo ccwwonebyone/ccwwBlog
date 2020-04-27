@@ -18,7 +18,8 @@
     "require": {
         "php": ">=7.0.0",
         "topthink/framework": "5.0.*",
-        "ccwwonebyone/manpro": "dev-master"
+        "ccwwonebyone/manpro": "dev-master",
+        "qiniu/php-sdk": "^7.2"
     },
     "autoload": {
         "psr-4": {

@@ -237,4 +237,10 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+
+    'qiniu' => [
+        'access_key' => Env::get('QINIU_ACCESS_KEY'),
+        'secret_Key' => Env::get('QINIU_SECRET_KEY'),
+        'bucketname' => Env::get('QINIU_BUCKETNAME'),
+    ]
 ];
