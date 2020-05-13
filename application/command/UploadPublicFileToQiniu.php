@@ -1,6 +1,7 @@
 <?php
 namespace app\command;
 
+use Manpro\ManproException;
 use think\console\Command;
 use think\console\Input;
 use think\console\Output;
@@ -26,11 +27,14 @@ class UploadPublicFileToQiniu extends Command
     {
         $qiniuService = new QiniuService();
         $file = new File();
-        $file->traversal($upload_dir, function($dir, $file_name, $type) use ($qiniuService){
-            $file_path = $dir.'/'.$file_name;
-            if( $type == 2  && strripos($file_path, '.map') === false ){
-                $qiniuService->uploadFile(str_replace('public/', '', $file_path), './'.$file_path);
-            }
-        });
+        try {
+            $file->traversal($upload_dir, function ($dir, $file_name, $type) use ($qiniuService) {
+                $file_path = $dir.'/'.$file_name;
+                if ($type == 2 && strripos($file_path, '.map') === false) {
+                    $qiniuService->uploadFile(str_replace('public/', '', $file_path), './'.$file_path);
+                }
+            });
+        } catch (ManproException $e) {
+        }
     }
 }

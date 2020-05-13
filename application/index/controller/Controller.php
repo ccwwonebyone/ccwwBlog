@@ -25,7 +25,7 @@ class Controller extends BaseController
      * @param array $data   数据信息
      * @param string $message   状态信息
      * @param integer $code 状态码
-     * @return void
+     * @return \think\response\Json
      */
     protected function asJson($data=[],$message='提交成功',$code=200)
     {

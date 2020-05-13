@@ -8,7 +8,14 @@ use app\index\model\Column;
 use app\index\model\DBConfig;
 
 class DbInfoService{
-
+    /**
+     * @param $search
+     * @param  int  $limit
+     * @return bool|false|\PDOStatement|string|\think\Collection|\think\Paginator
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function dbList($search,$limit = 10)
     {
         $where = [];
@@ -17,6 +24,14 @@ class DbInfoService{
         return $limit ? $query->paginate($limit) : $query->select();
     }
 
+    /**
+     * @param $search
+     * @param  int  $limit
+     * @return bool|false|\PDOStatement|string|\think\Collection|\think\Paginator
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function tableList($search,$limit = 10)
     {
         $where = [];
@@ -26,7 +41,15 @@ class DbInfoService{
         return $limit ? $query->paginate($limit) : $query->select();
     }
 
-    public function columnList()
+    /**
+     * @param $search
+     * @param  int  $limit
+     * @return bool|false|\PDOStatement|string|\think\Collection|\think\Paginator
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function columnList($search, $limit = 10)
     {
         $where = [];
         if($search['field']) $where['field']       = ['like','%'.$search['field'].'%'];
@@ -35,16 +58,26 @@ class DbInfoService{
         return $limit ? $query->paginate($limit) : $query->select();
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function save($data)
     {
         return Api::insert($data);
     }
 
+    /**
+     * @param $id
+     * @param $data
+     * @return mixed
+     */
     public function update($id,$data)
     {
         return Api::where('id',$id)->update($data);
     }
 
+    /*
     public function delete($id)
     {
         return Api::where('id',$id)->delete();

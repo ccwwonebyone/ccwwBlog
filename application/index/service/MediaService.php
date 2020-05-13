@@ -4,12 +4,20 @@ namespace app\index\service;
 use app\index\model\Media;
 
 class MediaService{
-
+    /**
+     * @param $data
+     * @param $id
+     * @return Media
+     */
     public function update($data, $id)
     {
         return Media::where('id', $id)->update($data);
     }
 
+    /**
+     * @param $file
+     * @return bool|string
+     */
     public function store($file)
     {
         if(!is_dir('./upload')) mkdir('./upload');
@@ -28,11 +36,23 @@ class MediaService{
         }
     }
 
+    /**
+     * @param $id
+     * @return array
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
     public function read($id)
     {
         return Media::get($id)->toArray();
     }
 
+    /**
+     * @param  string  $type
+     * @param  int  $limit
+     * @return array
+     * @throws \think\exception\DbException
+     */
     public function show($type = '', $limit = 10)
     {
         $data   = Media::paginate($limit)->toArray();
@@ -42,6 +62,10 @@ class MediaService{
         return $data;
     }
 
+    /**
+     * @param $id
+     * @return int
+     */
     public function delete($id)
     {
         return Media::destroy($id);

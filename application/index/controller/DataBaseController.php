@@ -8,6 +8,11 @@ use app\index\service\DbInfoService;
 
 class DataBaseController extends Controller
 {
+    /**
+     * @var DbInfoService
+     */
+    private $dbInfoService;
+
     public function _initialize()
     {
         $this->dbInfoService   = new DbInfoService();
@@ -98,11 +103,13 @@ class DataBaseController extends Controller
         $res = $dataBaseService->delDB($id);
         return $res ? $this->asJson() : $this->asJson([],'出问题了','501');
     }
+
     /**
      * 更新整个数据库，只能新增或删除
      *
-     * @param int $id 数据库ID
-     * @return void
+     * @param  Request  $request
+     * @param  int  $id  数据库ID
+     * @return \think\response\Json
      */
     public function updateDB(Request $request,$id)
     {
@@ -115,7 +122,7 @@ class DataBaseController extends Controller
      *
      * @param Request $request
      * @param int $db_id  数据库id
-     * @return json
+     * @return \think\response\Json
      */
     public function get_table(Request $request,$db_id)
     {
@@ -127,7 +134,7 @@ class DataBaseController extends Controller
      *
      * @param Request $request
      * @param int $table_id 数据表id
-     * @return json
+     * @return \think\response\Json
      */
     public function get_column(Request $request,$table_id)
     {

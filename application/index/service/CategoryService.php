@@ -6,22 +6,44 @@ use app\index\model\Article;
 
 class CategoryService
 {
+    /**
+     * @param $data
+     * @param $id
+     * @return Category
+     */
     public function update($data, $id)
     {
         return Category::where('id', $id)->update($data);
     }
 
+    /**
+     * @param $data
+     * @return array|bool|float|int|mixed|object|\stdClass|null
+     */
     public function store($data)
     {
         $category = Category::create($data);
         return $category->id;
     }
 
+    /**
+     * @param $id
+     * @return array
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
     public function read($id)
     {
         return Category::get($id)->toArray();
     }
 
+    /**
+     * @param  string  $type
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function show($type = '')
     {
         $data   = Category::order('pid')->order('sort')->select()->toArray();
@@ -56,6 +78,13 @@ class CategoryService
         return $data;
     }
 
+    /**
+     * @param $id
+     * @return bool|int
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function delete($id)
     {
         $sub_category = Category::where('pid', $id)->column('id');

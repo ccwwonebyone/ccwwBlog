@@ -8,7 +8,9 @@ use app\index\model\Column;
 use app\index\model\DBConfig;
 
 class DataBaseService{
-
+    /**
+     * @var array
+     */
     protected $connection = [
         // 数据库类型
         'type'        => 'mysql',
@@ -40,6 +42,11 @@ class DataBaseService{
     //字段
     protected $columns = [];
 
+    /**
+     * DataBaseService constructor.
+     * @param $connection
+     * @throws Exception
+     */
     public function __construct($connection)
     {
         if(isset($connection['id'])){
@@ -53,12 +60,19 @@ class DataBaseService{
         $this->column = new Column;
     }
 
+    /**
+     * @return array|bool|mixed|\PDOStatement
+     * @throws \think\exception\PDOException
+     */
     public function getTables()
     {
         $this->tables = $this->db->query('show table status');
         return $this->tables;
     }
 
+    /**
+     * @return array|bool|float|int|mixed|object|\stdClass|null
+     */
     public function saveDbConfig()
     {
         $connection = $this->connection;
@@ -67,6 +81,8 @@ class DataBaseService{
         $this->dbID = $this->DBConfig->id;
         return $this->dbID;
     }
+
+
     /**
      * 保存数据表
      * @param  array   $tables 数据表信息

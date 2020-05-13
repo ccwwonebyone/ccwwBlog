@@ -6,7 +6,12 @@ use think\Exception;
 use app\index\model\Api;
 
 class ApiService{
-
+    /**
+     * @param $search
+     * @param  int  $limit
+     * @return Api|array|bool|float|int|mixed|object|\stdClass|\think\Paginator|null
+     * @throws \think\exception\DbException
+     */
     public function apiList($search,$limit = 10)
     {
         $where = [];
@@ -21,25 +26,47 @@ class ApiService{
         return $res;
     }
 
+    /**
+     * @param $data
+     * @return int|string
+     */
     public function save($data)
     {
         return Api::insert($data);
     }
 
+    /**
+     * @param $id
+     * @param $data
+     * @return Api
+     */
     public function update($id,$data)
     {
         return Api::where('id',$id)->update($data);
     }
 
+    /**
+     * @param $id
+     * @return bool|int
+     */
     public function delete($id)
     {
         return Api::where('id',$id)->delete();
     }
 
+    /**
+     * @param $id
+     * @return array
+     * @throws Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function read($id)
     {
         return $this->strtoarr(Api::where('id',$id)->find()->toArray());
     }
+
     /**
      * 将API数据参数，消息头，url的参数变更为数组
      * @param  array $data 单条api记录

@@ -7,7 +7,11 @@ use app\index\model\Tag;
 use app\index\model\ArticleTag;
 
 class ArticleService{
-
+    /**
+     * @param $data
+     * @param $id
+     * @return bool
+     */
     public function update($data, $id)
     {
 
@@ -19,6 +23,10 @@ class ArticleService{
         return true;
     }
 
+    /**
+     * @param $data
+     * @return int
+     */
     public function store($data)
     {
         $data['author'] = json_decode(session('user'),true)['username'];
@@ -29,6 +37,12 @@ class ArticleService{
         return $article->id;
     }
 
+    /**
+     * @param $id
+     * @return Article|array|null
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
     public function read($id)
     {
         $info = Article::get($id);
@@ -41,6 +55,12 @@ class ArticleService{
         return $info;
     }
 
+    /**
+     * @param  array  $search
+     * @param  int  $limit
+     * @return array
+     * @throws \think\exception\DbException
+     */
     public function show($search = [], $limit = 10)
     {
         extract($search);
@@ -59,9 +79,16 @@ class ArticleService{
         return $data;
     }
 
+    /**
+     * @param $article
+     * @return array
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function detail($article)
     {
-        $pname     = '';
         $category  = Category::where('id', $article['category_id'])->field('name,pid')->find();
         if($category){
             $category  = $category->toArray();
@@ -77,6 +104,10 @@ class ArticleService{
         return compact('category', 'pcategory','tags', 'tag_name');
     }
 
+    /**
+     * @param $id
+     * @return int
+     */
     public function delete($id)
     {
         $res = Article::destroy($id);

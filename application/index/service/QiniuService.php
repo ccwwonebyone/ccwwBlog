@@ -9,6 +9,12 @@ class QiniuService{
 
     protected $token;
 
+    /**
+     * QiniuService constructor.
+     * @param  null  $accessKey
+     * @param  null  $secretKey
+     * @param  null  $bucketName
+     */
     public function __construct($accessKey = null, $secretKey = null, $bucketName = null)
     {
         $accessKey = $accessKey ?? config('qiniu.access_key');
@@ -17,6 +23,12 @@ class QiniuService{
         $this->token = (new Auth($accessKey, $secretKey))->uploadToken($bucketName);
     }
 
+    /**
+     * @param $key
+     * @param $file_path
+     * @return array
+     * @throws \Exception
+     */
     public function uploadFile($key, $file_path)
     {
         $manager = new UploadManager();

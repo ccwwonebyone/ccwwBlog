@@ -12,6 +12,10 @@ class CategoryController extends Controller
     protected $rules = [
         'name|标题'       =>'require',
     ];
+    /**
+     * @var CategoryService
+     */
+    private $categoryService;
 
     public function _initialize()
     {
@@ -21,6 +25,7 @@ class CategoryController extends Controller
     /**
      * 显示资源列表
      *
+     * @param  Request  $request
      * @return \think\Response
      */
     public function index(Request $request)

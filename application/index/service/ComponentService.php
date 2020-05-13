@@ -5,7 +5,12 @@ use think\Exception;
 use app\index\model\Component;
 
 class ComponentService{
-
+    /**
+     * @param $search
+     * @param  int  $limit
+     * @return Component|array|bool|float|int|mixed|object|\stdClass|\think\Paginator|null
+     * @throws \think\exception\DbException
+     */
     public function index($search,$limit = 10)
     {
         $where = [];
@@ -16,6 +21,13 @@ class ComponentService{
         return $res;
     }
 
+    /**
+     * @param $data
+     * @return Component|bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function save($data)
     {
         $data['js']      = 'component/'.$data['name'].'/index.js';
@@ -29,16 +41,33 @@ class ComponentService{
         return Component::create($data);
     }
 
+    /**
+     * @param $id
+     * @param $data
+     * @return Component
+     */
     public function update($id,$data)
     {
         return Component::where('id',$id)->update($data);
     }
 
+    /**
+     * @param $id
+     * @return bool|int
+     */
     public function delete($id)
     {
         return Component::where('id',$id)->delete();
     }
 
+    /**
+     * @param $id
+     * @return array
+     * @throws Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function read($id)
     {
         return Component::where('id',$id)->find()->toArray();

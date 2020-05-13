@@ -23,7 +23,8 @@ class ArticleController extends Controller
     /**
      * 显示资源列表
      *
-     * @return \think\Response
+     * @param  Request  $request
+     * @return void
      */
     public function index(Request $request)
     {
@@ -44,7 +45,7 @@ class ArticleController extends Controller
      * 保存新建的资源
      *
      * @param  \think\Request  $request
-     * @return \think\Response
+     * @return \think\response\Json
      */
     public function save(Request $request)
     {

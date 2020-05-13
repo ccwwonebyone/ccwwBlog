@@ -24,6 +24,10 @@ class ApiController extends Controller
         'url_params|url的请求参数'=>'array',
         'project_id|项目ID' =>'number',
     ];
+    /**
+     * @var ApiService
+     */
+    private $apiService;
 
     public function _initialize()
     {
@@ -105,7 +109,7 @@ class ApiController extends Controller
      * 解析前端发过来的参数 type => body,header,url
      * @param array $params
      * @param string $type 解析类型
-     * @return array or string
+     * @return array|string
      */
     public function parseParams($params,$type = 'body')
     {

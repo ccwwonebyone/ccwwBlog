@@ -9,6 +9,35 @@ use app\index\service\TagService;
 
 class IndexController extends Controller
 {
+    /**
+     * @var ArticleService
+     */
+    private $articleService;
+    /**
+     * @var CategoryService
+     */
+    private $categoryService;
+    /**
+     * @var CompanyService
+     */
+    private $companyService;
+    /**
+     * @var TagService
+     */
+    private $tagService;
+    /**
+     * @var array
+     */
+    private $company;
+    /**
+     * @var array
+     */
+    private $category;
+    /**
+     * @var array
+     */
+    private $tag_article;
+
     public function _initialize()
     {
         $this->articleService  = new ArticleService();

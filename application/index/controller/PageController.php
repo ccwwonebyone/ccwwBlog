@@ -9,17 +9,28 @@ class PageController extends Controller
 {
     protected $pageService;
 
-    //验证规则
+    /**
+     * 验证规则
+     * @var string[]
+     */
     protected $rules = [
         'name|页面名' =>'require',
         'component_ids|插件组件' =>'require',
     ];
 
+    /**
+     *
+     */
     public function _initialize()
     {
         $this->pageService = new PageService();
     }
 
+    /**
+     * @param  Request  $request
+     * @param $name
+     * @return mixed|string
+     */
     public function page(Request $request, $name)
     {
         $info = $this->pageService->info($name);

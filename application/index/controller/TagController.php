@@ -12,6 +12,10 @@ class TagController extends Controller
     protected $rules = [
         'name|标题'       =>'require',
     ];
+    /**
+     * @var TagService
+     */
+    private $tagService;
 
     public function _initialize()
     {

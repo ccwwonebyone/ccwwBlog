@@ -7,7 +7,12 @@ use app\index\model\Component;
 use think\View;
 
 class PageService{
-
+    /**
+     * @param $search
+     * @param  int  $limit
+     * @return Page|array|bool|float|int|mixed|object|\stdClass|\think\Paginator|null
+     * @throws \think\exception\DbException
+     */
     public function index($search,$limit = 10)
     {
         $where = [];
@@ -18,6 +23,11 @@ class PageService{
         return $res;
     }
 
+    /**
+     * @param $data
+     * @return bool
+     * @throws Exception
+     */
     public function save($data)
     {
         $data['data'] = $this->pageData($data['component_ids']);
@@ -30,17 +40,34 @@ class PageService{
         }
     }
 
+    /**
+     * @param $id
+     * @param $data
+     * @return Page
+     */
     public function update($id,$data)
     {
         $data['data'] = $this->pageData($data['component_ids']);
         return Page::where('id',$id)->update($data);
     }
 
+    /**
+     * @param $id
+     * @return bool|int
+     */
     public function delete($id)
     {
         return Page::where('id',$id)->delete();
     }
 
+    /**
+     * @param $id
+     * @return array
+     * @throws Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function read($id)
     {
         $info = Page::where('id',$id)->find()->toArray();
@@ -49,6 +76,13 @@ class PageService{
         return $info;
     }
 
+    /**
+     * @param $name
+     * @return array|bool|false|\PDOStatement|string|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function info($name)
     {
         return Page::where('name',$name)->find();
@@ -106,6 +140,10 @@ class PageService{
         return compact('cssStr','jsStr');
     }
 
+    /**
+     * @param $htmls
+     * @return string
+     */
     public function conetent($htmls)
     {
         $content = '';
