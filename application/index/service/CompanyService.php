@@ -1,9 +1,11 @@
 <?php
+
 namespace app\index\service;
 
 use app\index\model\Company;
 
-class CompanyService{
+class CompanyService extends Service
+{
     /**
      * @param $data
      * @param $id

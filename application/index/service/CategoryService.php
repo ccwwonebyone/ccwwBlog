@@ -1,11 +1,14 @@
 <?php
+
 namespace app\index\service;
 
 use app\index\model\Category;
 use app\index\model\Article;
+use Manpro\ManproInstance;
 
-class CategoryService
+class CategoryService extends Service
 {
+
     /**
      * @param $data
      * @param $id
@@ -46,11 +49,11 @@ class CategoryService
      */
     public function show($type = '')
     {
-        $data   = Category::order('pid')->order('sort')->select()->toArray();
-        $data   = array_combine(array_column($data, 'id'), $data);
+        $data = Category::order('pid')->order('sort')->select()->toArray();
+        $data = array_combine(array_column($data, 'id'), $data);
         foreach ($data as $k => &$info) {
             $info['has_sub'] = false;
-            $info['select']  = true;
+            $info['select'] = true;
             if (isset($data[$info['pid']])) {
                 $info['pname'] = $data[$info['pid']]['name'];    //父分类
                 $data[$info['pid']]['has_sub'][] = $info;

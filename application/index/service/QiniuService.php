@@ -1,11 +1,13 @@
 <?php
+
 namespace app\index\service;
 
 use app\index\model\Media;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
 
-class QiniuService{
+class QiniuService extends Service
+{
 
     protected $token;
 

@@ -1,21 +1,26 @@
 <?php
+
 namespace app\index\service;
 
 use think\Db;
 use think\Exception;
 use app\index\model\Api;
 
-class ApiService{
+class ApiService extends Service
+{
+
     /**
      * @param $search
      * @param  int  $limit
      * @return Api|array|bool|float|int|mixed|object|\stdClass|\think\Paginator|null
      * @throws \think\exception\DbException
      */
-    public function apiList($search,$limit = 10)
+    public function apiList($search, $limit = 10)
     {
         $where = [];
-        if($search['url']) $where['url'] = ['like','%'.$search['url'].'%'];
+        if ($search['url']) {
+            $where['url'] = ['like', '%'.$search['url'].'%'];
+        }
         $query = Api::where($where);
         $res = $limit ? $query->paginate($limit) : $query->get();
         $data = $limit ? $res['data'] : $res;
@@ -40,9 +45,9 @@ class ApiService{
      * @param $data
      * @return Api
      */
-    public function update($id,$data)
+    public function update($id, $data)
     {
-        return Api::where('id',$id)->update($data);
+        return Api::where('id', $id)->update($data);
     }
 
     /**
@@ -51,7 +56,7 @@ class ApiService{
      */
     public function delete($id)
     {
-        return Api::where('id',$id)->delete();
+        return Api::where('id', $id)->delete();
     }
 
     /**
@@ -64,18 +69,18 @@ class ApiService{
      */
     public function read($id)
     {
-        return $this->strtoarr(Api::where('id',$id)->find()->toArray());
+        return $this->strtoarr(Api::where('id', $id)->find()->toArray());
     }
 
     /**
      * 将API数据参数，消息头，url的参数变更为数组
-     * @param  array $data 单条api记录
+     * @param  array  $data  单条api记录
      * @return array       转换之后的数据
      */
     public function strtoarr($data)
     {
-        foreach (['params','url_params','headers'] as $v) {
-            $data[$v] = json_decode($data[$v],true);
+        foreach (['params', 'url_params', 'headers'] as $v) {
+            $data[$v] = json_decode($data[$v], true);
         }
         return $data;
     }

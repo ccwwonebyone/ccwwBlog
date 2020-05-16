@@ -1,9 +1,11 @@
 <?php
+
 namespace app\index\service;
 
 use app\index\model\Media;
 
-class MediaService{
+class MediaService extends Service
+{
     /**
      * @param $data
      * @param $id
@@ -20,18 +22,20 @@ class MediaService{
      */
     public function store($file)
     {
-        if(!is_dir('./upload')) mkdir('./upload');
+        if (!is_dir('./upload')) {
+            mkdir('./upload');
+        }
 
         $file_info = $file->getInfo();
-        if($info = $file->rule('md5')->move('upload/')){
-                Media::create([
-                    'name' => $file_info['name'],
-                    'type' => $file_info['type'],
-                    'size' => $file_info['size']/1024,
-                    'url'  => request()->domain().'/upload/'.$info->getSaveName(),
-                ]);
-                return request()->domain().'/upload/'.$info->getSaveName();
-        }else{
+        if ($info = $file->rule('md5')->move('upload/')) {
+            Media::create([
+                'name' => $file_info['name'],
+                'type' => $file_info['type'],
+                'size' => $file_info['size'] / 1024,
+                'url' => request()->domain().'/upload/'.$info->getSaveName(),
+            ]);
+            return request()->domain().'/upload/'.$info->getSaveName();
+        } else {
             return false;
         }
     }
@@ -55,7 +59,7 @@ class MediaService{
      */
     public function show($type = '', $limit = 10)
     {
-        $data   = Media::paginate($limit)->toArray();
+        $data = Media::paginate($limit)->toArray();
         foreach ($data['data'] as &$info) {
             $info['size'] = $info['size'] > 1024 ? ($info['size'] / 1024).'m' : $info['size'].'kb';
         }

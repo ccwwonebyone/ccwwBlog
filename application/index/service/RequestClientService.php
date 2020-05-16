@@ -1,13 +1,15 @@
 <?php
+
 namespace app\index\service;
 
-class RequestClientService{
+class RequestClientService extends Service
+{
     /**
      * RequestClientService constructor.
      * @param $url
      * @param  array  $headers
      */
-    public function __construct($url,$headers=[])
+    public function __construct($url, $headers = [])
     {
         $this->ch = curl_init();
         curl_setopt($this->ch, CURLOPT_URL, $url);
@@ -70,10 +72,10 @@ class RequestClientService{
      */
     public function rcExec($post_data = [])
     {
-        if($post_data){
+        if ($post_data) {
             $query = [];
             foreach ($post_data as $field => $value) {
-                $query[] = $field.'='. $value;
+                $query[] = $field.'='.$value;
             }
             $query_str = implode('&', $query);
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $query_str);

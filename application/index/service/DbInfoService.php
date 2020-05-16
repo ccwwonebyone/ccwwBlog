@@ -1,4 +1,5 @@
 <?php
+
 namespace app\index\service;
 
 use think\Db;
@@ -7,7 +8,8 @@ use app\index\model\Table;
 use app\index\model\Column;
 use app\index\model\DBConfig;
 
-class DbInfoService{
+class DbInfoService extends Service
+{
     /**
      * @param $search
      * @param  int  $limit
@@ -16,10 +18,12 @@ class DbInfoService{
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function dbList($search,$limit = 10)
+    public function dbList($search, $limit = 10)
     {
         $where = [];
-        if($search['database']) $where['database'] = ['like','%'.$search['database'].'%'];
+        if ($search['database']) {
+            $where['database'] = ['like', '%'.$search['database'].'%'];
+        }
         $query = DBConfig::where($where);
         return $limit ? $query->paginate($limit) : $query->select();
     }
@@ -32,11 +36,15 @@ class DbInfoService{
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function tableList($search,$limit = 10)
+    public function tableList($search, $limit = 10)
     {
         $where = [];
-        if($search['name']) $where['name']   = ['like','%'.$search['name'].'%'];
-        if($search['db_id']) $where['db_id'] = $search['db_id'];
+        if ($search['name']) {
+            $where['name'] = ['like', '%'.$search['name'].'%'];
+        }
+        if ($search['db_id']) {
+            $where['db_id'] = $search['db_id'];
+        }
         $query = Table::where($where);
         return $limit ? $query->paginate($limit) : $query->select();
     }
@@ -52,8 +60,12 @@ class DbInfoService{
     public function columnList($search, $limit = 10)
     {
         $where = [];
-        if($search['field']) $where['field']       = ['like','%'.$search['field'].'%'];
-        if($search['table_id']) $where['table_id'] = $search['table_id'];
+        if ($search['field']) {
+            $where['field'] = ['like', '%'.$search['field'].'%'];
+        }
+        if ($search['table_id']) {
+            $where['table_id'] = $search['table_id'];
+        }
         $query = Column::where($where);
         return $limit ? $query->paginate($limit) : $query->select();
     }
@@ -72,19 +84,8 @@ class DbInfoService{
      * @param $data
      * @return mixed
      */
-    public function update($id,$data)
+    public function update($id, $data)
     {
-        return Api::where('id',$id)->update($data);
-    }
-
-    /*
-    public function delete($id)
-    {
-        return Api::where('id',$id)->delete();
-    }
-
-    public function read($id)
-    {
-        return User::where('id',$id)->find()->toArray();
+        return Api::where('id', $id)->update($data);
     }
 }

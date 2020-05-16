@@ -1,10 +1,12 @@
 <?php
+
 namespace app\index\service;
 
 use app\index\model\Tag;
 use app\index\model\ArticleTag;
 
-class TagService{
+class TagService extends Service
+{
     /**
      * @param $data
      * @param $id
@@ -24,9 +26,9 @@ class TagService{
      */
     public function store($data)
     {
-        if(Tag::where('name', $data['name'])->find()){
+        if (Tag::where('name', $data['name'])->find()) {
             return false;
-        }else{
+        } else {
             $tag = Tag::create($data);
             return $tag->id;
         }
@@ -52,7 +54,7 @@ class TagService{
      */
     public function show($type = '')
     {
-        $data   = Tag::select()->toArray();
+        $data = Tag::select()->toArray();
         return $data;
     }
 
@@ -65,7 +67,9 @@ class TagService{
      */
     public function delete($id)
     {
-        if(ArticleTag::where('tag_id', $id)->find($id)) return false;
+        if (ArticleTag::where('tag_id', $id)->find($id)) {
+            return false;
+        }
         return Tag::destroy($id);
     }
 
@@ -78,8 +82,8 @@ class TagService{
     public function tagOfArticle()
     {
         $info = Tag::alias('t')->field('id,name,count(article_id) AS num')
-                   ->join('one_article_tag at', 't.id = at.tag_id', 'left')
-                   ->group('id')->order('num desc')->limit(5)->select();
+            ->join('one_article_tag at', 't.id = at.tag_id', 'left')
+            ->group('id')->order('num desc')->limit(5)->select();
         return $info ? $info->toArray() : [];
     }
 }
