@@ -2,11 +2,9 @@
 
 namespace app\index\service;
 
-use think\Db;
-use think\Exception;
-use app\index\model\Table;
 use app\index\model\Column;
 use app\index\model\DBConfig;
+use app\index\model\Table;
 
 class DbInfoService extends Service
 {
@@ -68,24 +66,5 @@ class DbInfoService extends Service
         }
         $query = Column::where($where);
         return $limit ? $query->paginate($limit) : $query->select();
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    public function save($data)
-    {
-        return Api::insert($data);
-    }
-
-    /**
-     * @param $id
-     * @param $data
-     * @return mixed
-     */
-    public function update($id, $data)
-    {
-        return Api::where('id', $id)->update($data);
     }
 }
