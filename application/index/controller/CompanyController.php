@@ -7,16 +7,10 @@ use app\index\service\CompanyService;
 
 class CompanyController extends Controller
 {
-    protected $companyService;
     //验证规则
     protected $rules = [
-        'name|站点名' =>'require',
+        'name|站点名' => 'require',
     ];
-
-    public function _initialize()
-    {
-        $this->companyService = new CompanyService();
-    }
 
     /**
      * 显示资源列表
@@ -25,7 +19,9 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return $this->asJson($this->companyService->info());
+        return $this->asJson(
+            CompanyService::getSingletonInstance()->info()
+        );
     }
 
     /**
@@ -46,14 +42,15 @@ class CompanyController extends Controller
      */
     public function save(Request $request)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'参数错误',5001);
-        if($this->companyService->save($data))
-        {
+        $data = $request->all();
+        $validate = $this->validate($data, $this->rules);
+        if ($validate !== true) {
+            return $this->asJson($validate, '参数错误', 5001);
+        }
+        if (CompanyService::getSingletonInstance()->save($data)) {
             return $this->asJson();
-        }else{
-            return $this->asJson([],'操作失败',5002);
+        } else {
+            return $this->asJson([], '操作失败', 5002);
         }
     }
 
@@ -65,7 +62,9 @@ class CompanyController extends Controller
      */
     public function read($id)
     {
-        return $this->asJson($this->companyService->read($id));
+        return $this->asJson(
+            CompanyService::getSingletonInstance()->read($id)
+        );
     }
 
     /**
@@ -88,14 +87,15 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'参数错误',5001);
-        if($this->companyService->update($data, $id))
-        {
+        $data = $request->all();
+        $validate = $this->validate($data, $this->rules);
+        if ($validate !== true) {
+            return $this->asJson($validate, '参数错误', 5001);
+        }
+        if (CompanyService::getSingletonInstance()->update($data, $id)) {
             return $this->asJson();
-        }else{
-            return $this->asJson([],'操作失败',5002);
+        } else {
+            return $this->asJson([], '操作失败', 5002);
         }
     }
 

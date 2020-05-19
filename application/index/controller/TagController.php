@@ -25,7 +25,11 @@ class TagController extends Controller
     /**
      * 显示资源列表
      *
+     * @param  Request  $request
      * @return \think\Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index(Request $request)
     {
