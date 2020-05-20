@@ -7,20 +7,10 @@ use app\index\service\TagService;
 
 class TagController extends Controller
 {
-
     //验证规则
     protected $rules = [
-        'name|标题'       =>'require',
+        'name|标题' => 'require',
     ];
-    /**
-     * @var TagService
-     */
-    private $tagService;
-
-    public function _initialize()
-    {
-        $this->tagService = new TagService();
-    }
 
     /**
      * 显示资源列表
@@ -33,8 +23,8 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request->param('type','');
-        return $this->asJson($this->tagService->show($type));
+        $type = $request->param('type', '');
+        return $this->asJson(TagService::getSingletonInstance()->show($type));
     }
 
     /**
@@ -52,17 +42,21 @@ class TagController extends Controller
      *
      * @param  \think\Request  $request
      * @return \think\Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function save(Request $request)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'非法请求',422);
-        if($id = $this->tagService->store($data))
-        {
+        $data = $request->all();
+        $validate = $this->validate($data, $this->rules);
+        if ($validate !== true) {
+            return $this->asJson($validate, '非法请求', 422);
+        }
+        if ($id = TagService::getSingletonInstance()->store($data)) {
             return $this->asJson($id);
-        }else{
-            return $this->asJson([],'新增失败',422);
+        } else {
+            return $this->asJson([], '新增失败', 422);
         }
     }
 
@@ -97,14 +91,15 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'非法请求',422);
-        if($this->tagService->update($data, $id))
-        {
+        $data = $request->all();
+        $validate = $this->validate($data, $this->rules);
+        if ($validate !== true) {
+            return $this->asJson($validate, '非法请求', 422);
+        }
+        if (TagService::getSingletonInstance()->update($data, $id)) {
             return $this->asJson();
-        }else{
-            return $this->asJson([],'修改失败',422);
+        } else {
+            return $this->asJson([], '修改失败', 422);
         }
     }
 
@@ -113,14 +108,16 @@ class TagController extends Controller
      *
      * @param  int  $id
      * @return \think\Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function delete($id)
     {
-        if($this->tagService->delete($id))
-        {
+        if (TagService::getSingletonInstance()->delete($id)) {
             return $this->asJson();
-        }else{
-            return $this->asJson([],'无法删除，该标签已被使用',422);
+        } else {
+            return $this->asJson([], '无法删除，该标签已被使用', 422);
         }
     }
 }

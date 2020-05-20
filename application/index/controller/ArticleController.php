@@ -7,28 +7,25 @@ use app\index\service\ArticleService;
 
 class ArticleController extends Controller
 {
-    protected $articleService;
     //验证规则
     protected $rules = [
-        'title|标题'       =>'require',
+        'title|标题' => 'require',
         // 'categroy_id|分类' => 'require',
-        'content|内容'     => 'require',
+        'content|内容' => 'require',
     ];
-
-    public function _initialize()
-    {
-        $this->articleService = new ArticleService();
-    }
 
     /**
      * 显示资源列表
      *
      * @param  Request  $request
-     * @return void
+     * @return \think\response\Json
+     * @throws \think\exception\DbException
      */
     public function index(Request $request)
     {
-        return $this->asJson($this->articleService->show([],$request->param('limit', 10)));
+        return $this->asJson(
+            ArticleService::getSingletonInstance()->show([], $request->param('limit', 10))
+        );
     }
 
     /**
@@ -49,14 +46,15 @@ class ArticleController extends Controller
      */
     public function save(Request $request)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'参数错误',5001);
-        if($this->articleService->store($data))
-        {
+        $data = $request->all();
+        $validate = $this->validate($data, $this->rules);
+        if ($validate !== true) {
+            return $this->asJson($validate, '参数错误', 5001);
+        }
+        if (ArticleService::getSingletonInstance()->store($data)) {
             return $this->asJson();
-        }else{
-            return $this->asJson([],'操作失败',5002);
+        } else {
+            return $this->asJson([], '操作失败', 5002);
         }
     }
 
@@ -65,10 +63,12 @@ class ArticleController extends Controller
      *
      * @param  int  $id
      * @return \think\Response
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
      */
     public function read($id)
     {
-        return $this->asJson($this->articleService->read($id));
+        return $this->asJson(ArticleService::getSingletonInstance()->read($id));
     }
 
     /**
@@ -91,14 +91,15 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'参数错误',5001);
-        if($this->articleService->update($data, $id))
-        {
+        $data = $request->all();
+        $validate = $this->validate($data, $this->rules);
+        if ($validate !== true) {
+            return $this->asJson($validate, '参数错误', 5001);
+        }
+        if (ArticleService::getSingletonInstance()->update($data, $id)) {
             return $this->asJson();
-        }else{
-            return $this->asJson([],'操作失败',5002);
+        } else {
+            return $this->asJson([], '操作失败', 5002);
         }
     }
 
@@ -110,6 +111,6 @@ class ArticleController extends Controller
      */
     public function delete($id)
     {
-        return $this->asJson($this->articleService->delete($id));
+        return $this->asJson(ArticleService::getSingletonInstance()->delete($id));
     }
 }
