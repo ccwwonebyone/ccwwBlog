@@ -9,25 +9,19 @@ use think\Validate;
 class UserController extends Controller
 {
     /**
-     * 用户服务
-     *
-     * @var UserService
-     */
-    protected $userService;
-
-    public function _initialize()
-    {
-        $this->userService = new UserService();
-    }
-    /**
      * 显示资源列表
      *
+     * @param  Request  $request
      * @return \think\Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function index(Request $request)
     {
-        $search['username'] = $request->param('username','');
-        return $this->asJson($this->userService->userList($search,$request->param('limit',10)));
+        $search['username'] = $request->param('username', '');
+
+        return $this->asJson(UserService::getSingletonInstance()->userList($search, $request->param('limit', 10)));
     }
 
     /**
@@ -48,19 +42,21 @@ class UserController extends Controller
      */
     public function save(Request $request)
     {
-        $userInfo =$request->all();
-        $validate = $this->validate($userInfo,[
+        $userInfo = $request->all();
+        $validate = $this->validate($userInfo, [
             'username|用户名' => 'require',
             'password|密码' => 'require|confirm',
             // 'email'    => 'require|email'
         ]);
-        if($validate !== true) return $this->asJson([],$validate,422);
+        if ($validate !== true) {
+            return $this->asJson([], $validate, 422);
+        }
         unset($userInfo['password_confirm']);
-        $res = $this->userService->store($userInfo);
-        if($res){
-            return $this->asJson([],'注册成功',200);
-        }else{
-            return $this->asJson([],'注册失败,角色名重复',422);
+        $res = UserService::getSingletonInstance()->store($userInfo);
+        if ($res) {
+            return $this->asJson([], '注册成功', 200);
+        } else {
+            return $this->asJson([], '注册失败,角色名重复', 422);
         }
     }
 
@@ -69,6 +65,10 @@ class UserController extends Controller
      *
      * @param  int  $id
      * @return \think\Response
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function read($id)
     {
@@ -95,10 +95,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($this->userService->update($id,$request->all())){
-            return $this->asJson([],'修改成功',200);
-        }else{
-            return $this->asJson([],'修改失败',422);
+        if (UserService::getSingletonInstance()->update($id, $request->all())) {
+            return $this->asJson([], '修改成功', 200);
+        } else {
+            return $this->asJson([], '修改失败', 422);
         }
     }
 
@@ -122,16 +122,18 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $userInfo = $request->all();
-        $validate = $this->validate($userInfo,[
+        $validate = $this->validate($userInfo, [
             'username|用户名' => 'require',
             'password|密码' => 'require'
         ]);
-        if($validate !== true) return $this->asJson([],$validate,422);
-        $res = $this->userService->login($userInfo);
-        if($res){
-            return $this->asJson([],'登陆成功',200);
-        }else{
-            return $this->asJson([],'登录失败，帐号或密码错误',422);
+        if ($validate !== true) {
+            return $this->asJson([], $validate, 422);
+        }
+        $res = UserService::getSingletonInstance()->login($userInfo);
+        if ($res) {
+            return $this->asJson([], '登陆成功', 200);
+        } else {
+            return $this->asJson([], '登录失败，帐号或密码错误', 422);
         }
     }
 
@@ -141,10 +143,10 @@ class UserController extends Controller
      */
     public function userInfo()
     {
-        $info = json_decode(session('user'),true);
-        if($info){
+        $info = json_decode(session('user'), true);
+        if ($info) {
             unset($info['password']);
-        }else{
+        } else {
             $info = false;
         }
         return $this->asJson($info);
@@ -152,20 +154,22 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $validate = $this->validate($request->all(),[
+        $validate = $this->validate($request->all(), [
             'old_password|原密码' => 'require',
             'password|新密码' => 'require|different:old_password',
-            'confirm_password|确认密码'=> 'confirm:password'
+            'confirm_password|确认密码' => 'confirm:password'
         ], [
             'password.different' => '新密码与原密码不能相同',
             'confirm_password.confirm' => '确认密码与新密码需要相同'
         ]);
-        if($validate !== true) return $this->asJson([],$validate,422);
+        if ($validate !== true) {
+            return $this->asJson([], $validate, 422);
+        }
         $info = json_decode(session('user'), true);
-        if($this->userService->updatePassword($info['id'], $request->all())){
-            $this->userService->loginOut();
+        if (UserService::getSingletonInstance()->updatePassword($info['id'], $request->all())) {
+            UserService::getSingletonInstance()->loginOut();
             return $this->asJson([], '修改成功');
-        }else{
+        } else {
             return $this->asJson('', '原密码错误', 422);
         }
     }
@@ -176,7 +180,7 @@ class UserController extends Controller
      */
     public function loginOut()
     {
-        $this->userService->loginOut();
-        return $this->asJson('','退出登录');
+        UserService::getSingletonInstance()->loginOut();
+        return $this->asJson('', '退出登录');
     }
 }
