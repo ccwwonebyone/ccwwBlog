@@ -2,11 +2,11 @@
 
 namespace app\index\service;
 
-use think\Db;
-use think\Exception;
-use app\index\model\Table;
 use app\index\model\Column;
 use app\index\model\DBConfig;
+use app\index\model\Table;
+use think\Db;
+use think\Exception;
 
 class DataBaseService extends Service
 {
@@ -57,9 +57,9 @@ class DataBaseService extends Service
         }
         $this->connection = array_merge($this->connection, $connection);
         $this->db = Db::connect($this->connection);
-        $this->DBConfig = new DBConfig;
-        $this->table = new Table;
-        $this->column = new Column;
+        $this->DBConfig = new DBConfig();
+        $this->table = new Table();
+        $this->column = new Column();
     }
 
     /**
@@ -84,17 +84,16 @@ class DataBaseService extends Service
         return $this->dbID;
     }
 
-
     /**
      * 保存数据表
      * @param  array  $tables  数据表信息
-     * @param  integer  $dbID  保存数据库时的ID
+     * @param  int  $dbID  保存数据库时的ID
      * @return array   原数据并给数据添加数据表ID
      */
     public function saveTables($tables = [], $dbID = 0)
     {
         foreach ($tables as &$tab) {
-            $tab = array_intersect_key($tab, ['name' => '', 'comment' => '', 'engine' => '',]);
+            $tab = array_intersect_key($tab, ['name' => '', 'comment' => '', 'engine' => '']);
             $tab['db_id'] = $dbID;
             $this->table->data($tab)->isUpdate(false)->save();  // 第二次开始必须使用下面的方式新增
             $tab['table_id'] = $this->table->id;
@@ -127,7 +126,7 @@ class DataBaseService extends Service
     /**
      * 保存字段信息
      * @param  array  $columns  字段信息
-     * @return boolean
+     * @return bool
      */
     public function saveColums($columns = [])
     {
@@ -140,7 +139,7 @@ class DataBaseService extends Service
 
     /**
      * 初始化基本数据库
-     * @return boolean
+     * @return bool
      */
     public function initDb()
     {
@@ -156,7 +155,7 @@ class DataBaseService extends Service
      * 更新字段表
      * @param  array  $columns  字段信息
      * @param  int  $table_id  数据表ID
-     * @return boolean
+     * @return bool
      */
     public function updateTable($columns, $table_id)
     {
@@ -168,13 +167,13 @@ class DataBaseService extends Service
     /**
      * 更新数据表，若存在的数据表有变化请使用 updateTable
      * @param  int  $db_id  数据库字段
-     * @return boolean
+     * @return bool
      */
     public function updateDb($db_id)
     {
         $oldTables = $this->table->field('id', 'name')->where('db_id', $db_id)->select();
         $fullTables = $this->getTables();
-        $tables = array_column('name', $fullTables);
+        $tables = array_column($fullTables, 'name');
         $delTables = array_diff($oldTables, $tables);    //删除的数据表
         $addTables = array_diff($tables, $oldTables);    //新增的数据表
         $oldTablesNameToId = array_flip($oldTables);
@@ -195,7 +194,7 @@ class DataBaseService extends Service
      * 删除数据库相关信息
      *
      * @param  int  $db_id  数据库ID
-     * @return boolean
+     * @return bool
      */
     public function delDB($db_id)
     {
