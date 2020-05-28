@@ -14,8 +14,8 @@ class PageController extends Controller
      * @var string[]
      */
     protected $rules = [
-        'name|页面名' =>'require',
-        'component_ids|插件组件' =>'require',
+        'name|页面名' => 'require',
+        'component_ids|插件组件' => 'require',
     ];
 
     /**
@@ -30,15 +30,23 @@ class PageController extends Controller
      * @param  Request  $request
      * @param $name
      * @return mixed|string
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function page(Request $request, $name)
     {
-        $info = $this->pageService->info($name);
-        if(!$info) return 'error';
+
+        $info = PageService::getSingletonInstance()->info($name);
+        if (!$info) {
+            return 'error';
+        }
         $info = $info->toArray();
         $title = '测试';        //网站的标题
-        return $this->fetch($name,['title'=>$title,'data'=>json_decode($info['data'],true)]);
+        return $this->fetch($name, ['title' => $title, 'data' => json_decode($info['data'], true)]);
     }
+
     /**
      * 显示资源列表
      *
@@ -64,17 +72,19 @@ class PageController extends Controller
      *
      * @param  \think\Request  $request
      * @return \think\Response
+     * @throws \think\Exception
      */
     public function save(Request $request)
     {
-        $data     = $request->all();
-        $validate = $this->validate($data,$this->rules);
-        if($validate !== true) return $this->asJson($validate,'非法请求',422);
-        if($this->pageService->save($data))
-        {
+        $data = $request->all();
+        $validate = $this->validate($data, $this->rules);
+        if ($validate !== true) {
+            return $this->asJson($validate, '非法请求', 422);
+        }
+        if (PageService::getSingletonInstance()->save($data)) {
             return $this->asJson();
-        }else{
-            return $this->asJson([],'新增失败',422);
+        } else {
+            return $this->asJson([], '新增失败', 422);
         }
     }
 
@@ -83,10 +93,14 @@ class PageController extends Controller
      *
      * @param  int  $id
      * @return \think\Response
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function read($id)
     {
-        return $this->asJson($this->pageService->read($id));
+        return $this->asJson(PageService::getSingletonInstance()->read($id));
         /* zotikos:{
                   logo:{
                     name:"标题",
