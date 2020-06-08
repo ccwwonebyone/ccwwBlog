@@ -1,4 +1,5 @@
 <?php
+
 namespace app\index\controller;
 
 use think\Request;
@@ -10,92 +11,85 @@ use app\index\service\TagService;
 class IndexController extends Controller
 {
     /**
-     * @var ArticleService
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    private $articleService;
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
-    /**
-     * @var CompanyService
-     */
-    private $companyService;
-    /**
-     * @var TagService
-     */
-    private $tagService;
-    /**
-     * @var array
-     */
-    private $company;
-    /**
-     * @var array
-     */
-    private $category;
-    /**
-     * @var array
-     */
-    private $tag_article;
-
     public function _initialize()
     {
-        $this->articleService  = new ArticleService();
-        $this->categoryService = new CategoryService();
-        $this->companyService  = new CompanyService();
-        $this->tagService      = new TagService();
-        $this->company     = $this->companyService->info();
-        $this->category    = $this->categoryService->show();
-        $this->tag_article = $this->tagService->tagOfArticle();
-        $this->assign('company', $this->company);
-        $this->assign('category', $this->category);
-        $this->assign('tag_article', $this->tag_article);
+        $this->assign('company', CompanyService::getSingletonInstance()->info());
+        $this->assign('category', CategoryService::getSingletonInstance()->show());
+        $this->assign('tag_article', TagService::getSingletonInstance()->tagOfArticle());
     }
 
-	//vue编译后的页面的入口
+    //vue编译后的页面的入口
     public function index()
     {
         return $this->fetch();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
     public function article($id)
     {
-        $article  = $this->articleService->read($id);
+        $article = ArticleService::getSingletonInstance()->read($id);
         $this->assign('article', $article);
         return $this->fetch('article/article');
     }
 
+    /**
+     * @param  Request  $request
+     * @return mixed
+     * @throws \think\exception\DbException
+     */
     public function home(Request $request)
     {
 
-        $limit    = $request->param('limit',5);
-        $current  = $request->param('page', 1);
-        $articles = $this->articleService->show([], $limit);
-        $page     = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
+        $limit = $request->param('limit', 5);
+        $current = $request->param('page', 1);
+        $articles = ArticleService::getSingletonInstance()->show([], $limit);
+        $page = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
         $this->assign('page', $page);
         $this->assign('articles', $articles);
         return $this->fetch();
     }
 
+    /**
+     * @param  Request  $request
+     * @param $id
+     * @return mixed
+     * @throws \think\exception\DbException
+     */
     public function categoryArticle(Request $request, $id)
     {
-        $limit    = $request->param('limit',10);
-        $current  = $request->param('page', 1);
-        $articles = $this->articleService->show(['category_id'=>$id], $limit);
-        $page     = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
+        $limit = $request->param('limit', 10);
+        $current = $request->param('page', 1);
+        $articles = ArticleService::getSingletonInstance()->show(['category_id' => $id], $limit);
+        $page = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
         $this->assign('page', $page);
         $this->assign('articles', $articles);
         $this->assign('category_id', $id);
         return $this->fetch('home');
     }
 
+    /**
+     * @param  Request  $request
+     * @param $id
+     * @return mixed
+     * @throws \think\exception\DbException
+     */
     public function tagArticle(Request $request, $id)
     {
 
-        $limit    = $request->param('limit',10);
-        $current  = $request->param('page', 1);
-        $articles = $this->articleService->show(['tag'=>$id], $limit);
-        $page     = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
+        $limit = $request->param('limit', 10);
+        $current = $request->param('page', 1);
+        $articles = ArticleService::getSingletonInstance()->show(['tag' => $id], $limit);
+        $page = (new Bootstrap($articles['data'], $limit, $current, $articles['total']))->render();
         $this->assign('page', $page);
         $this->assign('articles', $articles);
         return $this->fetch('home');
