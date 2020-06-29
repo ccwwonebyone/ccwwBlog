@@ -22,7 +22,7 @@ class ArticleService extends Service
         unset($data['tag']);
         Article::where('id', $id)->update($data);
         ArticleTag::where('article_id', $id)->delete();
-        (new ArticleTag())->addArtcile($tags, $id);    //添加标签
+        (new ArticleTag())->addArticle($tags, $id);    //添加标签
         return true;
     }
 
@@ -37,7 +37,7 @@ class ArticleService extends Service
         unset($data['tag']);
         $article = Article::create($data);
         if ($article) {
-            (new ArticleTag())->addArtcile($tags, $article->id);
+            (new ArticleTag())->addArticle($tags, $article->id);
         }    //添加标签
         return $article->id;
     }

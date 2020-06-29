@@ -10,12 +10,12 @@ class ArticleTag extends Model
 
     protected $autoWriteTimestamp = false;
 
-    public function addArtcile($tags, $article_id)
+    public function addArticle($tags, $article_id)
     {
         $list = [];
 
         foreach ($tags as $tag) {
-            $list[] = ['article_id'=>$article_id, 'tag_id'=>$tag];
+            $list[] = ['article_id' => $article_id, 'tag_id' => $tag];
         }
         return $this->insertAll($list);
     }
