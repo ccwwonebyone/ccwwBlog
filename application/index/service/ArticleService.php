@@ -3,10 +3,8 @@
 namespace app\index\service;
 
 use app\index\model\Article;
-use app\index\model\Category;
-use app\index\model\Tag;
 use app\index\model\ArticleTag;
-use Manpro\ManproInstance;
+use app\index\model\Category;
 
 class ArticleService extends Service
 {
@@ -17,7 +15,6 @@ class ArticleService extends Service
      */
     public function update($data, $id)
     {
-
         $tags = $data['tag'];
         unset($data['tag']);
         Article::where('id', $id)->update($data);
